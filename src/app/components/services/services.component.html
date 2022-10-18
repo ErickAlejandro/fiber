@@ -1,0 +1,333 @@
+<!-- NEGACION -->
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand"><img src="../assets/icons/fiberhomenegro.png" alt="Logo" width="240" height="70" class="d-inline-block align-text-top"></a><span><b>|</b></span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" routerLink="/actividades-pendientes" routerLinkActive="/actividades-pendientes">Actividades Pendientes</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Personas
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/usuarios" routerLinkActive="/clientes">Usuarios</a></li>
+              <li><a class="dropdown-item" routerLink="/clientes" routerLinkActive="/clientes">Clientes</a></li>
+              <li><a class="dropdown-item" routerLink="/servicios" routerLinkActive="/servicios">Servicios</a></li>
+              <li><a class="dropdown-item" routerLink="/planes" routerLinkActive="planes">Planes</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Cajas
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/caja-nivel1" routerLinkActive="/caja-nivel1">Caja de nivel 1</a></li>
+              <li><a class="dropdown-item" routerLink="/caja-nivel2" routerLinkActive="/caja-nivel2">Caja de Nivel 2</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/vlans">Vlans</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">ONT</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/Modelo-Ont" routerLinkActive="/Modelo-Ont">Modelo ONT</a></li>
+              <li><a class="dropdown-item" routerLink="/Ont" routerLinkActive="/Ont">ONT</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <form class="d-flex" role="search">
+        <button class="btn btn-outline-success" id="download" type="submit"><span><b>Descargar Excel</b></span></button>
+        <a class="navbar-brand" href="#">
+          <img src="../../../assets/icons/right-to-bracket-solid.svg" id="incon-excel" alt="excel-logo" width="50" height="30" class="d-inline-block align-text-top"></a>  
+      </form>
+    </div>
+  </nav>
+
+<div class="container">
+    <table class="table table-striped table-responsive">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Puerto</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Referencia</th>
+                <th scope="col">Latitud</th>
+                <th scope="col">Longitud</th>
+                <th scope="col">Plan</th>
+                <th scope="col">Serie ONT</th>
+                <th scope="col">Caja</th>
+                <th scope="col">Dirección IP</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr *ngFor="let service of servicesList | slice:since:to">
+                <td>{{service.id_cliente}}</td>
+                <td>{{service.nombre_usuario}}</td>
+                <td>{{service.nombre_clientepersona}}</td>
+                <td>{{service.direccion_cliente}}</td>
+                <td>{{service.referencia_cliente}}</td>
+                <td>{{service.latitud_cliente}}</td>
+                <td>{{service.longitud_cliente}}</td>
+                <td>{{service.nombre_planes}}</td>
+                <td>{{service.serie_ont}}</td>
+                <td>{{service.nombre_cajanivel2}}</td>
+                <td>{{service.direccionip_cliente}}</td>
+                <td>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        (click)="getServiceByName(service.id_cliente)"><img src="../../../assets/icons/eye-solid.svg"
+                            width="30" height="24"></button>
+
+                    <button type="button" class="btn" id="openPop"><img
+                            src="../../../assets/icons/pen-to-square-solid.svg" data-bs-toggle="modal"
+                            data-bs-target="#editForm" (click)="getServiceByName(service.id_cliente)" width="30"
+                            height="24"></button>
+
+                    <button type="button" class="btn" data-bs-toggle="modal"
+                        (click)="deleted(serviceDetails.id_cliente)"><img src="../../../assets/icons/trash-solid.svg"
+                            alt="Eliminar" width="30" height="24"></button>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <mat-paginator [length]="servicesList.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page" (page)="changePage($event)">
+    </mat-paginator>
+    <div class="actions">
+        <div class="card">
+            <button type="button-submit" class="btn" data-bs-toggle="modal" data-bs-target="#createCitiesForm"><img
+                    src="../../../assets/icons/plus-solid.svg" alt="Agregar" width="30" height="24"></button>
+        </div>
+    </div>
+</div>
+
+<!-- DETALLES -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Detalles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Puerto: {{serviceDetails.id_cliente}}</td>
+                        </tr>
+                        <tr>
+                            <td>Usuario: {{serviceDetails.nombre_clientepersona}}</td>
+                        </tr>
+                        <tr>
+                            <td>Caja Nivel 2: {{serviceDetails.nombre_cajanivel2}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ont: {{serviceDetails.serie_ont}}</td>
+                        </tr>
+                        <tr>
+                            <td>Numero de Ont: {{serviceDetails.numeroont}}</td>
+                        </tr>
+                        <tr>
+                            <td>Usuario: {{serviceDetails.usuario_cliente}}</td>
+                        </tr>
+                        <tr>
+                            <td>Plan: {{serviceDetails.usuario_cliente}}</td>
+                        </tr>
+                        <tr>
+                            <td>Direccion: {{serviceDetails.direccion_cliente}}</td>
+                        </tr>
+                        <tr>
+                            <td>Referencia: {{serviceDetails.referencia_cliente}}</td>
+                        </tr>
+                        <tr>
+                            <td>Fecha de inicio: {{serviceDetails.fecha_instalacion_cliente}}</td>
+                        </tr>
+                        <tr>
+                            <td>Hilo: {{serviceDetails.hilocajanivel2_cliente}}</td>
+                        </tr>
+                        <tr>
+                            <td>Direccion IP: {{serviceDetails.direccionip_cliente}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Comando Planes:</b> <br> <input type="text" class="form-control"
+                                    value="{{serviceDetails.comandoplanes_cliente}}" #userInput>
+                                <button type="button" class="btn" (click)="ClipBoard(userInput)"><img
+                                        src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Interfaz PonCard:</b> <br> <input type="text" class="form-control"
+                                    value="{{serviceDetails.interfazponcard_cliente}}" #interfazComand>
+                                <button type="button" class="btn" (click)="ClipBoard(interfazComand)"> <img
+                                        src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Aregar Ont:</b> <br> <input type="text" class="form-control" value="{{serviceDetails.agregaront_cliente}}"
+                                    #addOnt>
+                                <button type="button" class="btn" (click)="ClipBoard(addOnt)"> <img
+                                        src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Equipo Bridge:</b> <br> <input type="text" class="form-control" value="{{serviceDetails.equipobridge_cliente}}" #teamBridge>
+                                <button type="button" class="btn" (click)="ClipBoard(teamBridge)"> <img
+                                    src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Quit: </b> <br> <input type="text" class="form-control" value="{{serviceDetails.quit}}" #quit>
+                                <button type="button" class="btn" (click)="ClipBoard(quit)"> <img
+                                    src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Eliminar Servicio:</b> <br> <input type="text" class="form-control"
+                                    value="{{serviceDetails.eliminarservicio_cliente}}" #deletService>
+                                    <button type="button" class="btn" (click)="ClipBoard(deletService)"> <img
+                                        src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>    
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Agregar Servicio al Puerto:</b> <br> <input type="text" class="form-control"
+                                    value="{{serviceDetails.agregarserviciopuerto_cliente}}" #addServiPort>
+                                    <button type="button" class="btn" (click)="ClipBoard(addServiPort)"> <img
+                                        src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>  
+                                </td>
+                        </tr>
+                        <tr>
+                            <td><b>Agregar Plan al Cliente:</b> <br> <input type="text" class="form-control"
+                                    value="{{serviceDetails.agregarplancliente_cliente}}" #addPlanClient>
+                                    <button type="button" class="btn" (click)="ClipBoard(addPlanClient)"> <img
+                                        src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>  
+                                </td>
+                        </tr>
+                        <tr>
+                            <td><b>Agregar Descripcion al puerto:</b> <br> <input type="text" class="form-control"
+                                    value="{{serviceDetails.agregardescripcionpuerto_cliente}}" #addDescriptionPort> 
+                                    <button type="button" class="btn" (click)="ClipBoard(addDescriptionPort)"> <img
+                                        src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>  
+                                </td>
+                        </tr>
+                        <tr>
+                            <td><b>Eliminar Ont:</b> <br> <input type="text" class="form-control" value="{{serviceDetails.eliminaront_cliente}}" #deletOnt>
+                                <button type="button" class="btn" (click)="ClipBoard(deletOnt)"> <img
+                                    src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FORMULARIO DE CREACION PARA UN NUEVO SERVICIO -->
+<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Agregar Nuevos Datos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">ServiPort:</label>
+                        <input type="text" class="form-control" [(ngModel)]="service.id_cliente"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="form-label">Buscar Cliente: </label>
+                        <select class="form-select" aria-label="Default select example"
+                            [(ngModel)]="service.id_clientepersona" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let client of clienteList" value={{client.id_clientepersona}}>
+                                {{client.nombre_clientepersona}}</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="form-label">Buscar caja de nivel-2: </label>
+                        <select class="form-select" aria-label="Default select example"
+                            [(ngModel)]="service.id_cajanivel2" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let caja of cajaList" value={{caja.id_cajanivel2}}>
+                                {{caja.nombre_cajanivel2}}</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="form-label">Ingresar Ont: </label>
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="service.id_ont"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let ont of ontList" value={{ont.id_ont}}>
+                                {{ont.serie_ont}}</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Número Ont:</label>
+                        <input type="text" class="form-control" [(ngModel)]="service.numeroont"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Usuario:</label>
+                        <input type="text" class="form-control" [(ngModel)]="service.usuario_cliente"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="form-label">Buscar Planes </label>
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="service.id_planes"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let plan of planList" value={{plan.id_planes}}>
+                                {{plan.nombre_planes}} Megas</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Dirección:</label>
+                        <input type="text" class="form-control" [(ngModel)]="service.direccion_cliente"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Referencia:</label>
+                        <input type="text" class="form-control" [(ngModel)]="service.referencia_cliente"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Fecha de instalacion:</label>
+                        <input type="text" class="form-control" [(ngModel)]="service.fecha_instalacion_cliente"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Hilos de la caja Nivel-2:</label>
+                        <input type="text" class="form-control" [(ngModel)]="service.hilocajanivel2_cliente"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Direccion Ip:</label>
+                        <input type="text" class="form-control" [(ngModel)]="service.direccionip_cliente"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <button (click)="save(service)" class="btn btn-primary">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

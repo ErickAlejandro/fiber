@@ -1,0 +1,205 @@
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" ><img src="../assets/icons/fiberhomenegro.png" alt="Logo" width="240" height="70" class="d-inline-block align-text-top"></a><span><b>|</b></span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Ubicación
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/paises" routerLinkActive="/paises">Países</a></li>
+              <li><a class="dropdown-item" routerLink="/provincias" routerLinkActive="/provincias">Provincias</a></li>
+              <li><a class="dropdown-item" routerLink="/ciudades" routerLinkActive="/ciudades">Ciudades</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <form class="d-flex" role="search">
+        <button class="btn btn-outline-success" id="download" type="submit"><span><b>Descargar Excel</b></span></button>
+        <a class="navbar-brand" href="#">
+          <img src="../../../assets/icons/right-to-bracket-solid.svg" id="incon-excel" alt="excel-logo" width="50" height="30" class="d-inline-block align-text-top"></a>  
+      </form>
+    </div>
+  </nav>
+
+<!-- TABLA PRINCIPAL DE CIUDADES -->
+<div class="container">
+    <table class="table table-responsive table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Ciudad</th>
+                <th scope="col">Provincia</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr *ngFor="let cities of citiesList | slice:since:to">
+                <td>{{cities.nombre_ciudad}}</td>
+                <td>{{cities.nombre_provincia}}</td>
+                <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        (click)="getCityByName(cities.nombre_ciudad)"><img src="../../../assets/icons/eye-solid.svg"
+                            width="30" height="24"></button>
+
+                    <button type="button" class="btn" id="openPop"><img
+                            src="../../../assets/icons/pen-to-square-solid.svg" data-bs-toggle="modal"
+                            data-bs-target="#editForm" (click)="getCityForEdit(cities.nombre_ciudad)" width="30"
+                            height="24"></button>
+
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletCity" (click)="getCityByName(cities.nombre_ciudad)"><img
+                            src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <mat-paginator [length]="citiesList.length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page"
+              (page)="changePage($event)">
+      </mat-paginator>
+    <div class="actions">
+        <div class="card">
+            <button type="button-submit" class="btn" data-bs-toggle="modal" data-bs-target="#createCitiesForm"><img
+                    src="../../../assets/icons/plus-solid.svg" alt="Agregar" width="30" height="24"></button>
+        </div>
+    </div>
+</div>
+
+<!-- CREACION DEL MODAL PARA EL FORMULARIO DE EDICION -->
+<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Información</h5>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group">
+                        <label class="form-label">Ciudad: </label>
+                        <input type="text" class="form-control" [(ngModel)]="cityDetail.nombre_ciudad" name='nombre_ciudad' value={{cityDetail.nombre_ciudad}} [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="form-label">Provincia: </label>
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="cityDetail.id_provincia"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let province of provinceDetail" value={{province.id_provincia}}>{{province.nombre_provincia}}</option>
+                        </select>
+                    </div>
+                    <br>
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionCity">Editar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de alertta para Edicion-->
+<div class="modal fade" id="alertEditionCity" tabindex="-2" aria-labelledby="alertEditionCity" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                  <h3>Estas seguro que quieres editar la información de <b>{{cityDetail.nombre_ciudad}}</b>.</h3>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-warning" (click)="edit(cityDetail)">Editar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<!-- MOSTRAR DATOS ESPECIFICOS POR FILAS -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Detalles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Id: {{cityDetail.id_ciudad}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ciudad: {{cityDetail.nombre_ciudad}}</td>
+                        </tr>
+                        <tr>
+                            <td>Id Pronvicia: {{cityDetail.id_provincia}}</td>
+                        </tr>
+                        <tr>
+                            <td>Provincia: {{cityDetail.nombre_provincia}}</td>
+                        </tr>
+                        <tr>
+                            <td>Estado: {{cityDetail.estado_ciudad}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de alerta para Eliminación-->
+<div class="modal fade" id="alertDeletCity" tabindex="-1" aria-labelledby="alertDeletCity" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                  <h3>Esta acción, borrará todos los datos relacionados con <b>{{cityDetail.nombre_ciudad}}</b>.</h3>
+                  <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
+                  <h4><b>Caja Nivel-1</b></h4>
+                  <h4><b>VLans</b></h4>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-danger" (click)="deleted(cityDetail.id_ciudad)">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<!-- FORMULARIO PARA AGREGAR NUEVOS DATOS -->
+<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Agregar Nuevos Datos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <label class="form-label">Provincia: </label>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="city.id_provincia"  [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let province of provinceDetail" value={{province.id_provincia}}>{{province.nombre_provincia}}</option>
+                    </select>
+                    <br>
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Nombre de la Ciudad:</label>
+                        <input type="text" id="disabledTextInput" class="form-control"
+                            [(ngModel)]="city.nombre_ciudad" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <button (click)="save(city)" class="btn btn-primary">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

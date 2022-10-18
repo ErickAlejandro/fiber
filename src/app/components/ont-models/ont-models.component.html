@@ -1,0 +1,224 @@
+<!-- NEGACION -->
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand"><img src="../assets/icons/fiberhomenegro.png" alt="Logo" width="240" height="70" class="d-inline-block align-text-top"></a><span><b>|</b></span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="/actividades-pendientes" routerLinkActive="/actividades-pendientes">Actividades Pendientes</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Personas
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/usuarios" routerLinkActive="/clientes">Usuarios</a></li>
+            <li><a class="dropdown-item" routerLink="/clientes" routerLinkActive="/clientes">Clientes</a></li>
+            <li><a class="dropdown-item" routerLink="/servicios" routerLinkActive="/servicios">Servicios</a></li>
+            <li><a class="dropdown-item" routerLink="/planes" routerLinkActive="planes">Planes</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Cajas
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/caja-nivel1" routerLinkActive="/caja-nivel1">Caja de nivel 1</a></li>
+            <li><a class="dropdown-item" routerLink="/caja-nivel2" routerLinkActive="/caja-nivel2">Caja de Nivel 2</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/vlans">Vlans</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">ONT</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="/Modelo-Ont" routerLinkActive="/Modelo-Ont">Modelo ONT</a></li>
+            <li><a class="dropdown-item" routerLink="/Ont" routerLinkActive="/Ont">ONT</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <form class="d-flex" role="search">
+      <button class="btn btn-outline-success" id="download" type="submit"><span><b>Descargar Excel</b></span></button>
+      <a class="navbar-brand" href="#">
+        <img src="../../../assets/icons/right-to-bracket-solid.svg" id="incon-excel" alt="excel-logo" width="50" height="30" class="d-inline-block align-text-top"></a>  
+    </form>
+  </div>
+</nav>
+
+<div class="container">
+    <table class="table table-striped table-responsive">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Nombre del Modelo</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr *ngFor="let ontModel of ontModelList | slice:since:to">
+            <td>{{ontModel.nombre_modelosont}}</td>
+            <td>{{ontModel.tipo_modelosont}}</td>
+            <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="../../../assets/icons/eye-solid.svg" width="30" height="24" (click)="getOntModelByname(ontModel.nombre_modelosont)"></button>
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getOntModelByname(ontModel.nombre_modelosont)"></button>
+
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletModel" (click)="getOntModelByname(ontModel.nombre_modelosont)"><img src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24"></button>
+          </td>
+          </tr>
+        </tbody>
+      </table>
+      <mat-paginator [length]="ontModelList.length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page"
+              (page)="changePage($event)">
+      </mat-paginator>
+      <div class="actions">
+        <div class="card">
+            <button type="button-submit" class="btn" data-bs-toggle="modal" data-bs-target="#createCitiesForm"><img
+                    src="../../../assets/icons/plus-solid.svg" alt="Agregar" width="30" height="24"></button>
+        </div>
+    </div>
+</div>
+
+<!-- VER DETALLES -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Detalles</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td><b>ID Model Ont:</b> {{ontModelsDetails.id_modelosont}}</td>
+              </tr>
+              <tr>
+                <td><b>Nombre del Modelo:</b> {{ontModelsDetails.nombre_modelosont}}</td>
+              </tr>
+              <tr>
+                <td><b>Tipo del Modelo:</b> {{ontModelsDetails.tipo_modelosont}}</td>
+              </tr>
+              <tr>
+                <td><b>Id Ciudad:</b> {{ontModelsDetails.id_ciudad}}</td>
+              </tr>
+              <tr>
+                <td><b>Estado:</b> {{ontModelsDetails.estado_modelosont}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal de alerta para Eliminación-->
+<div class="modal fade" id="alertDeletModel" tabindex="-1" aria-labelledby="alertDeleted" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="card">
+                <h3>Esta acción, borrará todos los datos relacionados con <b>{{ontModelsDetails.nombre_modelosont}}</b>.</h3>
+                <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
+                <h4><b>Ont</b></h4>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" (click)="deleted(ontModelsDetails.id_modelosont)">Eliminar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal de alertta para Edicion-->
+<div class="modal fade" id="alertEditionModel" tabindex="-2" aria-labelledby="alertEditionModel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="card">
+                <h3>Estas seguro que quieres editar la información de <b>{{ontModelsDetails.nombre_modelosont}}</b>.</h3>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-warning" (click)="edit(ontModelsDetails)">Editar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- FORMULARIO DE EDICION  -->
+<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Información</h5>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                        <div class="form-group">
+                            <label class="form-label">Nombre del Modelo: </label>
+                            <input type="text" class="form-control" [(ngModel)]="ontModelsDetails.nombre_modelosont" value={{ontModelsDetails.nombre_modelosont}} [ngModelOptions]="{standalone: true}">
+                        </div>
+                    <br>
+                    <div class="form-group">
+
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="ontModelsDetails.tipo_modelosont"  [ngModelOptions]="{standalone: true}">
+
+                            <option value="NORMAL">NORMAL</option>
+                            <option value="DOBLE BANDA">DOBLE BANDA</option>
+                            <option value="BRIDGE">BRIDGE</option>
+                          </select>
+                    </div>
+                <br>
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionModel">Editar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<!-- FORMULARIO DE CREACION DE DATOS -->
+<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Agregar Nuevos Datos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                  <div class="form-group">
+                    <label for="disabledTextInput" class="form-label">Nombre del Modelo:</label>
+                    <input type="text" class="form-control" [(ngModel)]="ontModels.nombre_modelosont" [ngModelOptions]="{standalone: true}">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="form-group">SELECCIONAR UN TIPO DE MODELO</label>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="ontModels.tipo_modelosont"  [ngModelOptions]="{standalone: true}">
+                        <option value="NORMAL">NORMAL</option>
+                        <option value="DOBLE BANDA">DOBLE BANDA</option>
+                        <option value="BRIDGE">BRIDGE</option>
+                      </select>
+              </div>
+              <br>
+                    <button (click)="save(ontModels)" class="btn btn-primary">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,295 @@
+<!-- NAVEGACIION -->
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink=""><img src="../assets/icons/fiberhomenegro.png" alt="Logo" width="240" height="70" class="d-inline-block align-text-top"></a><span><b>|</b></span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" routerLink="/actividades-pendientes" routerLinkActive="/actividades-pendientes">Actividades Pendientes</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Personas
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/usuarios" routerLinkActive="/clientes">Usuarios</a></li>
+              <li><a class="dropdown-item" routerLink="/clientes" routerLinkActive="/clientes">Clientes</a></li>
+              <li><a class="dropdown-item" routerLink="/servicios" routerLinkActive="/servicios">Servicios</a></li>
+              <li><a class="dropdown-item" routerLink="/planes" routerLinkActive="planes">Planes</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Cajas
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/caja-nivel1" routerLinkActive="/caja-nivel1">Caja de nivel 1</a></li>
+              <li><a class="dropdown-item" routerLink="/caja-nivel2" routerLinkActive="/caja-nivel2">Caja de Nivel 2</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/vlans">Vlans</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">ONT</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/Modelo-Ont" routerLinkActive="/Modelo-Ont">Modelo ONT</a></li>
+              <li><a class="dropdown-item" routerLink="/Ont" routerLinkActive="/Ont">ONT</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <form class="d-flex" role="search">
+        <button class="btn btn-outline-success" id="download" type="submit"><span><b>Descargar Excel</b></span></button>
+        <a class="navbar-brand" href="#">
+          <img src="../../../assets/icons/right-to-bracket-solid.svg" id="incon-excel" alt="excel-logo" width="50" height="30" class="d-inline-block align-text-top"></a>  
+      </form>
+    </div>
+  </nav>
+
+<div class="container">
+    <table class="table table-responsive table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Nombre Caja-1</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Abreviatura Caja-1</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider" *ngFor="let cashBox of cashBoxesList | slice:since:to">
+            <tr>
+                <td>{{cashBox.nombre_cajanivel1}}</td>
+                <td>{{cashBox.direccion_cajanivel1}}</td>
+                <td>{{cashBox.abreviatura_cajanivel1}}</td>
+                <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        (click)="getCashBoxByName(cashBox.nombre_cajanivel1)"><img
+                            src="../../../assets/icons/eye-solid.svg" width="30" height="24"></button>
+
+                    <button type="button" class="btn" id="openPop"><img
+                            src="../../../assets/icons/pen-to-square-solid.svg" data-bs-toggle="modal"
+                            data-bs-target="#editForm" width="30" height="24"
+                            (click)="getCashBoxByName(cashBox.nombre_cajanivel1)"></button>
+
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletCN1"><img
+                            src="../../../assets/icons/trash-solid.svg" alt="Eliminar"
+                            (click)="getCashBoxByName(cashBox.nombre_cajanivel1)" width="30" height="24"></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <mat-paginator [length]="vlansList.length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page"
+              (page)="changePage($event)">
+      </mat-paginator>
+    <div class="actions">
+        <div class="card">
+            <button type="button-submit" class="btn" data-bs-toggle="modal" data-bs-target="#createCitiesForm"><img
+                    src="../../../assets/icons/plus-solid.svg" alt="Agregar" width="30" height="24"></button>
+        </div>
+    </div>
+</div>
+
+<!-- VER DETALLES -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Detalles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Id: {{cashDetail.id_cajanivel1}}</td>
+                        </tr>
+                        <tr>
+                            <td>Nombre de la Caja: {{cashDetail.nombre_cajanivel1}}</td>
+                        </tr>
+                        <tr>
+                            <td>Dirección: {{cashDetail.direccion_cajanivel1}}</td>
+                        </tr>
+                        <tr>
+                            <td>Referencia: {{cashDetail.referencia_cajanivel1}}</td>
+                        </tr>
+                        <tr>
+                            <td>Latitud: {{cashDetail.latitud_cajanivel1}}</td>
+                        </tr>
+                        <tr>
+                            <td>Longitud: {{cashDetail.longitud_cajanivel1}}</td>
+                        </tr>
+                        <tr>
+                            <td>VLan: {{cashDetail.nombre_vlan}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ciudad: {{cashDetail.nombre_ciudad}}</td>
+                        </tr>
+                        <tr>
+                            <td>Abreviatura: {{cashDetail.abreviatura_cajanivel1}}</td>
+                        </tr>
+                        <tr>
+                            <td>Hilos: {{cashDetail.cantidadhilos_cajanivel1}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de alerta para Eliminación-->
+<div class="modal fade" id="alertDeletCN1" tabindex="-1" aria-labelledby="alertDeleted" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                  <h3>Esta acción, borrará todos los datos relacionados con <b>{{cashDetail.nombre_cajanivel1}}</b>.</h3>
+                  <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
+                  <h4><b>Caja de nivel-2</b></h4>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-danger" (click)="deletedCashBoxes(cashDetail.id_cajanivel1)">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Modal de alertta para Edicion-->
+<div class="modal fade" id="alertEditionModel" tabindex="-2" aria-labelledby="alertEditionModel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                  <h3>Estas seguro que quieres editar la información de <b>{{cashDetail.nombre_cajanivel1}}</b>.</h3>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-warning" (click)="editCashBox(cashDetail)">Editar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Información</h5>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group">
+                        <label class="form-label">Nombre de la caja: </label>
+                        <input type="text" class="form-control" [(ngModel)]="cashDetail.nombre_cajanivel1"
+                            value={{cashDetail.nombre_cajanivel1}} [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="form-label">Vlan: </label>
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="cashDetail.id_vlan"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let vlan of vlansList" value={{vlan.id_vlan}}>{{vlan.nombre_vlan}}</option>
+                        </select>
+                        <br>
+                        <div class="form-group">
+                            <label class="form-label">Abreviatura: </label>
+                            <input type="text" class="form-control" [(ngModel)]="cashDetail.abreviatura_cajanivel1"
+                                value={{cashDetail.abreviatura_cajanivel1}} [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="form-label">Dirección: </label>
+                            <input type="text" class="form-control" [(ngModel)]="cashDetail.direccion_cajanivel1"
+                                value={{cashDetail.direccion_cajanivel1}} [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="form-label">Referencia: </label>
+                            <input type="text" class="form-control" [(ngModel)]="cashDetail.referencia_cajanivel1"
+                                value={{cashDetail.referencia_cajanivel1}} [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <br>
+                        <select class="form-select" aria-label="Default select example"
+                            [(ngModel)]="cashDetail.cantidadhilos_cajanivel1" [ngModelOptions]="{standalone: true}">
+                            <option value="4">4</option>
+                            <option value="8">8</option>
+                            <option value="16">16</option>
+                        </select>
+                        <br>
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionModel" >Editar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- FORMULARIO DE CREACION DE NUEVOS DATOS -->
+    <div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Agregar Nuevos Datos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label for="disabledTextInput" class="form-label">Nombre de la Caja Nivel 1:</label>
+                            <input type="text" class="form-control" [(ngModel)]="boxes.nombre_cajanivel1" [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="form-label">Vlan: </label>
+                            <select class="form-select" aria-label="Default select example" [(ngModel)]="boxes.id_vlan"  [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let vlan of vlansList" value={{vlan.id_vlan}}>{{vlan.nombre_vlan}}</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="disabledTextInput" class="form-label">Abreviatura:</label>
+                            <input type="text" class="form-control" [(ngModel)]="boxes.abreviatura_cajanivel1" [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="disabledTextInput" class="form-label">Dirección:</label>
+                            <input type="text" class="form-control" [(ngModel)]="boxes.direccion_cajanivel1" [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="disabledTextInput" class="form-label">Referencia:</label>
+                            <input type="text" class="form-control" [(ngModel)]="boxes.referencia_cajanivel1" [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="form-group">Seleccionar un Hilo</label>
+                            <select class="form-select" aria-label="Default select example" [(ngModel)]="boxes.cantidadhilos_cajanivel1"  [ngModelOptions]="{standalone: true}">
+                                <option value="4">4</option>
+                                <option value="8">8</option>
+                                <option value="16">16</option>
+                              </select>
+                      </div>
+                      <br>
+                        <button (click)="save(boxes)" class="btn btn-primary">Agregar</button>
+                    </form>
+                </div>
+            </div>
+    </div>

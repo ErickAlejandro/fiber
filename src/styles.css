@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: Sora;
+    src: url(assets/fonts/title/Sora-VariableFont_wght.ttf);
+}
+@font-face {
+    font-family: Manrope;
+    src: url(assets/fonts/texts/Manrope-VariableFont_wght.ttf);
+}
+
+:root{
+    --primary-color: #8BC53F;
+    --second-color-ugly: #E9F4DA;
+    --light-color: #FDFBFF;
+    --grey-color: #A6A8AA;
+    --black-not-black: #363439
+}
+
+
+h1, h2, h3, h4, h5, h6{
+    font-family: Sora;
+}
+
+ul, th, button{
+    font-family: Sora;
+}
+
+td{
+    font-family: Manrope;
+}
+
+div.card{
+    margin-top: 5%;
+    padding: 5%;
+}
+
+div.overlay{
+    background-color: rgba(0, 0, 0, 0.39);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.popup{
+    background-color: white;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.658);
+    border-radius: 3px;
+    padding: 20px;
+    text-align: center;
+    width: 30%;
+}
+
+a.close_pup{
+    line-height: 16px;
+    display: block;
+    text-align: right;
+    color: whitesmoke;
+    transition: .3 ease all;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

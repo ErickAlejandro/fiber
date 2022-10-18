@@ -1,0 +1,177 @@
+<!-- NAVEGACION -->
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand"><img src="../assets/icons/fiberhomenegro.png" alt="Logo" width="240" height="70" class="d-inline-block align-text-top"></a><span><b>|</b></span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+  
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Ubicación
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/paises" routerLinkActive="/paises">Países</a></li>
+              <li><a class="dropdown-item" routerLink="/provincias" routerLinkActive="/provincias">Provincias</a></li>
+              <li><a class="dropdown-item" routerLink="/ciudades" routerLinkActive="/ciudades">Ciudades</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <form class="d-flex" role="search">
+        <button class="btn btn-outline-success" id="download" type="submit"><span><b>Descargar Excel</b></span></button>
+        <a class="navbar-brand" href="#">
+          <img src="../assets/icons/Microsoft-Excel-Logo.png" id="incon-excel" alt="excel-logo" width="50" height="30" class="d-inline-block align-text-top"></a>  
+      </form>
+    </div>
+  </nav>
+
+
+<div class="container">
+    <table class="table table-responsive table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">País</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr *ngFor="let pais of countriesList | slice:since:to">
+                <td>{{pais.nombre_pais}}</td>
+                <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
+                            src="../../../assets/icons/eye-solid.svg" width="30" height="24" (click)="getCountryByName(pais.nombre_pais)"></button>
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getCountryByName(pais.nombre_pais)"></button>
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletModel" (click)="getCountryByName(pais.nombre_pais)"><img src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24"></button>
+                        </td>
+            </tr>
+        </tbody>
+    </table>
+    <mat-paginator [length]="countriesList.length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page"
+              (page)="changePage($event)">
+      </mat-paginator>
+    <div class="actions">
+        <div class="card">
+            <button type="button-submit" class="btn" data-bs-toggle="modal" data-bs-target="#createCitiesForm"><img
+                    src="../../../assets/icons/plus-solid.svg" alt="Agregar" width="30" height="24"></button>
+        </div>
+    </div>
+</div>
+<!-- DETALLES DEL PAIS -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Detalles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><b>Id del País: </b>{{countryDetails.id_pais}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>País: </b>{{countryDetails.nombre_pais}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Estado: </b>{{countryDetails.estado_pais}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de alerta para Eliminación-->
+<div class="modal fade" id="alertDeletModel" tabindex="-1" aria-labelledby="alertDeleted" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                  <h3>Esta acción, borrará todos los datos relacionados con <b>{{countryDetails.nombre_pais}}</b>.</h3>
+                  <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
+                  <h4><b>Ciudad</b></h4>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-danger" (click)="deleted(countryDetails.id_pais, countryDetails)">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<!-- Modal de alertta para Edicion-->
+<div class="modal fade" id="alertEditionCountries" tabindex="-2" aria-labelledby="alertEditionCountries" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                  <h3>Estas seguro que quieres editar la información de <b>{{countryDetails.nombre_pais}}</b>.</h3>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-warning" (click)="edit(countryDetails)" >Editar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<!-- FORMULARIO CREAR -->
+<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Agregar Nuevos Datos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Nombre del País:</label>
+                        <input type="text" id="disabledTextInput" class="form-control" [(ngModel)]="country.nombre_pais" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <button class="btn btn-primary"  (click)="save(country)">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- EDITAR FORMULARIO -->
+<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Información</h5>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Nombre del País:</label>
+                        <input type="text" id="disabledTextInput" class="form-control" [(ngModel)]="countryDetails.nombre_pais"  [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#alertEditionCountries">Editar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
