@@ -67,7 +67,7 @@
             </tr>
         </thead>
         <tbody class="table-group-divider">
-            <tr *ngFor="let vlan of VlansList">
+            <tr *ngFor="let vlan of VlansList | slice:since:to">
                 <td>{{vlan.nombre_vlan}}</td>
                 <td>{{vlan.numeroolt_vlan}}</td>
                 <td>{{vlan.tarjetaolt_vlan}}</td>
