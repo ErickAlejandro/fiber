@@ -34,7 +34,9 @@ import { NgxsModule } from '@ngxs/store';
 import { CitiesState } from './store/cities/cities.state';
 import { PaisState } from './store/countries/countries.state';
 import { ProvincesState } from './store/provinces/provinces.state'
+import { OntState } from './store/ont/ont.state';
 import { CreateServiceComponent } from './components/create-service/create-service.component';
+import { OntModelsState } from './store/ont-model/ontModel.state';
 
 
 @NgModule({
@@ -75,7 +77,9 @@ import { CreateServiceComponent } from './components/create-service/create-servi
     NgxsModule.forRoot([
       CitiesState,
       ProvincesState,
-      PaisState
+      PaisState,
+      OntState,
+      OntModelsState
     ]),
   ],
   providers: [],

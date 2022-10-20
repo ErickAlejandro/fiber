@@ -66,7 +66,7 @@
             <td>{{ont.nombre_modelosont}}</td>
             <td>{{ont.responsable_ont}}</td>
             <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="../../../assets/icons/eye-solid.svg" width="30" height="24" (click)="getOntByName(ont.serie_ont)"></button>
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getOntByName(ont.serie_ont)"></button>
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getOntByEdit(ont.serie_ont)"></button>
           </td>
           </tr>
         </tbody>

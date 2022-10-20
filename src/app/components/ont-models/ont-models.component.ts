@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
 import { OntModels } from 'src/app/Models/ontModels';
 import { DataService } from 'src/app/services/data.service';
+import { AddModelOnt } from 'src/app/store/ont-model/ontModel.actions';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class OntModelsComponent implements OnInit {
 
-  constructor(private DataServcies: DataService) { }
+  constructor(private DataServcies: DataService, private store: Store) { }
 
   urlGetData = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad=9'
   urlFirst = 'ModeloOnt/filtrarModeloOnt.php?filtrar='
@@ -28,6 +30,10 @@ export class OntModelsComponent implements OnInit {
   since:number = 0
   to:number = 5
 
+  addModelOnt(ontModels: OntModels[]){
+    this.store.dispatch(new AddModelOnt(ontModels))
+  }
+
   changePage(e:PageEvent){
     console.log(e)
     this.since = e.pageIndex * e.pageSize;
@@ -35,7 +41,14 @@ export class OntModelsComponent implements OnInit {
     
   }
 
-  getOntModelByname(ontModel: string){
+  getOntModelByname(ontModelName: string){
+    this.store.select(state => state.ontModels.ontModels).subscribe((data: OntModels[]) =>{
+      this.ontModelsDetails = data.filter((ontModel) => ontModel.nombre_modelosont == ontModelName)[0]
+      console.log(this.ontModelsDetails)
+    })
+  }
+
+  getOntModelNameByEdit(ontModel: string){
     this.DataServcies.getOntModelByName(this.urlFirst, this.urlSecond, ontModel).subscribe((data:OntModels[]) => {
       return this.ontModelsDetails = data[0]
     })
@@ -93,6 +106,7 @@ export class OntModelsComponent implements OnInit {
 
     this.DataServcies.getDataModelOnt(this.urlGetData).subscribe((data: OntModels[]) => {
       this.ontModelList = data
+      this.addModelOnt(data)
   })
 
   }

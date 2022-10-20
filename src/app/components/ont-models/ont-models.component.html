@@ -64,7 +64,7 @@
             <td>{{ontModel.nombre_modelosont}}</td>
             <td>{{ontModel.tipo_modelosont}}</td>
             <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="../../../assets/icons/eye-solid.svg" width="30" height="24" (click)="getOntModelByname(ontModel.nombre_modelosont)"></button>
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getOntModelByname(ontModel.nombre_modelosont)"></button>
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getOntModelNameByEdit(ontModel.nombre_modelosont)"></button>
 
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletModel" (click)="getOntModelByname(ontModel.nombre_modelosont)"><img src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24"></button>
           </td>
