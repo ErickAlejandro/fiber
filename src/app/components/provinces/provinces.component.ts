@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
 import { Pais } from 'src/app/Models/pais';
 import { Pronvinces } from 'src/app/Models/provinces';
 import { DataService } from 'src/app/services/data.service';
+import { AddProvinces } from 'src/app/store/provinces/provinces.actions';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,7 +14,11 @@ import Swal from 'sweetalert2';
 })
 export class ProvincesComponent implements OnInit {
 
-  constructor(private DataService: DataService) { }
+  constructor(private DataService: DataService, private store: Store) { }
+
+  public addProvinces (provinces: Pronvinces[]){
+    this.store.dispatch(new AddProvinces(provinces))
+  }
 
   urlGetData = '/provincia/filtrarProvincia.php?filtrar='
   urlEditProvince = '/provincia/editarProvincia.php'
@@ -73,9 +79,16 @@ export class ProvincesComponent implements OnInit {
     })
   }
 
-  getProvinceByName(province: string){
+  getProvinceByName(provinceName: string){
+    this.store.select(state => state.provinces.provinces).subscribe((data: Pronvinces[]) =>{
+      this.provinceDetail = data.filter((province) => province.nombre_provincia == provinceName)[0]
+      console.log(this.provinceDetail)
+    })
+  }
+
+  getProvinceByEdit(province: string){
     this.DataService.getProvinceByName(this.urlGetData, province).subscribe((data: Pronvinces[]) =>{
-      return this.provinceDetail = data[0]
+      this.provinceDetail = data[0]
     })
   }
 
@@ -103,6 +116,7 @@ export class ProvincesComponent implements OnInit {
 
     this.DataService.getDataProvinces(this.urlGetData).subscribe((data: Pronvinces[]) =>{
       this.provincesList = data
+      this.addProvinces(data)
     })
   }
 }

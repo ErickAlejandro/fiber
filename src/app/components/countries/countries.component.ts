@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
 import { Pais } from 'src/app/Models/pais';
 import { DataService } from 'src/app/services/data.service';
+import { AddPais } from 'src/app/store/countries/countries.actions';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class CountriesComponent implements OnInit {
 
-  constructor(private DataService: DataService) { }
+  constructor(private DataService: DataService, private store: Store) { }
   urlDataCountries = '/pais/filtrarPais.php?filtrar='
   urlCreateCountries = '/pais/crearPais.php'
   urlEditCountry = '/pais/editarPais.php'
@@ -25,9 +27,14 @@ export class CountriesComponent implements OnInit {
   since:number = 0
   to:number = 5
 
-  getCountryByName(country: string){
-    this.DataService.getCountriesByName(this.urlDataCountries, country).subscribe((data: Pais[]) =>{
-      return this.countryDetails = data[0]
+  addCountries(countries: Pais[]){
+    this.store.dispatch(new AddPais(countries))
+  }
+
+  getCountryByName(countryName: string){
+    this.store.select(state => state.paises.paises).subscribe((data: Pais[]) =>{
+      this.countryDetails = data.filter((country) => country.nombre_pais == countryName)[0]
+      console.log(this.countryDetails)
     })
   }
   
@@ -35,7 +42,12 @@ export class CountriesComponent implements OnInit {
     console.log(e)
     this.since = e.pageIndex * e.pageSize;
     this.to = this.since + e.pageSize;
-    
+  }
+
+  getPaisEdit(pais: string){
+    this.DataService.getCountriesByName(this.urlDataCountries, pais).subscribe((data: Pais[]) => {
+      this.countryDetails = data[0]
+    })
   }
 
   refresh(){
@@ -106,6 +118,8 @@ export class CountriesComponent implements OnInit {
 
     this.DataService.getDataPais(this.urlDataCountries).subscribe((data: Pais[]) =>{
       this.countriesList = data
+
+      this.addCountries(data)
     })
   }
 

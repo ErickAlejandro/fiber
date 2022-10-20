@@ -32,6 +32,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxsModule } from '@ngxs/store';
 import { CitiesState } from './store/cities/cities.state';
+import { PaisState } from './store/countries/countries.state';
+import { ProvincesState } from './store/provinces/provinces.state'
 import { CreateServiceComponent } from './components/create-service/create-service.component';
 
 
@@ -71,7 +73,9 @@ import { CreateServiceComponent } from './components/create-service/create-servi
     MatIconModule,
     MatInputModule,
     NgxsModule.forRoot([
-      CitiesState
+      CitiesState,
+      ProvincesState,
+      PaisState
     ]),
   ],
   providers: [],
