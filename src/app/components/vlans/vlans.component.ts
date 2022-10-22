@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
 import { Vlan } from 'src/app/Models/vlan';
 import { DataService } from 'src/app/services/data.service';
+import { AddVlans } from 'src/app/store/vlan/vlan.actions';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -25,7 +27,11 @@ export class VlansComponent implements OnInit {
   since:number = 0
   to:number = 5
 
-  constructor(private DataService:DataService) { }
+  constructor(private DataService:DataService, private store: Store) { }
+
+  public addVlans(vlans: Vlan[]){
+    this.store.dispatch(new AddVlans(vlans))
+  }
 
   changePage(e:PageEvent){
     console.log(e)
@@ -40,9 +46,16 @@ export class VlansComponent implements OnInit {
     })
   }
 
-  getVlanByName(vlan:string){
-    this.DataService.getVlanByName(vlan, this.urlGetDataFirst, this.urlGetDataSecond).subscribe((data:Vlan[]) =>{
-      return this.VlanDetails = data[0]
+  getVlanByName(vlanName:string){
+    this.store.select(state => state.vlans.vlans).subscribe((data: Vlan[]) => {
+      this.VlanDetails = data.filter((vlan) => vlan.nombre_vlan == vlanName)[0]
+      console.log(this.VlanDetails)
+    })
+  }
+
+  getCashBoxesTwoEdit(vlan: string){
+    this.DataService.getVlanByName(this.urlGetDataFirst, this.urlGetDataSecond, vlan).subscribe((data: Vlan[]) =>{
+      this.VlanDetails = data[0]
     })
   }
 
@@ -61,9 +74,6 @@ export class VlansComponent implements OnInit {
     })
   }
 
-  // edit(vlan: Vlan){
-  //   this.DataService.editVlans()
-  // }
 
   deleted(id:any){
     this.DataService.deletedCity(this.urlDeleted, id).subscribe(data=>{
@@ -90,6 +100,7 @@ export class VlansComponent implements OnInit {
     this.DataService.getData(this.urlData)
     .subscribe((data: Vlan[]) => {
       this.VlansList = data
+      this.addVlans(data)
     })
   }
 

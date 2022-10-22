@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
 import { CashBoxes } from 'src/app/Models/cash-boxes';
 import { Vlan } from 'src/app/Models/vlan';
 import { DataService } from 'src/app/services/data.service';
+import { AddCashBoxOne } from 'src/app/store/cash-box-one/cash-box-one.actions';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -31,7 +33,7 @@ export class CashBoxesComponent implements OnInit {
   since:number = 0
   to:number = 5
 
-  constructor(private DataService: DataService) { 
+  constructor(private DataService: DataService, private store: Store) { 
     console.log('Component Implement')
     this.cashDetail
    }
@@ -40,7 +42,10 @@ export class CashBoxesComponent implements OnInit {
     console.log(e)
     this.since = e.pageIndex * e.pageSize;
     this.to = this.since + e.pageSize;
-    
+  }
+
+  addCashBox(cashBoxOne: CashBoxes[]){
+    this.store.dispatch( new AddCashBoxOne(cashBoxOne))
   }
 
    save(cashBoxes:CashBoxes){
@@ -69,9 +74,16 @@ export class CashBoxesComponent implements OnInit {
     })
   }
 
-  getCashBoxByName(cash:string){
-    this.DataService.getCashBoxByName(cash, this.urlgetBoxes,this.urlgetBoxes2).subscribe((data: CashBoxes[]) =>{
-      return this.cashDetail = data[0]
+  getCashBoxByName(cashName:string){
+    this.store.select(state => state.cashBoxOne.cashBoxOne).subscribe((data: CashBoxes[]) =>{
+      this.cashDetail = data.filter((cashBoxOne) => cashBoxOne.nombre_cajanivel1 == cashName)[0]
+      console.log(this.cashDetail)
+    })
+  }
+
+  getCashBoxEdit(cashBox: string){
+    this.DataService.getCashBoxByName(cashBox, this.urlgetBoxes, this.urlgetBoxes2).subscribe((data: CashBoxes[]) =>{
+      this.cashDetail = data[0]
     })
   }
 
@@ -112,6 +124,7 @@ export class CashBoxesComponent implements OnInit {
     this.DataService.getDataCash(this.urlCashBoxes)
     .subscribe((data: CashBoxes[]) => {
       this.cashBoxesList = data
+      this.addCashBox(data)
     })
   }
 }

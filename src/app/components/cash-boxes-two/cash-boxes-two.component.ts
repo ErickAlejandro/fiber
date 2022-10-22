@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
 import { CashBoxes } from 'src/app/Models/cash-boxes';
 import { CashBoxesTwo } from 'src/app/Models/cash-boxes-two';
 import { DataService } from 'src/app/services/data.service';
+import { AddCashBoxTwo } from 'src/app/store/cash-box-two/cash-box-two.actions';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class CashBoxesTwoComponent implements OnInit {
 
-  constructor(private DataServices: DataService) { }
+  constructor(private DataServices: DataService, private store:Store) { }
 
   urlGetData = '/cajanivel2/filtrarCajaNivel2.php?filtrar=&id_ciudad=9'
   urlFirstPart = '/cajanivel2/filtrarCajaNivel2.php?filtrar='
@@ -46,6 +48,10 @@ export class CashBoxesTwoComponent implements OnInit {
     })
   }
 
+  public addCashBoxesTwo(cashBoxesTwo: CashBoxesTwo[]){
+    this.store.dispatch(new AddCashBoxTwo(cashBoxesTwo))
+  }
+
   save(cashBox: CashBoxesTwo){
     this.boxes.estado_cajanivel2 = 'activo'
     this.boxes.id_ciudad = 9
@@ -65,9 +71,16 @@ export class CashBoxesTwoComponent implements OnInit {
     })
   }
 
-  getCashBoxesTwoByName(cash: string){
-    this.DataServices.getCashBoxByNameTwo(this.urlFirstPart, this.urlSecondPart, cash).subscribe((data: CashBoxesTwo[]) => {
-      return this.CashDetails = data[0]
+  getCashBoxesTwoByName(cashName: string){
+    this.store.select(state => state.cashBoxesTwo.cashBoxesTwo).subscribe((data: CashBoxesTwo[])=>{
+      this.CashDetails = data.filter((cashBoxTwo) => cashBoxTwo.nombre_cajanivel2 == cashName)[0]
+      console.log(this.CashDetails)
+    })
+  }
+
+  getCashBoxesTwoEdit(cashBoxTwo: string){
+    this.DataServices.getCashBoxByNameTwo(this.urlFirstPart, this.urlSecondPart, cashBoxTwo).subscribe((data: CashBoxesTwo[]) =>{
+      this.CashDetails = data[0]
     })
   }
 
@@ -107,6 +120,7 @@ export class CashBoxesTwoComponent implements OnInit {
 
       this.DataServices.getDataCashBoxesTwo(this.urlGetData).subscribe((data: CashBoxesTwo[]) =>{
         this.cashBoxesTwoList = data
+        this.addCashBoxesTwo(data)
       })
   }
 

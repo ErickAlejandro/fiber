@@ -35,7 +35,10 @@ import { CitiesState } from './store/cities/cities.state';
 import { PaisState } from './store/countries/countries.state';
 import { ProvincesState } from './store/provinces/provinces.state'
 import { OntState } from './store/ont/ont.state';
+import { VlansState } from './store/vlan/vlan.state';
 import { CreateServiceComponent } from './components/create-service/create-service.component';
+import { CashBoxState } from './store/cash-box-one/cash-box-one.state'; 
+import { CashBoxesState } from './store/cash-box-two/cash-box-two.state';
 import { OntModelsState } from './store/ont-model/ontModel.state';
 
 
@@ -79,7 +82,10 @@ import { OntModelsState } from './store/ont-model/ontModel.state';
       ProvincesState,
       PaisState,
       OntState,
-      OntModelsState
+      OntModelsState,
+      VlansState,
+      CashBoxesState,
+      CashBoxState
     ]),
   ],
   providers: [],
