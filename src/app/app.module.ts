@@ -41,6 +41,7 @@ import { CashBoxState } from './store/cash-box-one/cash-box-one.state';
 import { CashBoxesState } from './store/cash-box-two/cash-box-two.state';
 import { OntModelsState } from './store/ont-model/ontModel.state';
 import { UsersState } from './store/users/users.state';
+import { ClientState } from './store/clients/clients.state';
 
 
 @NgModule({
@@ -87,7 +88,8 @@ import { UsersState } from './store/users/users.state';
       VlansState,
       CashBoxesState,
       CashBoxState,
-      UsersState
+      UsersState,
+      ClientState
     ]),
   ],
   providers: [],

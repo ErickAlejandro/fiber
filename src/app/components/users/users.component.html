@@ -67,7 +67,7 @@
             <td>{{user.usuario_usuario}}</td>
             <td>{{user.nombrerol_rol}}</td>
             <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="../../../assets/icons/eye-solid.svg" width="30" height="24" (click)="getUserByName(user.nombre_usuario)"></button>
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getUserByName(user.nombre_usuario)"></button>
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getUserEdit(user.nombre_usuario)"></button>
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletUser" (click)="getUserByName(user.nombre_usuario)"><img
               src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24"></button>
 

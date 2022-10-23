@@ -74,6 +74,12 @@ export class UsersComponent implements OnInit {
     })
   }
 
+  getUserEdit(user: string){
+    this.DataService.getUserByName(this.urlFirstPart, this.urlSecondPart, user).subscribe((data:Users[]) => {
+      return this.usersDetails = data[0]
+    })
+  }
+
   refresh(){
     addEventListener('click', e =>{
       location.reload()

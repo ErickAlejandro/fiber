@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
 import { Clients } from 'src/app/Models/clients';
 import { DataService } from 'src/app/services/data.service';
+import { AddClients } from 'src/app/store/clients/clients.actions';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class ClientsComponent implements OnInit {
 
-  constructor(private DataServcies: DataService) { }
+  constructor(private DataServcies: DataService, private store: Store) { }
 
   urlGetClients = '/Clientes/filtrarClientes.php?filtrar=&id_ciudad=9'
   urlFirstPart = '/Clientes/filtrarClientes.php?filtrar='
@@ -28,7 +30,18 @@ export class ClientsComponent implements OnInit {
   since:number = 0
   to:number = 5
 
-  getClientByName(client: any) {
+  public addClients(clients: Clients[]){
+    this.store.dispatch(new AddClients(clients))
+  }
+
+  getClientByName(clientName: any) {
+    this.store.select(state => state.clients.clients).subscribe((data: Clients[]) =>{
+      this.clientDetail = data.filter((client) => client.cedula_clientepersona == clientName)[0]
+      console.log(this.clientDetail)
+    })
+  }
+
+  getClientEdit(client: any){
     this.DataServcies.getClientsByName(client, this.urlFirstPart, this.urlSecondPart).subscribe((data: Clients[]) => {
       return this.clientDetail = data[0]
     })
@@ -93,6 +106,7 @@ export class ClientsComponent implements OnInit {
 
     this.DataServcies.getDataClients(this.urlGetClients).subscribe((data: Clients[]) => {
       this.clientsList = data
+      this.addClients(data)
     })
   }
 
