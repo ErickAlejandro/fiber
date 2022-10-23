@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
 import { CashBoxesTwo } from 'src/app/Models/cash-boxes-two';
 import { Clients } from 'src/app/Models/clients';
 import { Ont } from 'src/app/Models/ont';
@@ -7,6 +8,7 @@ import { OntModels } from 'src/app/Models/ontModels';
 import { Planes } from 'src/app/Models/planes';
 import { Services } from 'src/app/Models/services';
 import { DataService } from 'src/app/services/data.service';
+import { ADdServices } from 'src/app/store/services/services.actions';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -44,7 +46,11 @@ export class ServicesComponent implements OnInit {
   since:number = 0
   to:number = 5
 
-  constructor(private DataService: DataService) { }
+  constructor(private DataService: DataService, private store: Store) { }
+
+  addServices(services: Services[]){
+    this.store.dispatch(new ADdServices(services))
+  }
 
   changePage(e:PageEvent){
     console.log(e)
@@ -123,7 +129,14 @@ ClipBoard(input: any){
     })
   }
 
-  getServiceByName(service: string){
+  getServiceByName(serviceName: string){
+    this.store.select(state => state.services.services).subscribe((data: Services[]) =>{
+      this.serviceDetails = data.filter((service) => service.id_cliente == serviceName)[0]
+      console.log(this.serviceDetails)
+    })
+  }
+
+  getServiceEdit(service: string){
     this.DataService.getServiceByName(this.urlFirstPart, this.urlSeconPart, service).subscribe((data: Services[]) =>{
       return this.serviceDetails = data[0]
     })
@@ -143,6 +156,7 @@ ClipBoard(input: any){
       this.getCapturePlan()
       this.DataService.getDataService(this.urlGetData).subscribe((data: Services[]) =>{
         this.servicesList = data
+        this.addServices(data)
       })
   }
 
