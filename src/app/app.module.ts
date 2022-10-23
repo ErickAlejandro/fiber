@@ -40,6 +40,7 @@ import { CreateServiceComponent } from './components/create-service/create-servi
 import { CashBoxState } from './store/cash-box-one/cash-box-one.state'; 
 import { CashBoxesState } from './store/cash-box-two/cash-box-two.state';
 import { OntModelsState } from './store/ont-model/ontModel.state';
+import { UsersState } from './store/users/users.state';
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import { OntModelsState } from './store/ont-model/ontModel.state';
       OntModelsState,
       VlansState,
       CashBoxesState,
-      CashBoxState
+      CashBoxState,
+      UsersState
     ]),
   ],
   providers: [],

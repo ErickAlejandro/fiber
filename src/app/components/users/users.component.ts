@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
 import { Cities } from 'src/app/Models/cities';
 import { Users } from 'src/app/Models/users';
 import { DataService } from 'src/app/services/data.service';
+import { AddUsers } from 'src/app/store/users/users.actions';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,7 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class UsersComponent implements OnInit {
 
-  constructor(private DataService: DataService) { }
+  constructor(private DataService: DataService, private store:Store) { }
 
   urlGetDataUsers = '/usuario/filtrarUsuarioSuperAdmin.php?filtrar='
   urlFirstPart = '/usuario/filtrarUsuario.php?filtrar='
@@ -34,6 +36,10 @@ export class UsersComponent implements OnInit {
   to:number = 5
 
   hide = true;
+
+  addUsers(users: Users[]){
+    this.store.dispatch(new AddUsers(users))
+  }
 
   changePageUsers(e:PageEvent){
     console.log(e)
@@ -61,9 +67,10 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  getUserByName(user:string){
-    this.DataService.getUserByName(this.urlFirstPart, this.urlSecondPart, user).subscribe((data:Users[]) => {
-      return this.usersDetails = data[0]
+  getUserByName(userName:string){
+    this.store.select(state => state.users.users).subscribe((data: Users[]) => {
+      this.usersDetails = data.filter((user) => user.nombre_usuario == userName)[0]
+      console.log(this.usersDetails)
     })
   }
 
@@ -124,6 +131,7 @@ export class UsersComponent implements OnInit {
 
     this.DataService.getDataUsers(this.urlGetDataUsers).subscribe((data: Users[]) =>{
       this.usersList  = data
+      this.addUsers(data)
     })
   }
 
