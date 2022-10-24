@@ -43,6 +43,7 @@ import { OntModelsState } from './store/ont-model/ontModel.state';
 import { UsersState } from './store/users/users.state';
 import { ClientState } from './store/clients/clients.state';
 import { ServicesState } from './store/services/services.state';
+import { PlanState } from './store/plans/plans.state';
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import { ServicesState } from './store/services/services.state';
       CashBoxState,
       UsersState,
       ClientState,
-      ServicesState
+      ServicesState,
+      PlanState
     ]),
   ],
   providers: [],

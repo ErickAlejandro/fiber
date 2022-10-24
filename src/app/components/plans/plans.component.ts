@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngxs/store';
 import { Planes } from 'src/app/Models/planes';
 import { DataService } from 'src/app/services/data.service';
+import { AddPlans } from 'src/app/store/plans/plans.actions';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -26,13 +28,16 @@ export class PlansComponent implements OnInit {
   since:number = 0
   to:number = 5
 
-  constructor(private DataService: DataService) { }
+  constructor(private DataService: DataService, private store: Store) { }
 
   changePage(e:PageEvent){
     console.log(e)
     this.since = e.pageIndex * e.pageSize;
     this.to = this.since + e.pageSize;
-    
+  }
+  
+  addPlans(plans: Planes[]){
+    this.store.dispatch(new AddPlans(plans))
   }
 
   ngOnInit(): void {
@@ -47,6 +52,7 @@ export class PlansComponent implements OnInit {
       this.DataService.getData(this.urlgetData)
       .subscribe((data: Planes[]) => {
         this.plansList = data
+        this.addPlans(data)
       })
   }
 
@@ -91,10 +97,16 @@ export class PlansComponent implements OnInit {
     })
   }
 
-  getPlanByName(plans:String){
+  getPlanByName(planName:String){
+    this.store.select(state => state.plans.plans).subscribe((data: Planes[]) =>{
+      this.plansDetail = data.filter((plan) => plan.nombre_planes == planName)[0]
+      console.log(this.plansDetail)
+    })
+  }
+
+  getPlansByEdit(plans: string){
     this.DataService.getPlansByName(plans, this.urlFirstPart, this.urlSecondPart).subscribe((data: Planes[]) =>{
       return this.plansDetail = data[0]
     })
   }
-
 }
