@@ -13,13 +13,8 @@
     <form>
       <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" [(ngModel)]="user">
       <input type="text" id="password" class="fadeIn third" name="login" placeholder="password" [(ngModel)]="password">
-      <input type="submit" class="fadeIn fourth" value="Log In" (click)="login(user)">
+      <input type="submit" class="fadeIn fourth" value="Log In" (click)="login(user, password)">
     </form>
-
-    <!-- Remind Passowrd -->
-    <div id="formFooter">
-      <a class="underlineHover" href="#">Olvidaste la contraseña?</a>
-    </div>
 
   </div>
 </div>

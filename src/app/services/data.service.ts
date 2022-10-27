@@ -241,6 +241,10 @@ export class DataService {
     return this.http.get<Login[]>(this.urlPrimary + aditionalUrl + user)
   }
 
+  getDataUserForlLogin(aditionalUrl: string){
+    return this.http.get<Login[]>(this.urlPrimary + aditionalUrl)
+  }
+
   // ACTIVACIONES PENDIENTES
 
   getDataPendingActivationsTecnico(){

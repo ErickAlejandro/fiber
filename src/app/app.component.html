@@ -1,4 +1,7 @@
-<nav class="navbar navbar-expand-lg bg-light" *ngIf="users != null">
+<nav class="navbar navbar-expand-lg bg-light" *ngIf="login != null">
+  <div class="container-fluid">
+    <h2>{{login.usuario_usuario}}</h2>
+  </div>
     <div class="container-fluid">
       <a class="navbar-brand"><img src="../assets/icons/fiberhomenegro.png" alt="Logo" width="240" height="70" class="d-inline-block align-text-top"></a><span><b>|</b></span>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +42,7 @@
               <li><a class="dropdown-item" routerLink="/Ont" routerLinkActive="/Ont">ONT</a></li>
             </ul>
           </li>
-          <li class="nav-item dropdown" *ngIf="users != null && users.nombrerol_rol == 'SUPER ADMINISTRADOR'">
+          <li class="nav-item dropdown" *ngIf="login != null && login.nombrerol_rol == 'SUPER ADMINISTRADOR'">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Ubicación
             </a>
@@ -53,7 +56,7 @@
       </div>
       <form class="d-flex" role="search">
         <button class="btn btn-outline-success" id="download" type="submit"><span><b>Descargar Excel</b></span></button>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" >
           <img src="../../../assets/icons/right-to-bracket-solid.svg" id="incon-excel" alt="excel-logo" width="50" height="30" class="d-inline-block align-text-top"></a>  
       </form>
     </div>

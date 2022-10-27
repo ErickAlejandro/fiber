@@ -44,6 +44,7 @@ import { UsersState } from './store/users/users.state';
 import { ClientState } from './store/clients/clients.state';
 import { ServicesState } from './store/services/services.state';
 import { PlanState } from './store/plans/plans.state';
+import { LoginState } from './store/login/login.state';
 
 
 @NgModule({
@@ -93,7 +94,8 @@ import { PlanState } from './store/plans/plans.state';
       UsersState,
       ClientState,
       ServicesState,
-      PlanState
+      PlanState,
+      LoginState
     ]),
   ],
   providers: [],

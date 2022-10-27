@@ -5,7 +5,3 @@ export class AddLogin {
   constructor( public payload: Login[] ) {}
 }
 
-export class RemoveLogin {
-  static readonly type = '[LOGIN] Remove';
-  constructor( public payload: number ) {}
-}

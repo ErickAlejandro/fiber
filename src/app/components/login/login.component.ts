@@ -15,6 +15,8 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
 
   urlDataLogin = '/usuario/buscarUsuario.php?filtrar='
+  urlDataUserForLogin = '/usuario/filtrarUsuarioSuperAdmin.php?filtrar='
+  loginDetails = new Login() 
 
   user!: string
   password!: string
@@ -33,45 +35,24 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  login(user: string) {
-    this.DataService.getDataLogin(this.urlDataLogin, user).subscribe((data: Login[]) => {
-      this.loginData = data
+  addLoginData(login: Login[]) {
+    this.store.dispatch(new AddLogin(login))
+  }
 
-      if (this.loginData[0].contrasena_usuario === this.password) {
-        if (this.loginData[0].nombrerol_rol == this.rollSuperAdmin || this.loginData[0].nombrerol_rol == this.rolAdmin) {
-          
-          this.store.dispatch(new AddLogin(data))
-          
-          Swal.fire(
-            'Bienvenido',
-            `Has ingresado como: ${user}`,
-            'success'
-          )
-          if(this.loginData[0].nombrerol_rol == this.rollSuperAdmin){
-            this.router.navigate(['usuarios'])
-          }else{
-            this.router.navigate(['actividades-pendientes'])
-          }
-        } else {
-          Swal.fire(
-            'A ocurrido un error',
-            `Usuario no permitido.`,
-            'error'
-          ) 
-        }
-      }else {
-        Swal.fire(
-          'A ocurrido un error',
-          `El usuario o la contraseña no son correctos, intente nuevamente`,
-          'error'
-        )
+  login(userName: string, password: string) {
 
-      }
+    this.DataService.getDataLogin(this.urlDataUserForLogin, userName).subscribe((data: Login[]) => {
+      this.loginData = data.filter((user) => user.usuario_usuario == userName)
+
+      this.addLoginData(data)
+
+      console.log('HTML LOGIN' + JSON.stringify(this.loginData))
+      
     })
+
   }
 
   ngOnInit(): void {
-    
   }
 
 }
