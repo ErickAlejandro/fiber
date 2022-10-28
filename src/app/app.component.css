@@ -94,3 +94,11 @@ nav a:hover{
     background-color: #36343913;
     border-radius: 3px;
 }
+
+div#userInfo{
+    font-family: Sora;
+    padding: 10px;
+    padding-top: 18px;
+    background-color: #424242;
+    color: whitesmoke;
+}

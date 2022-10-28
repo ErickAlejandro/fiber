@@ -1,9 +1,8 @@
-
-<nav class="navbar navbar-expand-lg bg-light" *ngIf="login != null">
-  <div class="row">
-    <h3>Usuario: {{login.usuario_usuario}} | Rol: {{login.nombrerol_rol}}</h3>
+<div class="information user" *ngIf="login != null">
+  <div class="row" id="userInfo">
+    <h3><b>Te has logeado como: </b> {{login.nombre_usuario}} | <b>Rol: </b> {{login.nombrerol_rol}}</h3>
   </div>
-  <br>
+  <nav class="navbar navbar-expand-lg bg-light shadow p-3 mb-5" >
     <div class="container-fluid">
       <a class="navbar-brand"><img src="../assets/icons/fiberhomenegro.png" alt="Logo" width="240" height="70" class="d-inline-block align-text-top"></a><span><b>|</b></span>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,5 +62,6 @@
       </form>
     </div>
   </nav>
+</div>
 
 <router-outlet></router-outlet>

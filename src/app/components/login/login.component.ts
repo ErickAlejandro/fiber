@@ -25,6 +25,8 @@ export class LoginComponent implements OnInit {
 
   users: Users = new Users
 
+  usuariosLog!: any
+
   loginData!: Login[]
 
   constructor(private DataService: DataService, private store: Store, private router: Router) { }
@@ -48,6 +50,12 @@ export class LoginComponent implements OnInit {
       if (this.loginData[0].contrasena_usuario == password) {
         if (this.loginData[0].nombrerol_rol == this.rolAdmin || this.loginData[0].nombrerol_rol == this.rollSuperAdmin) {
           this.addLoginData(data)
+
+          // localStorage.setItem('usuarioLogueado', JSON.stringify(data));
+
+          // this.usu = JSON.parse(localStorage.getItem('usuario'));
+          // console.log(this.datoUsuario); ||| INTENTAR ENVIAR EL LOCAL STORAGE AL STATE
+
           this.router.navigate(['usuarios'])
         } else {
           Swal.fire({
