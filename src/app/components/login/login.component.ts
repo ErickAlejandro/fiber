@@ -16,13 +16,13 @@ export class LoginComponent implements OnInit {
 
   urlDataLogin = '/usuario/buscarUsuario.php?filtrar='
   urlDataUserForLogin = '/usuario/filtrarUsuarioSuperAdmin.php?filtrar='
-  loginDetails = new Login() 
+  loginDetails = new Login()
 
   user!: string
   password!: string
   rollSuperAdmin: string = 'SUPER ADMINISTRADOR'
   rolAdmin: string = 'ADMINISTRADOR'
-  
+
   users: Users = new Users
 
   loginData!: Login[]
@@ -44,10 +44,27 @@ export class LoginComponent implements OnInit {
     this.DataService.getDataLogin(this.urlDataUserForLogin, userName).subscribe((data: Login[]) => {
       this.loginData = data.filter((user) => user.usuario_usuario == userName)
 
-      this.addLoginData(data)
 
-      console.log('HTML LOGIN' + JSON.stringify(this.loginData))
-      
+      if (this.loginData[0].contrasena_usuario == password) {
+        if (this.loginData[0].nombrerol_rol == this.rolAdmin || this.loginData[0].nombrerol_rol == this.rollSuperAdmin) {
+          this.addLoginData(data)
+          this.router.navigate(['usuarios'])
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lo siento',
+            text: 'El usuario no tiene permisos!'
+          })
+        }
+      } else {
+        this.refresh()
+        Swal.fire({
+          icon: 'error',
+          title: 'Lo siento',
+          text: 'La contraseña es incorrecta!'
+        })
+      }
+
     })
 
   }

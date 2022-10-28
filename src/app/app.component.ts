@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { timeout } from 'rxjs';
 import { Cities } from './Models/cities';
 import { Login } from './Models/login';
 
