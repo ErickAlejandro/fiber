@@ -70,7 +70,6 @@ export class CitiesComponent implements OnInit {
       })
       this.refresh()
     })
-
   }
 
   getCityByName(cityName: string) {

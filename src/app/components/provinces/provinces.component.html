@@ -1,4 +1,3 @@
-
 <div class="container">
     <table class="table table-responsive table-striped">
         <thead class="table-dark">
@@ -13,22 +12,23 @@
                 <td>{{province.nombre_provincia}}</td>
                 <td>{{province.nombre_pais}}</td>
                 <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
-                            src="../../../assets/icons/eye-solid.svg" width="30" height="24" (click)="getProvinceByName(province.nombre_provincia)"></button>
+                            src="../../../assets/icons/eye-solid.svg" width="30" height="24"
+                            (click)="getProvinceByName(province.nombre_provincia)"></button>
 
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getProvinceByEdit(province.nombre_provincia)"></button>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img
+                            src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24"
+                            (click)="getProvinceByEdit(province.nombre_provincia)"></button>
 
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletProvince" (click)="getProvinceByName(province.nombre_provincia)"><img
-                        src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24"></button>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletProvince"
+                        (click)="getProvinceByName(province.nombre_provincia)"><img
+                            src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24"></button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <mat-paginator [length]="provincesList.length"
-              [pageSize]="pageSize"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Select page"
-              (page)="changePage($event)">
-      </mat-paginator>
+    <mat-paginator [length]="provincesList.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page" (page)="changePage($event)">
+    </mat-paginator>
     <div class="actions">
         <div class="card">
             <button type="button-submit" class="btn" data-bs-toggle="modal" data-bs-target="#createCitiesForm"><img
@@ -80,21 +80,24 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                  <h3>Esta acción, borrará todos los datos relacionados con <b>{{provinceDetail.nombre_provincia}}</b>.</h3>
-                  <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
-                  <h4><b>Ciudad</b></h4>
+                    <h3>Esta acción, borrará todos los datos relacionados con
+                        <b>{{provinceDetail.nombre_provincia}}</b>.</h3>
+                    <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
+                    <h4><b>Ciudad</b></h4>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-danger" (click)="deleted(provinceDetail.id_provincia)">Eliminar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger"
+                        (click)="deleted(provinceDetail.id_provincia)">Eliminar</button>
                 </div>
             </div>
         </div>
     </div>
-  </div>
+</div>
 
 <!-- Modal de alertta para Edicion-->
-<div class="modal fade" id="alertEditionProvince" tabindex="-2" aria-labelledby="alertEditionProvince" aria-hidden="true">
+<div class="modal fade" id="alertEditionProvince" tabindex="-2" aria-labelledby="alertEditionProvince"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -103,16 +106,17 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                  <h3>Estas seguro que quieres editar la información de <b>{{provinceDetail.nombre_provincia}}</b>.</h3>
+                    <h3>Estas seguro que quieres editar la información de <b>{{provinceDetail.nombre_provincia}}</b>.
+                    </h3>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-warning" (click)="editProvince(provinceDetail)">Editar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning" (click)="editProvince(provinceDetail)">Editar</button>
                 </div>
             </div>
         </div>
     </div>
-  </div>
+</div>
 
 <!-- EDITAR DATOS DE LA PROVINCIA -->
 <div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true">
@@ -123,24 +127,27 @@
             </div>
             <div class="modal-body">
                 <form action="">
-                        <div class="form-group">
-                            <label class="form-label">País: </label>
-                            <select class="form-select" aria-label="Default select example" [(ngModel)]="provinceDetail.id_pais"  [ngModelOptions]="{standalone: true}">
-                                <option *ngFor="let pais of paisList" value={{pais.id_pais}}>{{pais.nombre_pais}}</option>
-                            </select>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">País: </label>
+                        <select class="form-select" aria-label="Default select example"
+                            [(ngModel)]="provinceDetail.id_pais" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let pais of paisList" value={{pais.id_pais}}>{{pais.nombre_pais}}</option>
+                        </select>
+                    </div>
                     <br>
                     <div class="form-group">
                         <label class="form-label">Nombre de la Provincia: </label>
-                            <input type="text" class="form-control" [(ngModel)]="provinceDetail.nombre_provincia" value={{provinceDetail.nombre_provincia}} [ngModelOptions]="{standalone: true}">
+                        <input type="text" class="form-control" [(ngModel)]="provinceDetail.nombre_provincia"
+                            value={{provinceDetail.nombre_provincia}} [ngModelOptions]="{standalone: true}">
                     </div>
-                <br>
-                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionProvince">Editar</button>
+                    <br>
+                    <button class="btn btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#alertEditionProvince">Editar</button>
                 </form>
             </div>
         </div>
     </div>
-  </div>
+</div>
 
 <!-- CREAR UNA NUEVA PROVINCIA -->
 
@@ -153,18 +160,20 @@
             </div>
             <div class="modal-body">
                 <form action="">
-                        <div class="form-group">
-                            <label class="form-label">País: </label>
-                            <select class="form-select" aria-label="Default select example" [(ngModel)]="province.id_pais"  [ngModelOptions]="{standalone: true}">
-                                <option *ngFor="let pais of paisList" value={{pais.id_pais}}>{{pais.nombre_pais}}</option>
-                            </select>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">País: </label>
+                        <select class="form-select" aria-label="Default select example" [(ngModel)]="province.id_pais"
+                            [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let pais of paisList" value={{pais.id_pais}}>{{pais.nombre_pais}}</option>
+                        </select>
+                    </div>
                     <br>
                     <div class="form-group">
                         <label class="form-label">Nombre de la Provincia: </label>
-                            <input type="text" class="form-control" [(ngModel)]="province.nombre_provincia" value={{province.nombre_provincia}} [ngModelOptions]="{standalone: true}">
+                        <input type="text" class="form-control" [(ngModel)]="province.nombre_provincia"
+                            value={{province.nombre_provincia}} [ngModelOptions]="{standalone: true}">
                     </div>
-                <br>
+                    <br>
                     <button class="btn btn-primary" (click)="save(province)">Agregar</button>
                 </form>
             </div>
