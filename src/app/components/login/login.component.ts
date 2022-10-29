@@ -53,11 +53,9 @@ export class LoginComponent implements OnInit {
 
           localStorage.setItem('usuarioLogueado', JSON.stringify(data));
           
-          setTimeout(()=>{
-            this.refresh()
-          }, 1000)
-
+          
           this.router.navigate(['usuarios'])
+          
         } else {
           Swal.fire({
             icon: 'error',
@@ -78,7 +76,16 @@ export class LoginComponent implements OnInit {
 
   }
 
+  loginLocalStor(user2:Users){
+    console.log(JSON.stringify(user2))
+    if (user2.nombrerol_rol == this.rolAdmin || user2.nombrerol_rol == this.rollSuperAdmin) {
+      this.router.navigate(['usuarios'])
+    }
+  }
+
   ngOnInit(): void {
+    this.loginLocalStor(JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0])
+
   }
 
 }

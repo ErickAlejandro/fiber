@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Cities } from './Models/cities';
 import { Login } from './Models/login';
+import { Users } from './Models/users';
 
 
 @Component({
@@ -17,12 +18,17 @@ export class AppComponent{
   login: Login = new Login
   locaStorage!: any
   JsonStorage!: any
+  userLogin: Users = new Users
+  jsonString!: string
   
   constructor(private router:Router, private store: Store){
-    this.locaStorage = localStorage.getItem('usuarioLogueado')
-    this.JsonStorage = JSON.parse(this.locaStorage)
-    // console.log(this.JsonStorage[0].usuario_usuario)
+
+    this.userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+    this.jsonString = JSON.stringify(this.userLogin)
+
+    console.log('asdasdasdasd' + JSON.stringify(this.jsonString))
   }
+
 
   logOut(){
     this.locaStorage = localStorage.clear()
