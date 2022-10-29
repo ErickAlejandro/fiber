@@ -15,9 +15,11 @@ export class OntModelsComponent implements OnInit {
 
   constructor(private DataServcies: DataService, private store: Store) { }
 
-  urlGetData = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad=9'
+  userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+  city: any = this.userLogin.id_ciudad
+  urlGetData = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad='+this.city
   urlFirst = 'ModeloOnt/filtrarModeloOnt.php?filtrar='
-  urlSecond = '&id_ciudad=9'
+  urlSecond = '&id_ciudad='+this.city
   urlEdit = '/ModeloOnt/editarModeloOnt.php'
   urlCreate = '/ModeloOnt/crearModeloOnt.php'
   urlDeleted = '/ModeloOnt/eliminarModeloOnt.php?id='
@@ -62,7 +64,7 @@ export class OntModelsComponent implements OnInit {
 
   save(ontModel: OntModels){
     this.ontModels.estado_modelosont = 'activo'
-    this.ontModels.id_ciudad = 9
+    this.ontModels.id_ciudad = this.city
     this.DataServcies.createOntModel(this.urlCreate, ontModel).subscribe(data => {
       Swal.fire({
         icon: 'success',

@@ -18,19 +18,22 @@ import Swal from 'sweetalert2';
 })
 export class ServicesComponent implements OnInit {
 
-  urlGetData = '/Servicio/filtrarServicio.php?filtrar=&id_ciudad=9'
+  userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+  city: any = this.userLogin.id_ciudad
+
+  urlGetData = '/Servicio/filtrarServicio.php?filtrar=&id_ciudad='+this.city
   urlFirstPart = '/Servicio/buscarServicio.php?filtrar='
-  urlSeconPart = '&id_ciudad=9'
+  urlSeconPart = '&id_ciudad='+this.city
   urlDeleted = '/Servicio/eliminarServicio.php?id&id_ciudad&id_cliente='
   urlCreateService = '/Servicio/crearServicio.php'
   urlFirst = '/Ont/filtrarOnt.php?filtrar='
-  urlSecont = '&id_ciudad=9'
+  urlSecont = '&id_ciudad='+this.city
 
-  urlDataClient = '/Clientes/filtrarClientes.php?filtrar=&id_ciudad=9'
-  urlDataCashBox = '/cajanivel2/filtrarCajaNivel2.php?filtrar=&id_ciudad=9'
-  urlDataModelOnt = '/Ont/filtrarOnt.php?filtrar=&id_ciudad=9'
+  urlDataClient = '/Clientes/filtrarClientes.php?filtrar=&id_ciudad='+this.city
+  urlDataCashBox = '/cajanivel2/filtrarCajaNivel2.php?filtrar=&id_ciudad='+this.city
+  urlDataModelOnt = '/Ont/filtrarOnt.php?filtrar=&id_ciudad='+this.city
   urlCreateOnt = '/Ont/crearOnt.php'
-  urlPlanesData = '/Planes/filtrarPlanes.php?filtrar=&id_ciudad=9'
+  urlPlanesData = '/Planes/filtrarPlanes.php?filtrar=&id_ciudad='+this.city
 
   servicesList!: Services[]
   serviceDetails = new Services()

@@ -13,9 +13,11 @@ import Swal from 'sweetalert2';
 })
 export class VlansComponent implements OnInit {
 
-  urlData = '/vlan/filtrarVlan.php?filtrar&id_ciudad=9'
+  userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+  city: any = this.userLogin.id_ciudad
+  urlData = '/vlan/filtrarVlan.php?filtrar&id_ciudad='+this.city
   urlGetDataFirst = '/vlan/filtrarVlan.php?filtrar='
-  urlGetDataSecond = '&id_ciudad=9'
+  urlGetDataSecond = '&id_ciudad='+this.city
   urlCreate = '/vlan/crearVlan.php'
   urlDeleted = '/vlan/eliminarVlan.php?id='
 
@@ -60,7 +62,7 @@ export class VlansComponent implements OnInit {
   }
 
   save(vlans:Vlan){
-    this.vlan.id_ciudad = 9
+    this.vlan.id_ciudad = this.city
     this.vlan.estado_vlan = 'activo'
     this.vlan.buckle2 = 'null'
     this.vlan.ip_rangodireccionesip = 'null'

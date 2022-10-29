@@ -14,14 +14,16 @@ import Swal from 'sweetalert2';
 })
 export class CashBoxesComponent implements OnInit {
 
-  urlCashBoxes = '/cajanivel1/filtrarCajaNivel1.php?filtrar=&id_ciudad=9'
+  userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+  city: any = this.userLogin.id_ciudad
+  urlCashBoxes = '/cajanivel1/filtrarCajaNivel1.php?filtrar=&id_ciudad='+this.city
   urlgetBoxes = '/cajanivel1/filtrarCajaNivel1.php?filtrar='
-  urlgetBoxes2 = '&id_ciudad=9'
+  urlgetBoxes2 = '&id_ciudad='+this.city
   urlCreateBoxes = '/cajanivel1/crearCajaNivel1.php'
   urlEditCashBoxes = '/cajanivel1/editarCajaNivel1.php'
   urlDeletedBox = 'cajanivel1/eliminarCajaNivel1.php?id='
   
-  urlValns = '/vlan/filtrarVlan.php?filtrar=&id_ciudad=9'
+  urlValns = '/vlan/filtrarVlan.php?filtrar=&id_ciudad='+this.city
 
   boxes:CashBoxes = new CashBoxes();
   cashBoxesList!: CashBoxes[];
@@ -50,7 +52,7 @@ export class CashBoxesComponent implements OnInit {
 
    save(cashBoxes:CashBoxes){
     this.boxes.estado_cajanivel1 = 'activo'
-    this.boxes.id_ciudad = 9
+    this.boxes.id_ciudad = this.city
     this.DataService.createCashBox(this.urlCreateBoxes, cashBoxes).subscribe(data=>{
       Swal.fire({
         icon: 'success',

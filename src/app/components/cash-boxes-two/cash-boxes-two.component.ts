@@ -16,14 +16,16 @@ export class CashBoxesTwoComponent implements OnInit {
 
   constructor(private DataServices: DataService, private store:Store) { }
 
-  urlGetData = '/cajanivel2/filtrarCajaNivel2.php?filtrar=&id_ciudad=9'
+  userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+  city: any = this.userLogin.id_ciudad
+  urlGetData = '/cajanivel2/filtrarCajaNivel2.php?filtrar=&id_ciudad='+this.city
   urlFirstPart = '/cajanivel2/filtrarCajaNivel2.php?filtrar='
-  urlSecondPart = '&id_ciudad=9'
+  urlSecondPart = '&id_ciudad='+this.city
   urlCreateData = '/cajanivel2/crearCajaNivel2.php'
   urlDelet = '/cajanivel2/eliminarCajaNivel2.php?id='
   urlEdit = '/cajanivel2/editarCajaNivel2.php'
 
-  urlCashBoxOne = '/cajanivel1/filtrarCajaNivel1.php?filtrar=&id_ciudad=9'
+  urlCashBoxOne = '/cajanivel1/filtrarCajaNivel1.php?filtrar=&id_ciudad='+this.city
 
   boxes: CashBoxesTwo = new CashBoxesTwo();
   cashBoxesTwoList!: CashBoxesTwo[];
@@ -54,7 +56,7 @@ export class CashBoxesTwoComponent implements OnInit {
 
   save(cashBox: CashBoxesTwo){
     this.boxes.estado_cajanivel2 = 'activo'
-    this.boxes.id_ciudad = 9
+    this.boxes.id_ciudad = this.city
     this.DataServices.createCashBoxTwo(this.urlCreateData, cashBox).subscribe(data =>{
       Swal.fire({
         icon: 'success',

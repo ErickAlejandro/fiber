@@ -15,9 +15,11 @@ export class ClientsComponent implements OnInit {
 
   constructor(private DataServcies: DataService, private store: Store) { }
 
-  urlGetClients = '/Clientes/filtrarClientes.php?filtrar=&id_ciudad=9'
+  userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+  city: any = this.userLogin.id_ciudad
+  urlGetClients = '/Clientes/filtrarClientes.php?filtrar=&id_ciudad='+this.city
   urlFirstPart = '/Clientes/filtrarClientes.php?filtrar='
-  urlSecondPart = '&id_ciudad=9'
+  urlSecondPart = '&id_ciudad='+this.city
   urlDeletedData = '/Clientes/eliminarClientes.php?id='
   urlCreateClients = '/Clientes/crearClientes.php'
   urlEditClients = '/Clientes/editarClientes.php'
@@ -62,7 +64,7 @@ export class ClientsComponent implements OnInit {
 
   save(clients:Clients){
     clients.estado_clientepersona = 'activo'
-    clients.id_ciudad = 9
+    clients.id_ciudad = this.city
     this.DataServcies.getCreateClients(this.urlCreateClients, clients).subscribe(data =>{
       Swal.fire({
         icon: 'success',

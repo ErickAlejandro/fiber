@@ -14,13 +14,16 @@ import Swal from 'sweetalert2';
 })
 export class OntComponent implements OnInit {
 
-  urlGetData = '/Ont/filtrarOnt.php?filtrar=&id_ciudad=9'
+  userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+  city: any = this.userLogin.id_ciudad
+
+  urlGetData = '/Ont/filtrarOnt.php?filtrar=&id_ciudad='+this.city
   urlFirst = '/Ont/filtrarOnt.php?filtrar='
-  urlSecont = '&id_ciudad=9'
+  urlSecont = '&id_ciudad='+this.city
   urlEditOnt = '/Ont/editarOnt.php'
   urlDeleted = '/Ont/eliminarOnt.php?id='
 
-  urlModelOnt = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad=9'
+  urlModelOnt = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad='+this.city
 
   ont: Ont = new Ont()
   ontList!: Ont[]

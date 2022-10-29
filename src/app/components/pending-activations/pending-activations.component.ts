@@ -10,9 +10,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./pending-activations.component.css']
 })
 export class PendingActivationsComponent implements OnInit {
-  urlGetData = '/Servicio/filtrarServicioPendienteAdmin.php?id_ciudad=9'
+  userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+  city: any = this.userLogin.id_ciudad
+  urlGetData = '/Servicio/filtrarServicioPendienteAdmin.php?id_ciudad='+this.city
   urlFirstPart = '/Servicio/filtrarServicioPendienteAdmin.php?filtrar='
-  urlSeconPart = '&id_ciudad=9'
+  urlSeconPart = '&id_ciudad='+this.city
 
   serviceList!: Services[]
   serviceDetails = new Services()

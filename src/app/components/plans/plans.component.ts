@@ -13,9 +13,11 @@ import Swal from 'sweetalert2';
 })
 export class PlansComponent implements OnInit {
 
-  urlgetData = '/Planes/filtrarPlanes.php?filtrar=&id_ciudad=9'
+  userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+  city: any = this.userLogin.id_ciudad
+  urlgetData = '/Planes/filtrarPlanes.php?filtrar=&id_ciudad='+this.city
   urlFirstPart = '/Planes/filtrarPlanes.php?filtrar='
-  urlSecondPart = '&id_ciudad=9'
+  urlSecondPart = '&id_ciudad='+this.city
   urlCreatePlans = '/Planes/crearPlanes.php'
   urlDeleted = '/Planes/eliminarPlanes.php?id='
   urlEditPlans = '/Planes/editarPlanes.php'
@@ -64,7 +66,7 @@ export class PlansComponent implements OnInit {
 
   save(plans: Planes){
     plans.estado_planes = 'activo'
-    plans.id_ciudad = 9
+    plans.id_ciudad = this.city
     this.DataService.createPlans(this.urlCreatePlans, plans).subscribe(data =>{
       Swal.fire({
         icon: 'success',
