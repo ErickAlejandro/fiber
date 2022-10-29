@@ -1,6 +1,6 @@
-<div class="information user" *ngIf="login != null">
+<div class="information user" *ngIf="locaStorage != null">
   <div class="row" id="userInfo">
-    <h3><b>Te has logeado como: </b> {{login.nombre_usuario}} | <b>Rol: </b> {{login.nombrerol_rol}}</h3>
+    <h3><b>Te has logeado como: </b> {{JsonStorage[0].usuario_usuario}} | <b>Rol: </b> {{JsonStorage[0].nombrerol_rol}} </h3>
   </div>
   <nav class="navbar navbar-expand-lg bg-light shadow p-3 mb-5" >
     <div class="container-fluid">
@@ -57,7 +57,7 @@
       </div>
       <form class="d-flex" role="search">
         <button class="btn btn-outline-success" id="download" type="submit"><span><b>Descargar Excel</b></span></button>
-        <a class="navbar-brand" href="#" >
+        <a class="navbar-brand" (click)="logOut()" href="#">
           <img src="../../../assets/icons/right-to-bracket-solid.svg" id="incon-excel" alt="excel-logo" width="50" height="30" class="d-inline-block align-text-top"></a>  
       </form>
     </div>

@@ -51,10 +51,11 @@ export class LoginComponent implements OnInit {
         if (this.loginData[0].nombrerol_rol == this.rolAdmin || this.loginData[0].nombrerol_rol == this.rollSuperAdmin) {
           this.addLoginData(data)
 
-          // localStorage.setItem('usuarioLogueado', JSON.stringify(data));
-
-          // this.usu = JSON.parse(localStorage.getItem('usuario'));
-          // console.log(this.datoUsuario); ||| INTENTAR ENVIAR EL LOCAL STORAGE AL STATE
+          localStorage.setItem('usuarioLogueado', JSON.stringify(data));
+          
+          setTimeout(()=>{
+            this.refresh()
+          }, 1000)
 
           this.router.navigate(['usuarios'])
         } else {

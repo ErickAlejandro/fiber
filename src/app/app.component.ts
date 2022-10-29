@@ -15,15 +15,22 @@ export class AppComponent{
 
   cities:Cities = new Cities
   login: Login = new Login
+  locaStorage!: any
+  JsonStorage!: any
   
   constructor(private router:Router, private store: Store){
-    this.store.select(state => state.login.login).subscribe((data: Login[]) => {
-      this.login = data[0]
-      console.log('LOGIN STATE: ' + JSON.stringify(data))
-      
-    });
-    
+    this.locaStorage = localStorage.getItem('usuarioLogueado')
+    this.JsonStorage = JSON.parse(this.locaStorage)
+    // console.log(this.JsonStorage[0].usuario_usuario)
   }
 
+  logOut(){
+    this.locaStorage = localStorage.clear()
+    setTimeout(()=>{
+        addEventListener('click', e => {
+          location.reload()
+        })
+    }, 1000)
+  }
   
 }
