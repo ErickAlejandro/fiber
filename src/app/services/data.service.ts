@@ -14,6 +14,7 @@ import { CashBoxesTwo } from '../Models/cash-boxes-two';
 import { Observable } from 'rxjs';
 import { Services } from '../Models/services';
 import { Login } from '../Models/login';
+import { Historial } from '../Models/historial';
 
 @Injectable({
   providedIn: 'root'
@@ -248,6 +249,11 @@ export class DataService {
 
   getDataPendingActivationsTecnico(){
 
+  }
+
+  // HISTORIAL
+  getDataHistorial(aditionalUrl: string){
+    return this.http.get<Historial[]>(this.urlPrimary + aditionalUrl)
   }
 
 }

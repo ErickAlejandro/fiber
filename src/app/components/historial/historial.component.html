@@ -1,0 +1,38 @@
+<!-- TABLA PRINCIPAL DE CIUDADES -->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Busca..." [(ngModel)]='filterPosHistorial' name='filterPosHistorial'>
+            </div>
+        </div>
+    </div>
+    <table class="table table-responsive table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Cliente</th>
+                <th scope="col">Plan</th>
+                <th scope="col">Dirección del Cliente</th>
+                <th scope="col">Referencia</th>
+                <th scope="col">Fecha de Instalación</th>
+                <th scope="col">Dirección IP</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr *ngFor="let history of historialList | slice:since:to | filterHistorial:filterPosHistorial">
+                <td>{{history.usuario_cliente}}</td>
+                <td>{{history.nombre_planes}} MEGAS</td>
+                <td>{{history.direccion_cliente}}</td>
+                <td>{{history.referencia_cliente}}</td>
+                <td>{{history.fecha_instalacion_cliente}}</td>
+                <td>{{history.direccionip_cliente}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <mat-paginator [length]="historialList.length"
+              [pageSize]="historialList.length"
+              [pageSizeOptions]="[5, 10, 25, historialList.length]"
+              aria-label="Select page"
+              (page)="changePage($event)">
+      </mat-paginator>
+</div>

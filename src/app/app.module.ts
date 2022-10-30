@@ -45,7 +45,10 @@ import { ClientState } from './store/clients/clients.state';
 import { ServicesState } from './store/services/services.state';
 import { PlanState } from './store/plans/plans.state';
 import { LoginState } from './store/login/login.state';
+import { HistorialComponent } from './components/historial/historial.component';
 
+import { MatTableModule } from '@angular/material/table';
+import { FilterHistorialPipe } from './pipes/filter-historial.pipe';
 
 @NgModule({
   declarations: [
@@ -68,11 +71,14 @@ import { LoginState } from './store/login/login.state';
     LoginComponent,
     RegisterComponent,
     CreateServiceComponent,
+    HistorialComponent,
+    FilterHistorialPipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    MatTableModule,
     FormsModule,
     BrowserAnimationsModule,
     MatPaginatorModule,

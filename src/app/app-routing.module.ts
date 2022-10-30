@@ -16,6 +16,8 @@ import { OntComponent } from './components/ont/ont.component';
 import { CashBoxesTwoComponent } from './components/cash-boxes-two/cash-boxes-two.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { HistorialComponent } from './components/historial/historial.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -33,6 +35,7 @@ const routes: Routes = [
   { path: 'usuarios' , component: UsersComponent },
   { path: 'Modelo-Ont', component: OntModelsComponent },
   { path: 'Ont', component: OntComponent },
+  { path: 'historial-servicios', component:HistorialComponent },
 
   { path: 'login', component: LoginComponent},
   { path: 'registro', component: RegisterComponent },
