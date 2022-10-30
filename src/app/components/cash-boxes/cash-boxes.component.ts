@@ -6,6 +6,7 @@ import { Vlan } from 'src/app/Models/vlan';
 import { DataService } from 'src/app/services/data.service';
 import { AddCashBoxOne } from 'src/app/store/cash-box-one/cash-box-one.actions';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js';  
 
 @Component({
   selector: 'app-cash-boxes',
@@ -15,7 +16,9 @@ import Swal from 'sweetalert2';
 export class CashBoxesComponent implements OnInit {
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
-  city: any = this.userLogin.id_ciudad
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
+  city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
+
   urlCashBoxes = '/cajanivel1/filtrarCajaNivel1.php?filtrar=&id_ciudad='+this.city
   urlgetBoxes = '/cajanivel1/filtrarCajaNivel1.php?filtrar='
   urlgetBoxes2 = '&id_ciudad='+this.city
@@ -52,7 +55,7 @@ export class CashBoxesComponent implements OnInit {
 
    save(cashBoxes:CashBoxes){
     this.boxes.estado_cajanivel1 = 'activo'
-    this.boxes.id_ciudad = this.city
+    this.boxes.id_ciudad = Number(this.city)
     this.DataService.createCashBox(this.urlCreateBoxes, cashBoxes).subscribe(data=>{
       Swal.fire({
         icon: 'success',

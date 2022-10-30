@@ -5,6 +5,7 @@ import { OntModels } from 'src/app/Models/ontModels';
 import { DataService } from 'src/app/services/data.service';
 import { AddModelOnt } from 'src/app/store/ont-model/ontModel.actions';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js';  
 
 @Component({
   selector: 'app-ont-models',
@@ -16,10 +17,12 @@ export class OntModelsComponent implements OnInit {
   constructor(private DataServcies: DataService, private store: Store) { }
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
-  city: any = this.userLogin.id_ciudad
-  urlGetData = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad='+this.city
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
+  city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
+
+  urlGetData = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad='
   urlFirst = 'ModeloOnt/filtrarModeloOnt.php?filtrar='
-  urlSecond = '&id_ciudad='+this.city
+  urlSecond = '&id_ciudad='
   urlEdit = '/ModeloOnt/editarModeloOnt.php'
   urlCreate = '/ModeloOnt/crearModeloOnt.php'
   urlDeleted = '/ModeloOnt/eliminarModeloOnt.php?id='
@@ -64,7 +67,7 @@ export class OntModelsComponent implements OnInit {
 
   save(ontModel: OntModels){
     this.ontModels.estado_modelosont = 'activo'
-    this.ontModels.id_ciudad = this.city
+    this.ontModels.id_ciudad = Number(this.city)
     this.DataServcies.createOntModel(this.urlCreate, ontModel).subscribe(data => {
       Swal.fire({
         icon: 'success',
@@ -105,11 +108,12 @@ export class OntModelsComponent implements OnInit {
       timer: 1000,
       timerProgressBar: true
     })
-
-    this.DataServcies.getDataModelOnt(this.urlGetData).subscribe((data: OntModels[]) => {
-      this.ontModelList = data
-      this.addModelOnt(data)
-  })
+    if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
+      this.DataServcies.getDataModelOnt(this.urlGetData, this.city).subscribe((data: OntModels[]) => {
+        this.ontModelList = data
+        this.addModelOnt(data)
+    })
+    }
 
   }
 }

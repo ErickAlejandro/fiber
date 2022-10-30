@@ -6,6 +6,7 @@ import { CashBoxesTwo } from 'src/app/Models/cash-boxes-two';
 import { DataService } from 'src/app/services/data.service';
 import { AddCashBoxTwo } from 'src/app/store/cash-box-two/cash-box-two.actions';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js'; 
 
 @Component({
   selector: 'app-cash-boxes-two',
@@ -17,7 +18,9 @@ export class CashBoxesTwoComponent implements OnInit {
   constructor(private DataServices: DataService, private store:Store) { }
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
-  city: any = this.userLogin.id_ciudad
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
+  city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
+
   urlGetData = '/cajanivel2/filtrarCajaNivel2.php?filtrar=&id_ciudad='+this.city
   urlFirstPart = '/cajanivel2/filtrarCajaNivel2.php?filtrar='
   urlSecondPart = '&id_ciudad='+this.city
@@ -56,7 +59,7 @@ export class CashBoxesTwoComponent implements OnInit {
 
   save(cashBox: CashBoxesTwo){
     this.boxes.estado_cajanivel2 = 'activo'
-    this.boxes.id_ciudad = this.city
+    this.boxes.id_ciudad = Number(this.city)
     this.DataServices.createCashBoxTwo(this.urlCreateData, cashBox).subscribe(data =>{
       Swal.fire({
         icon: 'success',
@@ -119,7 +122,6 @@ export class CashBoxesTwoComponent implements OnInit {
       })
 
       this.getDataCashBoxOne()
-
       this.DataServices.getDataCashBoxesTwo(this.urlGetData).subscribe((data: CashBoxesTwo[]) =>{
         this.cashBoxesTwoList = data
         this.addCashBoxesTwo(data)

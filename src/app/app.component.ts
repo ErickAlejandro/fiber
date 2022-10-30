@@ -26,7 +26,6 @@ export class AppComponent{
     this.userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
     this.jsonString = JSON.stringify(this.userLogin)
 
-    console.log('asdasdasdasd' + JSON.stringify(this.jsonString))
   }
 
 

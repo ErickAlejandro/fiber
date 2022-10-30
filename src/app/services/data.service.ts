@@ -24,7 +24,6 @@ export class DataService {
   urlPrimary = 'https://app.masfiberhome.com/api/v2prueba/';
 
   constructor(private http: HttpClient) {
-    console.log('Servicio Http')
    }
 
     // CIUDADES
@@ -168,8 +167,8 @@ export class DataService {
   
 
   // MODELOS ONT
-  getDataModelOnt(aditionalUrl: string){
-    return this.http.get<OntModels[]>(this.urlPrimary + aditionalUrl)
+  getDataModelOnt(aditionalUrl: string, city: string){
+    return this.http.get<OntModels[]>(this.urlPrimary + aditionalUrl + city)
   }
 
   getOntModelByName(aditionalUrl: string, secondUrl: string, ontModel: string){

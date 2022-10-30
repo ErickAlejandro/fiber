@@ -6,6 +6,7 @@ import { OntModels } from 'src/app/Models/ontModels';
 import { DataService } from 'src/app/services/data.service';
 import { AddOnt } from 'src/app/store/ont/ont.actions';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js';  
 
 @Component({
   selector: 'app-ont',
@@ -15,7 +16,9 @@ import Swal from 'sweetalert2';
 export class OntComponent implements OnInit {
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
-  city: any = this.userLogin.id_ciudad
+  // city: any = this.userLogin.id_ciudad
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
+  city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
 
   urlGetData = '/Ont/filtrarOnt.php?filtrar=&id_ciudad='+this.city
   urlFirst = '/Ont/filtrarOnt.php?filtrar='
@@ -55,9 +58,11 @@ export class OntComponent implements OnInit {
   }
 
   getCaptureOntModel(){
-    this.DataService.getDataModelOnt(this.urlModelOnt).subscribe((data: OntModels[]) =>{
-      this.modelOntList = data
-    })
+if(this.userLogin.nombre_modelosont == 'ADMINISTRADOR'){
+      this.DataService.getDataModelOnt(this.urlModelOnt, this.city).subscribe((data: OntModels[]) =>{
+        this.modelOntList = data
+      })
+    }
   }
 
   getOntByName(ontName: string){
@@ -108,6 +113,7 @@ export class OntComponent implements OnInit {
     this.DataService.getDataOnt(this.urlGetData).subscribe((data: Ont[]) =>{
       this.ontList = data
       this.addOnts(data)
+      
     })
   }
 

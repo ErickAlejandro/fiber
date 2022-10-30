@@ -5,7 +5,7 @@ export class Login{
     contrasena_usuario: string
     id_rol: number
     nombrerol_rol: string
-    id_ciudad: number
+    id_ciudad: any
     nombre_ciudad: string
     estado_usuario: string
 

@@ -5,6 +5,7 @@ import { Clients } from 'src/app/Models/clients';
 import { DataService } from 'src/app/services/data.service';
 import { AddClients } from 'src/app/store/clients/clients.actions';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js';  
 
 @Component({
   selector: 'app-clients',
@@ -16,7 +17,9 @@ export class ClientsComponent implements OnInit {
   constructor(private DataServcies: DataService, private store: Store) { }
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
-  city: any = this.userLogin.id_ciudad
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
+  city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
+
   urlGetClients = '/Clientes/filtrarClientes.php?filtrar=&id_ciudad='+this.city
   urlFirstPart = '/Clientes/filtrarClientes.php?filtrar='
   urlSecondPart = '&id_ciudad='+this.city
@@ -64,7 +67,7 @@ export class ClientsComponent implements OnInit {
 
   save(clients:Clients){
     clients.estado_clientepersona = 'activo'
-    clients.id_ciudad = this.city
+    clients.id_ciudad = Number(this.city)
     this.DataServcies.getCreateClients(this.urlCreateClients, clients).subscribe(data =>{
       Swal.fire({
         icon: 'success',

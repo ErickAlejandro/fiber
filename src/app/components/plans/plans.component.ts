@@ -5,6 +5,7 @@ import { Planes } from 'src/app/Models/planes';
 import { DataService } from 'src/app/services/data.service';
 import { AddPlans } from 'src/app/store/plans/plans.actions';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js';  
 
 @Component({
   selector: 'app-plans',
@@ -14,7 +15,9 @@ import Swal from 'sweetalert2';
 export class PlansComponent implements OnInit {
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
-  city: any = this.userLogin.id_ciudad
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
+  city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
+
   urlgetData = '/Planes/filtrarPlanes.php?filtrar=&id_ciudad='+this.city
   urlFirstPart = '/Planes/filtrarPlanes.php?filtrar='
   urlSecondPart = '&id_ciudad='+this.city
@@ -66,7 +69,7 @@ export class PlansComponent implements OnInit {
 
   save(plans: Planes){
     plans.estado_planes = 'activo'
-    plans.id_ciudad = this.city
+    plans.id_ciudad = Number(this.city)
     this.DataService.createPlans(this.urlCreatePlans, plans).subscribe(data =>{
       Swal.fire({
         icon: 'success',

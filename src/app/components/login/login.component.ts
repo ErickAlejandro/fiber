@@ -6,6 +6,7 @@ import { Users } from 'src/app/Models/users';
 import { DataService } from 'src/app/services/data.service';
 import { AddLogin } from 'src/app/store/login/login.actions';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js'; 
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,8 @@ export class LoginComponent implements OnInit {
   rolAdmin: string = 'ADMINISTRADOR'
 
   users: Users = new Users
+
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
 
   usuariosLog!: any
 
@@ -50,9 +53,16 @@ export class LoginComponent implements OnInit {
       if (this.loginData[0].contrasena_usuario == password) {
         if (this.loginData[0].nombrerol_rol == this.rolAdmin || this.loginData[0].nombrerol_rol == this.rollSuperAdmin) {
           this.addLoginData(data)
+          data[0].contrasena_usuario = CryptoJS.AES.encrypt(password.trim(), this.passwordCrypt.trim()).toString()
+          data[0].id_rol = -1
+          
+          if(data[0].id_ciudad == null){
+            data[0].id_ciudad
+          }else{
+            data[0].id_ciudad = CryptoJS.AES.encrypt(data[0].id_ciudad.trim(), this.passwordCrypt.trim()).toString()
+          }
 
           localStorage.setItem('usuarioLogueado', JSON.stringify(data));
-          
           
           this.router.navigate(['usuarios'])
           location.reload()
@@ -72,13 +82,10 @@ export class LoginComponent implements OnInit {
           text: 'La contraseña es incorrecta!'
         })
       }
-
     })
-
   }
 
   loginLocalStor(user2:Users){
-    console.log(JSON.stringify(user2))
     if (user2.nombrerol_rol == this.rolAdmin || user2.nombrerol_rol == this.rollSuperAdmin) {
       this.router.navigate(['usuarios'])
     }

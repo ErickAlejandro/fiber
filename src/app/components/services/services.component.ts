@@ -10,6 +10,7 @@ import { Services } from 'src/app/Models/services';
 import { DataService } from 'src/app/services/data.service';
 import { ADdServices } from 'src/app/store/services/services.actions';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js';  
 
 @Component({
   selector: 'app-services',
@@ -19,7 +20,8 @@ import Swal from 'sweetalert2';
 export class ServicesComponent implements OnInit {
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
-  city: any = this.userLogin.id_ciudad
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
+  city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
 
   urlGetData = '/Servicio/filtrarServicio.php?filtrar=&id_ciudad='+this.city
   urlFirstPart = '/Servicio/buscarServicio.php?filtrar='

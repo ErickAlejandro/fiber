@@ -5,6 +5,7 @@ import { Vlan } from 'src/app/Models/vlan';
 import { DataService } from 'src/app/services/data.service';
 import { AddVlans } from 'src/app/store/vlan/vlan.actions';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js';  
 
 @Component({
   selector: 'app-vlans',
@@ -14,7 +15,9 @@ import Swal from 'sweetalert2';
 export class VlansComponent implements OnInit {
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
-  city: any = this.userLogin.id_ciudad
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
+  city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
+
   urlData = '/vlan/filtrarVlan.php?filtrar&id_ciudad='+this.city
   urlGetDataFirst = '/vlan/filtrarVlan.php?filtrar='
   urlGetDataSecond = '&id_ciudad='+this.city
@@ -62,7 +65,7 @@ export class VlansComponent implements OnInit {
   }
 
   save(vlans:Vlan){
-    this.vlan.id_ciudad = this.city
+    this.vlan.id_ciudad = Number(this.city)
     this.vlan.estado_vlan = 'activo'
     this.vlan.buckle2 = 'null'
     this.vlan.ip_rangodireccionesip = 'null'

@@ -3,6 +3,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { Services } from 'src/app/Models/services';
 import { DataService } from 'src/app/services/data.service';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js';  
 
 @Component({
   selector: 'app-pending-activations',
@@ -11,7 +12,9 @@ import Swal from 'sweetalert2';
 })
 export class PendingActivationsComponent implements OnInit {
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
-  city: any = this.userLogin.id_ciudad
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
+  city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
+
   urlGetData = '/Servicio/filtrarServicioPendienteAdmin.php?id_ciudad='+this.city
   urlFirstPart = '/Servicio/filtrarServicioPendienteAdmin.php?filtrar='
   urlSeconPart = '&id_ciudad='+this.city
@@ -60,6 +63,7 @@ export class PendingActivationsComponent implements OnInit {
 
     this.DataService.getDataClients(this.urlGetData).subscribe((data: Services[]) => {
       this.serviceList = data
+      
     })
   }
 }
