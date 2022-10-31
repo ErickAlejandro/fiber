@@ -273,10 +273,20 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-tittle">Seleccionar Ciudad</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form class="form-horizontal" role="form" id="form-agregar">
         <div class="modal-body">
           <div class="container">
+            <div class="row">
+              <div class="col">
+                  <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Buscar..."
+                          [(ngModel)]='filterPosCity' name='filterPosCity'>
+                  </div>
+              </div>
+          </div>
+          <br>
             <table class="table table-striped table-responsive">
               <thead class="table-dark">
                 <tr>
@@ -287,7 +297,7 @@
                 </tr>
               </thead>
               <tbody class="table-group-divider">
-                <tr *ngFor="let city of cityList">
+                <tr *ngFor="let city of cityList | filterCity:filterPosCity">
                   <td>{{city.id_ciudad}}</td>
                   <td>{{city.nombre_ciudad}}</td>
                   <td>{{city.nombre_provincia}}</td>
