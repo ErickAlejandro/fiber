@@ -52,6 +52,10 @@ import { FilterHistorialPipe } from './pipes/filter-historial.pipe';
 import { SaveCitiesComponent } from './components/actions/saves/save-cities/save-cities.component';
 import { SaveProvincesComponent } from './components/actions/saves/save-provinces/save-provinces.component';
 import { FilterProvincePipe } from './pipes/province/filter-province.pipe';
+import { FilterCountryPipe } from './pipes/country/filter-country.pipe';
+import { FilterRolPipe } from './pipes/rol/filter-rol.pipe';
+import { FilterCityPipe } from './pipes/city/filter-city.pipe';
+
 
 @NgModule({
   declarations: [
@@ -79,6 +83,9 @@ import { FilterProvincePipe } from './pipes/province/filter-province.pipe';
     SaveCitiesComponent,
     SaveProvincesComponent,
     FilterProvincePipe,
+    FilterCountryPipe,
+    FilterRolPipe,
+    FilterCityPipe,
   ],
   imports: [
     BrowserModule,

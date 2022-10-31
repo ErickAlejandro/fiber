@@ -81,7 +81,8 @@
             <div class="modal-body">
                 <div class="card">
                     <h3>Esta acción, borrará todos los datos relacionados con
-                        <b>{{provinceDetail.nombre_provincia}}</b>.</h3>
+                        <b>{{provinceDetail.nombre_provincia}}</b>.
+                    </h3>
                     <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
                     <h4><b>Ciudad</b></h4>
                 </div>
@@ -129,9 +130,18 @@
                 <form action="">
                     <div class="form-group">
                         <label class="form-label">País: </label>
-                        <select class="form-select" aria-label="Default select example"
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Busca..."
+                                        [(ngModel)]='filterPosCountries' name='filterPosCountries'>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <select class="form-select" size="3" aria-label="size 3 select example" aria-label="Default select example"
                             [(ngModel)]="provinceDetail.id_pais" [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let pais of paisList" value={{pais.id_pais}}>{{pais.nombre_pais}}</option>
+                            <option *ngFor="let pais of paisList | filterCountry:filterPosCountries" value={{pais.id_pais}}>{{pais.nombre_pais}}</option>
                         </select>
                     </div>
                     <br>
@@ -162,9 +172,18 @@
                 <form action="">
                     <div class="form-group">
                         <label class="form-label">País: </label>
-                        <select class="form-select" aria-label="Default select example" [(ngModel)]="province.id_pais"
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Busca..."
+                                        [(ngModel)]='filterPosCountries' name='filterPosCountries'>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <select class="form-select" size="3" aria-label="size 3 select example" aria-label="Default select example" [(ngModel)]="province.id_pais"
                             [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let pais of paisList" value={{pais.id_pais}}>{{pais.nombre_pais}}</option>
+                            <option *ngFor="let pais of paisList | filterCountry:filterPosCountries" value={{pais.id_pais}}>{{pais.nombre_pais}}</option>
                         </select>
                     </div>
                     <br>

@@ -20,6 +20,8 @@ export class ProvincesComponent implements OnInit {
     this.store.dispatch(new AddProvinces(provinces))
   }
 
+  filterPosCountries = ''
+
   urlGetData = '/provincia/filtrarProvincia.php?filtrar='
   urlEditProvince = '/provincia/editarProvincia.php'
   urlCreateProvince = '/provincia/crearProvincia.php'

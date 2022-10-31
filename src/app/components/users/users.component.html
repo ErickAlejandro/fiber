@@ -1,220 +1,269 @@
 <div class="container">
-    <table class="table table-striped table-responsive">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Usuario</th>
-            <th scope="col">Rol</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          <tr *ngFor="let user of usersList | slice:since:to">
-            <td>{{user.nombre_usuario}}</td>
-            <td>{{user.usuario_usuario}}</td>
-            <td>{{user.nombrerol_rol}}</td>
-            <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="../../../assets/icons/eye-solid.svg" width="30" height="24" (click)="getUserByName(user.nombre_usuario)"></button>
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getUserEdit(user.nombre_usuario)"></button>
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletUser" (click)="getUserByName(user.nombre_usuario)"><img
-              src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24"></button>
+  <table class="table table-striped table-responsive">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr *ngFor="let user of usersList | slice:since:to">
+        <td>{{user.nombre_usuario}}</td>
+        <td>{{user.usuario_usuario}}</td>
+        <td>{{user.nombrerol_rol}}</td>
+        <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
+              src="../../../assets/icons/eye-solid.svg" width="30" height="24"
+              (click)="getUserByName(user.nombre_usuario)"></button>
+          <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img
+              src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24"
+              (click)="getUserEdit(user.nombre_usuario)"></button>
+          <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletUser"
+            (click)="getUserByName(user.nombre_usuario)"><img src="../../../assets/icons/trash-solid.svg" alt="Eliminar"
+              width="30" height="24"></button>
 
-          </td>
-          </tr>
-        </tbody>
-      </table>
-      <mat-paginator [length]="usersList.length"
-              [pageSize]="pageSize"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Select page"
-              (page)="changePageUsers($event)">
-      </mat-paginator>
-      <br>
-    </div>
-    <div class="actions">
-      <div class="card">
-          <button type="button-submit" class="btn" data-bs-toggle="modal" data-bs-target="#createCitiesForm"><img
-                  src="../../../assets/icons/plus-solid.svg" alt="Agregar" width="30" height="24"></button>
-      </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <mat-paginator [length]="usersList.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page" (page)="changePageUsers($event)">
+  </mat-paginator>
+  <br>
+</div>
+<div class="actions">
+  <div class="card">
+    <button type="button-submit" class="btn" data-bs-toggle="modal" data-bs-target="#createCitiesForm"><img
+        src="../../../assets/icons/plus-solid.svg" alt="Agregar" width="30" height="24"></button>
   </div>
+</div>
 
 <!-- VER DETALLES -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Detalles</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <table class="table">
-            <tbody>
-              <tr>
-                <td><b>ID Usuario:</b> {{usersDetails.id_usuario}}</td>
-              </tr>
-              <tr>
-                <td><b>Nombre:</b> {{usersDetails.nombre_usuario}}</td>
-              </tr>
-              <tr>
-                <td><b>Usuario:</b> {{usersDetails.usuario_usuario}}</td>
-              </tr>
-              <tr>
-                <td><b>Constraseña: </b>{{usersDetails.contrasena_usuario}}</td>
-              </tr>
-              <tr>
-                <td><b>ID Rol:</b> {{usersDetails.id_rol}}</td>
-              </tr>
-              <tr>
-                <td><b>Nombre del Rol:</b> {{usersDetails.nombrerol_rol}}</td>
-              </tr>
-              <tr>
-                <td><b>Id Ciudad:</b> {{usersDetails.id_ciudad}}</td>
-              </tr>
-              <tr>
-                <td><b>Ciudad:</b> {{usersDetails.nombre_ciudad}}</td>
-              </tr>
-              <tr>
-                <td><b>Estado:</b> {{usersDetails.estado_usuario}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Detalles</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><b>ID Usuario:</b> {{usersDetails.id_usuario}}</td>
+            </tr>
+            <tr>
+              <td><b>Nombre:</b> {{usersDetails.nombre_usuario}}</td>
+            </tr>
+            <tr>
+              <td><b>Usuario:</b> {{usersDetails.usuario_usuario}}</td>
+            </tr>
+            <tr>
+              <td><b>Constraseña: </b>{{usersDetails.contrasena_usuario}}</td>
+            </tr>
+            <tr>
+              <td><b>ID Rol:</b> {{usersDetails.id_rol}}</td>
+            </tr>
+            <tr>
+              <td><b>Nombre del Rol:</b> {{usersDetails.nombrerol_rol}}</td>
+            </tr>
+            <tr>
+              <td><b>Id Ciudad:</b> {{usersDetails.id_ciudad}}</td>
+            </tr>
+            <tr>
+              <td><b>Ciudad:</b> {{usersDetails.nombre_ciudad}}</td>
+            </tr>
+            <tr>
+              <td><b>Estado:</b> {{usersDetails.estado_usuario}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- FORMULARIO DE EDICION -->
-  <div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Editar Información</h5>
-            </div>
-            <div class="modal-body">
-                <form action="">
-                    <div class="form-group">
-                        <label class="form-label">Nombre del Usuario: </label>
-                        <input type="text" class="form-control" [(ngModel)]="usersDetails.nombre_usuario" value={{usersDetails.nombre_usuario}} [ngModelOptions]="{standalone: true}">
-                    </div>
-                    <br>
-                    <div class="form-group">
-                      <label class="form-label">Usuario: </label>
-                      <input type="text" class="form-control" [(ngModel)]="usersDetails.usuario_usuario" value={{usersDetails.usuario_usuario}} [ngModelOptions]="{standalone: true}">
-                  </div>
-                  <br>
-                  <div class="form-group">
-                    <label class="form-label">Contraseña: </label>
-                    <input type="text" class="form-control" [(ngModel)]="usersDetails.contrasena_usuario" value={{usersDetails.contrasena_usuario}} [ngModelOptions]="{standalone: true}">
-                </div>
-                <br>
-                <label class="form-label">Rol: </label>
-                <select class="form-select" aria-label="Default select example" [(ngModel)]="usersDetails.id_rol"  [ngModelOptions]="{standalone: true}">
-                  <option value="1">ADMINISTRADOR</option>
-                  <option value="2">TECNICO</option>
-                </select>
-              <br>
+<!-- FORMULARIO DE EDICION -->
+<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Información</h5>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <div class="form-group">
+            <label class="form-label">Nombre del Usuario: </label>
+            <input type="text" class="form-control" [(ngModel)]="usersDetails.nombre_usuario"
+              value={{usersDetails.nombre_usuario}} [ngModelOptions]="{standalone: true}">
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="form-label">Usuario: </label>
+            <input type="text" class="form-control" [(ngModel)]="usersDetails.usuario_usuario"
+              value={{usersDetails.usuario_usuario}} [ngModelOptions]="{standalone: true}">
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="form-label">Contraseña: </label>
+            <input type="text" class="form-control" [(ngModel)]="usersDetails.contrasena_usuario"
+              value={{usersDetails.contrasena_usuario}} [ngModelOptions]="{standalone: true}">
+          </div>
+          <br>
+          <label class="form-label">Rol: </label>
+          <div class="row">
+            <div class="col">
               <div class="form-group">
-                <label class="form-label">Ciudad: </label>
-                <select class="form-select" aria-label="Default select example" [(ngModel)]="usersDetails.id_ciudad"  [ngModelOptions]="{standalone: true}">
-                    <option *ngFor="let ciudad of cityList" value={{ciudad.id_ciudad}}>{{ciudad.nombre_ciudad}}</option>
-                </select>
+                <input type="text" class="form-control" placeholder="Busca..." [(ngModel)]='filterPosRol'
+                  name='filterPosRol'>
+              </div>
+            </div>
+          </div>
+          <br>
+          <select class="form-select" size="3" aria-label="size 3 select example" aria-label="Default select example"
+            [(ngModel)]="usersDetails.id_rol" [ngModelOptions]="{standalone: true}">
+            <option *ngFor="let rol of rolList | filterRol:filterPosRol" value={{rol.id_rol}}>
+              {{rol.nombre_rol}}</option>
+          </select>
+          <div class="form-group">
+            <label class="form-label">Ciudad: </label>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Busca..." [(ngModel)]='filterPosCity'
+                    name='filterPosCity'>
+                </div>
+              </div>
             </div>
             <br>
-                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionUsers" >Editar</button>
-                </form>
-            </div>
-        </div>
+            <select class="form-select" size="3" aria-label="size 3 select example" aria-label="Default select example"
+              [(ngModel)]="user.id_ciudad" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let ciudad of cityList | filterCity:filterPosCity" value={{user.id_ciudad}}>
+                {{ciudad.nombre_ciudad}}</option>
+            </select>
+          </div>
+          <br>
+          <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionUsers">Editar</button>
+        </form>
+      </div>
     </div>
   </div>
+</div>
 
 
-  <!-- Modal de alertta para Edicion-->
+<!-- Modal de alertta para Edicion-->
 <div class="modal fade" id="alertEditionUsers" tabindex="-2" aria-labelledby="alertEditionUsers" aria-hidden="true">
   <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <div class="card">
-                <h3>Estas seguro que quieres editar la información de <b>{{usersDetails.nombre_usuario}}</b>.</h3>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-warning" (click)="editUsers(usersDetails)">Editar</button>
-              </div>
-          </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        <div class="card">
+          <h3>Estas seguro que quieres editar la información de <b>{{usersDetails.nombre_usuario}}</b>.</h3>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-warning" (click)="editUsers(usersDetails)">Editar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- Modal de alerta para Eliminación-->
 <div class="modal fade" id="alertDeletUser" tabindex="-1" aria-labelledby="alertDeletUser" aria-hidden="true">
   <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <div class="card">
-                <h3>Esta acción, borrará todos los datos relacionados con <b>{{usersDetails.nombre_usuario}}</b>.</h3>
-                <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
-                <h4><b>Servicios</b></h4>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" (click)="deleted(usersDetails.id_usuario)">Eliminar</button>
-              </div>
-          </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        <div class="card">
+          <h3>Esta acción, borrará todos los datos relacionados con <b>{{usersDetails.nombre_usuario}}</b>.</h3>
+          <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
+          <h4><b>Servicios</b></h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="deleted(usersDetails.id_usuario)">Eliminar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 
-  <!-- CREACION DE DATOS  -->
+<!-- CREACION DE DATOS  -->
 
-  <div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Agregar Nuevos Datos</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form action="">
-                <div class="form-group">
-                    <label class="form-label">Nombre del Usuario: </label>
-                    <input type="text" class="form-control" [(ngModel)]="user.nombre_usuario" value={{user.nombre_usuario}} [ngModelOptions]="{standalone: true}">
-                </div>
-                <br>
-                <div class="form-group">
-                  <label class="form-label">Usuario: </label>
-                  <input type="text" class="form-control" [(ngModel)]="user.usuario_usuario" value={{user.usuario_usuario}} [ngModelOptions]="{standalone: true}">
-              </div>
-              <br>
-              
+<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Agregar Nuevos Datos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <div class="form-group">
+            <label class="form-label">Nombre del Usuario: </label>
+            <input type="text" class="form-control" [(ngModel)]="user.nombre_usuario" value={{user.nombre_usuario}}
+              [ngModelOptions]="{standalone: true}">
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="form-label">Usuario: </label>
+            <input type="text" class="form-control" [(ngModel)]="user.usuario_usuario" value={{user.usuario_usuario}}
+              [ngModelOptions]="{standalone: true}">
+          </div>
+          <br>
+
+          <div class="form-group">
+            <label class="form-label">Contraseña: </label>
+            <input type="password" class="form-control" [(ngModel)]="user.contrasena_usuario"
+              value={{user.contrasena_usuario}} [ngModelOptions]="{standalone: true}">
+          </div>
+          <br>
+          <label class="form-label">Rol: </label>
+          <div class="row">
+            <div class="col">
               <div class="form-group">
-                <label class="form-label">Contraseña: </label>
-                <input type="password" class="form-control" [(ngModel)]="user.contrasena_usuario" value={{user.contrasena_usuario}} [ngModelOptions]="{standalone: true}">
+                <input type="text" class="form-control" placeholder="Busca..." [(ngModel)]='filterPosRol'
+                  name='filterPosRol'>
+              </div>
             </div>
-            <br>
-            <label class="form-label">Rol: </label>
-            <select class="form-select" aria-label="Default select example" [(ngModel)]="user.id_rol"  [ngModelOptions]="{standalone: true}">
-              <option value="1">ADMINISTRADOR</option>
-              <option value="2">TECNICO</option>
-            </select>
+          </div>
+          <br>
+          <select class="form-select" size="3" aria-label="size 3 select example" aria-label="Default select example"
+            [(ngModel)]="rol.id_rol" [ngModelOptions]="{standalone: true}">
+            <option *ngFor="let rol of rolList | filterRol:filterPosRol" value={{rol.id_rol}}>{{rol.nombre_rol}}
+            </option>
+          </select>
           <br>
           <div class="form-group">
             <label class="form-label">Selecciona la Ciudad: </label>
-            <select class="form-select" aria-label="Default select example" [(ngModel)]="user.id_ciudad"  [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let ciudad of cityList" value={{ciudad.id_ciudad}}>{{ciudad.nombre_ciudad}}</option>
-            </select>
-        </div>
-        <br>
-                <button class="btn btn-warning" (click)="save(user)"> Crear </button>
-            </form>
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Busca..." [(ngModel)]='filterPosCity'
+                    name='filterPosCity'>
+                </div>
+              </div>
             </div>
-        </div>
+            <br>
+            <select class="form-select" size="3" aria-label="size 3 select example" aria-label="Default select example"
+              [(ngModel)]="user.id_ciudad" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let ciudad of cityList | filterCity:filterPosCity" value={{ciudad.id_ciudad}}>
+                {{ciudad.nombre_ciudad}}</option>
+            </select>
+          </div>
+          <br>
+          <button class="btn btn-warning" (click)="save(user)"> Crear </button>
+        </form>
+      </div>
     </div>
+  </div>
 </div>

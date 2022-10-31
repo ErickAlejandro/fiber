@@ -21,18 +21,16 @@
                             data-bs-target="#editForm" (click)="getCityForEdit(cities.nombre_ciudad)" width="30"
                             height="24"></button>
 
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletCity" (click)="getCityByName(cities.nombre_ciudad)"><img
-                            src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24"></button>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletCity"
+                        (click)="getCityByName(cities.nombre_ciudad)"><img src="../../../assets/icons/trash-solid.svg"
+                            alt="Eliminar" width="30" height="24"></button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <mat-paginator [length]="citiesList.length"
-              [pageSize]="pageSize"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Select page"
-              (page)="changePage($event)">
-      </mat-paginator>
+    <mat-paginator [length]="citiesList.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page" (page)="changePage($event)">
+    </mat-paginator>
     <div class="actions">
         <div class="card">
             <button type="button-submit" class="btn" (click)="guardarView()"><img
@@ -52,7 +50,9 @@
                 <form action="">
                     <div class="form-group">
                         <label class="form-label">Ciudad: </label>
-                        <input type="text" class="form-control" [(ngModel)]="cityDetail.nombre_ciudad" name='nombre_ciudad' value={{cityDetail.nombre_ciudad}} [ngModelOptions]="{standalone: true}">
+                        <input type="text" class="form-control" [(ngModel)]="cityDetail.nombre_ciudad"
+                            name='nombre_ciudad' value={{cityDetail.nombre_ciudad}}
+                            [ngModelOptions]="{standalone: true}">
                     </div>
                     <br>
                     <div class="form-group">
@@ -66,13 +66,15 @@
                             </div>
                         </div>
                         <br>
-                        <select class="form-select" size="3" aria-label="size 3 select example" [(ngModel)]="cityDetail.id_provincia"
-                            [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let province of provinceDetail | filterProvince:filterPosProvinces" value={{province.id_provincia}}>{{province.nombre_provincia}}</option>
+                        <select class="form-select" size="3" aria-label="size 3 select example"
+                            [(ngModel)]="cityDetail.id_provincia" [ngModelOptions]="{standalone: true}">
+                            <option *ngFor="let province of provinceDetail | filterProvince:filterPosProvinces"
+                                value={{province.id_provincia}}>{{province.nombre_provincia}}</option>
                         </select>
                     </div>
                     <br>
-                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionCity">Editar</button>
+                    <button class="btn btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#alertEditionCity">Editar</button>
                 </form>
             </div>
         </div>
@@ -89,16 +91,16 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                  <h3>Estas seguro que quieres editar la información de <b>{{cityDetail.nombre_ciudad}}</b>.</h3>
+                    <h3>Estas seguro que quieres editar la información de <b>{{cityDetail.nombre_ciudad}}</b>.</h3>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-warning" (click)="edit(cityDetail)">Editar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning" (click)="edit(cityDetail)">Editar</button>
                 </div>
             </div>
         </div>
     </div>
-  </div>
+</div>
 
 <!-- MOSTRAR DATOS ESPECIFICOS POR FILAS -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -143,16 +145,17 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                  <h3>Esta acción, borrará todos los datos relacionados con <b>{{cityDetail.nombre_ciudad}}</b>.</h3>
-                  <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
-                  <h4><b>Caja Nivel-1</b></h4>
-                  <h4><b>VLans</b></h4>
+                    <h3>Esta acción, borrará todos los datos relacionados con <b>{{cityDetail.nombre_ciudad}}</b>.</h3>
+                    <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
+                    <h4><b>Caja Nivel-1</b></h4>
+                    <h4><b>VLans</b></h4>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-danger" (click)="deleted(cityDetail.id_ciudad)">Eliminar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger"
+                        (click)="deleted(cityDetail.id_ciudad)">Eliminar</button>
                 </div>
             </div>
         </div>
     </div>
-  </div>
+</div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Store } from '@ngxs/store';
 import { Cities } from 'src/app/Models/cities';
+import { Rol } from 'src/app/Models/rol';
 import { Users } from 'src/app/Models/users';
 import { DataService } from 'src/app/services/data.service';
 import { AddUsers } from 'src/app/store/users/users.actions';
@@ -24,10 +25,17 @@ export class UsersComponent implements OnInit {
   urlCreateUser = '/usuario/crearUsuario.php'
 
   urlCities = '/ciudad/filtrarCiudad.php?filtrar='
+  urlRol = '/Rol/filtrarRol.php'
+  filterPosRol = ''
+  filterPosCity = ''
 
+  rolDetail = new Rol()
   usersList!: Users[]
   usersDetails = new Users()
   user: Users = new Users()
+  rolList!: Rol[]
+
+  rol: Rol = new Rol()
 
   cityList!: Cities[]
 
@@ -138,6 +146,11 @@ export class UsersComponent implements OnInit {
     this.DataService.getDataUsers(this.urlGetDataUsers).subscribe((data: Users[]) =>{
       this.usersList  = data
       this.addUsers(data)
+    })
+
+    this.DataService.getDataRol(this.urlRol).subscribe((data: Rol[]) =>{
+      this.rolList = data
+      console.log(this.rolList)
     })
   }
 

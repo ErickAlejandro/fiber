@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { Services } from '../Models/services';
 import { Login } from '../Models/login';
 import { Historial } from '../Models/historial';
+import { Rol } from '../Models/rol';
 
 @Injectable({
   providedIn: 'root'
@@ -256,4 +257,8 @@ export class DataService {
     return this.http.get<Historial[]>(this.urlPrimary + aditionalUrl)
   }
 
+  // OBTENER EL ROL DEL USUARIO
+  getDataRol(aditionalUrl: string){
+    return this.http.get<Rol[]>(this.urlPrimary + aditionalUrl)
+  }
 }
