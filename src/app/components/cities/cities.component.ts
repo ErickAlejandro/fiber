@@ -22,11 +22,14 @@ export class CitiesComponent implements OnInit {
   urlEditCity = 'ciudad/editarCiudad.php'
 
   urlGetDataProvincia = '/provincia/filtrarProvincia.php?filtrar='
+  selectProvince!: Pronvinces
 
   city: Cities = new Cities();
   citiesList!: Cities[];
   cityDetail = new Cities();
 
+  provincesList!: Pronvinces[]
+  flagOptions!: string
 
   provinceDetail!: Pronvinces[]
   filterPosProvinces = ''
@@ -72,6 +75,14 @@ export class CitiesComponent implements OnInit {
       })
       this.refresh()
     })
+  }
+
+  preSave(cities: Cities){
+    this.city = cities
+  }
+
+  preSaveEdit(citiesD: Cities){
+    this.cityDetail = citiesD
   }
 
 
@@ -122,6 +133,10 @@ export class CitiesComponent implements OnInit {
     })
 
     this.getCaptureProvince()
+
+    this.DataService.getDataProvinces(this.urlGetDataProvincia).subscribe((data: Pronvinces[]) =>{
+      this.provincesList = data
+    })
 
     this.DataService.getData(this.urlCities)
       .subscribe((data: Cities[]) => {

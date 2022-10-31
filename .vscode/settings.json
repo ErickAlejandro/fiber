@@ -3,5 +3,6 @@
     "cSpell.words": [
         "contraseña",
         "respuesta"
-    ]
+    ],
+    "editor.wordWrap": "on"
 }

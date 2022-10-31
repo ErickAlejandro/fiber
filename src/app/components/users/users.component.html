@@ -240,7 +240,7 @@
             </div>
           </div>
           <br>
-          <select class="form-select" size="3" aria-label="size 3 select example" aria-label="Default select example"
+          <select class="form-select" size="4" aria-label="size 4 select example" aria-label="Default select example"
             [(ngModel)]="user.id_rol" [ngModelOptions]="{standalone: true}">
             <option *ngFor="let rol of rolList | filterRol:filterPosRol" value={{rol.id_rol}}>{{rol.nombre_rol}}
             </option>
@@ -258,7 +258,7 @@
             </div>
           </div>
           <br>
-          <button class="btn btn-warning" (click)="save(user)"> Crear </button>
+          <button class="btn btn-primary" (click)="save(user)"> Crear </button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </form>
       </div>
