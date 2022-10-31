@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { Store } from '@ngxs/store';
 import { AddCities, RemoveCities } from '../../store/cities/cities.actions';
 import { DataService } from '../../services/data.service';
+import { Route, Router } from '@angular/router';
 
 
 @Component({
@@ -28,12 +29,13 @@ export class CitiesComponent implements OnInit {
 
 
   provinceDetail!: Pronvinces[]
+  filterPosProvinces = ''
 
   pageSize = 5
   since: number = 0
   to: number = 5
 
-  constructor(private DataService: DataService, private store: Store) {
+  constructor(private DataService: DataService, private store: Store, private router: Router) {
 
   }
 
@@ -70,6 +72,10 @@ export class CitiesComponent implements OnInit {
       })
       this.refresh()
     })
+  }
+
+  guardarView(){
+    this.router.navigate(['ciudades/guardar'])
   }
 
   getCityByName(cityName: string) {

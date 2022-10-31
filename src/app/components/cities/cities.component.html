@@ -35,7 +35,7 @@
       </mat-paginator>
     <div class="actions">
         <div class="card">
-            <button type="button-submit" class="btn" data-bs-toggle="modal" data-bs-target="#createCitiesForm"><img
+            <button type="button-submit" class="btn" (click)="guardarView()"><img
                     src="../../../assets/icons/plus-solid.svg" alt="Agregar" width="30" height="24"></button>
         </div>
     </div>
@@ -57,9 +57,18 @@
                     <br>
                     <div class="form-group">
                         <label class="form-label">Provincia: </label>
-                        <select class="form-select" aria-label="Default select example" [(ngModel)]="cityDetail.id_provincia"
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Busca..."
+                                        [(ngModel)]='filterPosProvinces' name='filterPosProvinces'>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <select class="form-select" size="3" aria-label="size 3 select example" [(ngModel)]="cityDetail.id_provincia"
                             [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let province of provinceDetail" value={{province.id_provincia}}>{{province.nombre_provincia}}</option>
+                            <option *ngFor="let province of provinceDetail | filterProvince:filterPosProvinces" value={{province.id_provincia}}>{{province.nombre_provincia}}</option>
                         </select>
                     </div>
                     <br>
@@ -147,31 +156,3 @@
         </div>
     </div>
   </div>
-
-<!-- FORMULARIO PARA AGREGAR NUEVOS DATOS -->
-<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Agregar Nuevos Datos</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="">
-                    <label class="form-label">Provincia: </label>
-                    <select class="form-select" aria-label="Default select example" [(ngModel)]="city.id_provincia"  [ngModelOptions]="{standalone: true}">
-                        <option *ngFor="let province of provinceDetail" value={{province.id_provincia}}>{{province.nombre_provincia}}</option>
-                    </select>
-                    <br>
-                    <div class="form-group">
-                        <label for="disabledTextInput" class="form-label">Nombre de la Ciudad:</label>
-                        <input type="text" id="disabledTextInput" class="form-control"
-                            [(ngModel)]="city.nombre_ciudad" [ngModelOptions]="{standalone: true}">
-                    </div>
-                    <br>
-                    <button (click)="save(city)" class="btn btn-primary">Agregar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>

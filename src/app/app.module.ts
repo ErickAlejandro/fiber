@@ -49,6 +49,9 @@ import { HistorialComponent } from './components/historial/historial.component';
 
 import { MatTableModule } from '@angular/material/table';
 import { FilterHistorialPipe } from './pipes/filter-historial.pipe';
+import { SaveCitiesComponent } from './components/actions/saves/save-cities/save-cities.component';
+import { SaveProvincesComponent } from './components/actions/saves/save-provinces/save-provinces.component';
+import { FilterProvincePipe } from './pipes/province/filter-province.pipe';
 
 @NgModule({
   declarations: [
@@ -73,6 +76,9 @@ import { FilterHistorialPipe } from './pipes/filter-historial.pipe';
     CreateServiceComponent,
     HistorialComponent,
     FilterHistorialPipe,
+    SaveCitiesComponent,
+    SaveProvincesComponent,
+    FilterProvincePipe,
   ],
   imports: [
     BrowserModule,

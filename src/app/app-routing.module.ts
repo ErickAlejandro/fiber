@@ -18,10 +18,12 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HistorialComponent } from './components/historial/historial.component';
 
+import { SaveCitiesComponent } from './components/actions/saves/save-cities/save-cities.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  
+  // LISTADO GENERAL
   { path: 'actividades-pendientes', component: PendingActivationsComponent },
   { path: 'clientes', component: ClientsComponent },
   { path: 'servicios', component: ServicesComponent },
@@ -37,11 +39,16 @@ const routes: Routes = [
   { path: 'Ont', component: OntComponent },
   { path: 'historial-servicios', component:HistorialComponent },
 
+  // LOGIN
   { path: 'login', component: LoginComponent},
   { path: 'registro', component: RegisterComponent },
 
-
-  { path: '**', component: NotFoundPagesComponent }
+  
+  // RUTAS DE ACCTIONES CREAR Y EDITAR
+  { path: 'ciudades/guardar', component: SaveCitiesComponent},
+  
+  // RUTA DE AYUDA
+  { path: '**', component: NotFoundPagesComponent },
 ];
 
 @NgModule({

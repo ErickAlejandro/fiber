@@ -1,0 +1,56 @@
+<div class="card">
+    <div class="card-header text-center">
+        <h1>Agregar nuevos Datos</h1>
+    </div>
+    <div class="card-body text-center">
+        <form action="">
+            <div class="input-group mb-3">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon1" data-bs-toggle="modal"
+                    data-bs-target="#provincesGet">Buscar Provincia</button>
+                <input type="text" class="form-control" aria-label="Example text with button addon"
+                    aria-describedby="button-addon1" [(ngModel)]="city.id_provincia"
+                    [ngModelOptions]="{standalone: true}" [ngModel]="city.nombre_provincia" disabled>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="disabledTextInput" class="form-label">Nombre de la Ciudad:</label>
+                <input type="text" id="disabledTextInput" class="form-control" [(ngModel)]="city.nombre_ciudad"
+                    [ngModelOptions]="{standalone: true}">
+            </div>
+            <br>
+            <button (click)="save(city)" style="margin-right: 10px ;" class="btn btn-primary">Agregar</button>
+            <button class="btn btn-danger" routerLink="/ciudades">Regresar</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal fade" id="provincesGet" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Seleccionar Provincia: </h1>
+            </div>
+            <div class="modal-body">
+                <!-- colocar el buscador aqui -->
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Busca..."
+                                [(ngModel)]='filterPosProvinces' name='filterPosProvinces'>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <select class="form-select" size="5" aria-label="size 5 select example" [(ngModel)]="city.id_provincia"
+                    [ngModelOptions]="{standalone: true}">
+                    <option *ngFor="let province of provinceDetail | filterProvince:filterPosProvinces"
+                        value={{province.id_provincia}}>
+                        {{province.nombre_provincia}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
