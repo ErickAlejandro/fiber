@@ -74,9 +74,6 @@ export class CitiesComponent implements OnInit {
     })
   }
 
-  guardarView(){
-    this.router.navigate(['ciudades/guardar'])
-  }
 
   getCityByName(cityName: string) {
     this.store.select(state => state.cities.cities).subscribe((data: Cities[]) => {
