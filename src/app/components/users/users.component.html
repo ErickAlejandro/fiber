@@ -127,6 +127,7 @@
               {{rol.nombre_rol}}</option>
           </select>
           <div class="form-group">
+            <br>
             <label class="form-label">Ciudad: </label>
             <div class="row">
               <div class="col">
@@ -138,8 +139,8 @@
             </div>
             <br>
             <select class="form-select" size="3" aria-label="size 3 select example" aria-label="Default select example"
-              [(ngModel)]="user.id_ciudad" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let ciudad of cityList | filterCity:filterPosCity" value={{user.id_ciudad}}>
+              [(ngModel)]="usersDetails.id_ciudad" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let ciudad of cityList | filterCity:filterPosCity" value={{usersDetails.id_ciudad}}>
                 {{ciudad.nombre_ciudad}}</option>
             </select>
           </div>
