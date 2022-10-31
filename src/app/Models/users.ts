@@ -15,6 +15,7 @@ export class Users{
     contrasena: string
     usuario: string
     nombre: string
+    cambiar_contra_usuario: string
 
     constructor(){
         this.id_usuario = 0
@@ -26,6 +27,7 @@ export class Users{
         this.id_ciudad = 0
         this.nombre_ciudad = ''
         this.estado_usuario = ''
+        this.cambiar_contra_usuario = ''
 
         this.id = 0
         this.estado = ''

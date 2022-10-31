@@ -24,10 +24,17 @@ export class UsersComponent implements OnInit {
   urlDeletUser = '/usuario/eliminarUsuario.php?id='
   urlCreateUser = '/usuario/crearUsuario.php'
 
+  userPreSave!: Users
+
   urlCities = '/ciudad/filtrarCiudad.php?filtrar='
   urlRol = '/Rol/filtrarRol.php'
   filterPosRol = ''
   filterPosCity = ''
+
+  flagOptions!: string
+
+  cityDetail = new Cities();
+  selectCity!: Cities
 
   rolDetail = new Rol()
   usersList!: Users[]
@@ -59,9 +66,11 @@ export class UsersComponent implements OnInit {
     users.nombre = users.nombre_usuario
     users.usuario = users.usuario_usuario
     users.contrasena = users.contrasena_usuario
-    users.rol = users.id_rol
+    // users.rol = users.id_rol
+    users.rol = 2
     users.estado = users.estado
     users.id = users.id_usuario
+    users.cambiar_contra_usuario = 'si'
     
     users.estado = 'activo'
 
@@ -71,14 +80,19 @@ export class UsersComponent implements OnInit {
         title: 'Felicidades',
         text: 'Agregaste una nueva Ciudad!',
       })
-      this.refresh()
+      // this.refresh()
     })
+    console.log(users);
   }
+
+  preSave(users: Users){
+    this.user = users
+  }
+
 
   getUserByName(userName:string){
     this.store.select(state => state.users.users).subscribe((data: Users[]) => {
       this.usersDetails = data.filter((user) => user.nombre_usuario == userName)[0]
-      console.log(this.usersDetails)
     })
   }
 
@@ -131,6 +145,12 @@ export class UsersComponent implements OnInit {
     })
   }
 
+  getCityByName(cityName: string) {
+    this.store.select(state => state.cities.cities).subscribe((data: Cities[]) => {
+      this.cityDetail = data.filter((city) => city.nombre_ciudad == cityName)[0]
+    });
+  }
+
   ngOnInit(): void {
 
     Swal.fire({
@@ -148,9 +168,13 @@ export class UsersComponent implements OnInit {
       this.addUsers(data)
     })
 
+
+    this.DataService.getData(this.urlCities).subscribe((data: Cities[]) =>{
+      this.cityList = data
+    })
+
     this.DataService.getDataRol(this.urlRol).subscribe((data: Rol[]) =>{
       this.rolList = data
-      console.log(this.rolList)
     })
   }
 
