@@ -66,8 +66,7 @@ export class UsersComponent implements OnInit {
     users.nombre = users.nombre_usuario
     users.usuario = users.usuario_usuario
     users.contrasena = users.contrasena_usuario
-    // users.rol = users.id_rol
-    users.rol = 2
+    users.rol = users.id_rol
     users.estado = users.estado
     users.id = users.id_usuario
     users.cambiar_contra_usuario = 'si'
@@ -80,13 +79,17 @@ export class UsersComponent implements OnInit {
         title: 'Felicidades',
         text: 'Agregaste una nueva Ciudad!',
       })
-      // this.refresh()
+       this.refresh()
     })
     console.log(users);
   }
 
   preSave(users: Users){
     this.user = users
+  }
+
+  preSaveEdit(usersD: Users){
+    this.usersDetails = usersD
   }
 
 
@@ -116,6 +119,7 @@ export class UsersComponent implements OnInit {
     users.rol = users.id_rol
     users.estado = users.estado
     users.id = users.id_usuario
+    users.cambiar_contra_usuario = 'si'
     
     users.estado = 'activo'
     this.DataService.getEditUsers(this.urlEditUsers, users).subscribe(data =>{

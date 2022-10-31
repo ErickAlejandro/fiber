@@ -18,7 +18,7 @@
               (click)="getUserByName(user.nombre_usuario)"></button>
           <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img
               src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24"
-              (click)="getUserEdit(user.nombre_usuario); getUserByName(user.nombre_usuario) ;flagOptions='editar'"></button>
+              (click)="getUserEdit(user.nombre_usuario); getUserByName(user.nombre_usuario);flagOptions='editar'"></button>
           <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletUser"
             (click)="getUserByName(user.nombre_usuario)"><img src="../../../assets/icons/trash-solid.svg" alt="Eliminar"
               width="30" height="24"></button>
@@ -41,7 +41,8 @@
 </div>
 
 <!-- VER DETALLES -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  data-bs-keyboard="false" data-bs-backdrop="static">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -80,13 +81,15 @@
             </tr>
           </tbody>
         </table>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- FORMULARIO DE EDICION -->
-<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true">
+<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" data-bs-keyboard="false"
+  data-bs-backdrop="static" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -130,16 +133,19 @@
           <div class="form-group">
             <br>
             <label class="form-label">Ciudad: </label>
-            <button class="btn btn-warning" (click)="preSave(user)" data-bs-toggle="modal"
-            data-bs-target="#ModalAgregarNombre"><img src="../../../assets/icons/magnifying-glass-solid.svg" alt="" width="30" height="24"></button>
-            <select class="form-select" size="3" aria-label="size 3 select example" aria-label="Default select example"
-              [(ngModel)]="usersDetails.id_ciudad" [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let ciudad of cityList | filterCity:filterPosCity" value={{usersDetails.id_ciudad}}>
-                {{ciudad.nombre_ciudad}}</option>
-            </select>
+
+            <div class="input-group mb-3">
+              <button class="btn btn-outline-secondary" (click)="preSaveEdit(usersDetails)" data-bs-toggle="modal"
+                data-bs-target="#ModalAgregarNombre"><img src="../../../assets/icons/magnifying-glass-solid.svg" alt=""
+                  width="30" height="24"></button>
+              <input type="text" class="form-control" [(ngModel)]="usersDetails.nombre_ciudad"
+                value={{usersDetails.nombre_ciudad}} placeholder="" aria-label="Example text with button addon"
+                aria-describedby="button-addon1">
+            </div>
           </div>
           <br>
           <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionUsers">Editar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </form>
       </div>
     </div>
@@ -148,7 +154,8 @@
 
 
 <!-- Modal de alertta para Edicion-->
-<div class="modal fade" id="alertEditionUsers" tabindex="-2" aria-labelledby="alertEditionUsers" aria-hidden="true">
+<div class="modal fade" id="alertEditionUsers" tabindex="-2" data-bs-keyboard="false" data-bs-backdrop="static"
+  aria-labelledby="alertEditionUsers" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -169,7 +176,8 @@
 </div>
 
 <!-- Modal de alerta para Eliminación-->
-<div class="modal fade" id="alertDeletUser" tabindex="-1" aria-labelledby="alertDeletUser" aria-hidden="true">
+<div class="modal fade" id="alertDeletUser" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static"
+  aria-labelledby="alertDeletUser" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -183,8 +191,8 @@
           <h4><b>Servicios</b></h4>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-danger" (click)="deleted(usersDetails.id_usuario)">Eliminar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </div>
     </div>
@@ -200,7 +208,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Agregar Nuevos Datos</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="">
@@ -241,13 +248,18 @@
           <br>
           <div class="form-group">
             <label class="form-label">Selecciona la Ciudad: </label>
-            <button class="btn btn-warning" (click)="preSave(user)" data-bs-toggle="modal"
-            data-bs-target="#ModalAgregarNombre"><img src="../../../assets/icons/magnifying-glass-solid.svg" alt="" width="30" height="24"></button>
-            <input type="text" class="form-control" [(ngModel)]="user.nombre_ciudad" value={{user.nombre_ciudad}}
-              [ngModelOptions]="{standalone: true}">
+            <div class="input-group mb-3">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="preSave(user)"
+                data-bs-toggle="modal" data-bs-target="#ModalAgregarNombre"><img
+                  src="../../../assets/icons/magnifying-glass-solid.svg" alt="" width="30" height="24"></button>
+              <input type="text" class="form-control" [(ngModel)]="user.nombre_ciudad" value={{user.nombre_ciudad}}
+                [ngModelOptions]="{standalone: true}" aria-label="Example text with button addon"
+                aria-describedby="button-addon1">
+            </div>
           </div>
           <br>
           <button class="btn btn-warning" (click)="save(user)"> Crear </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </form>
       </div>
     </div>
@@ -256,7 +268,7 @@
 
 
 <!-- MODAL TEST -->
-<div id="ModalAgregarNombre" class="modal fade" role="dialog">
+<div id="ModalAgregarNombre" class="modal fade" role="dialog" data-bs-keyboard="false" data-bs-backdrop="static">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -275,12 +287,13 @@
                 </tr>
               </thead>
               <tbody class="table-group-divider">
-                <tr *ngFor="let city of cityList | slice:since:to">
+                <tr *ngFor="let city of cityList">
                   <td>{{city.id_ciudad}}</td>
                   <td>{{city.nombre_ciudad}}</td>
                   <td>{{city.nombre_provincia}}</td>
                   <td><button type="button" class="btn" *ngIf="flagOptions == 'editar' " data-bs-toggle="modal"
-                      data-bs-target="#editForm" flagOption="" (click)="selectCity = city"><img
+                      data-bs-target="#editForm" flagOption=""
+                      (click)="selectCity = city; usersDetails.nombre_ciudad = city.nombre_ciudad; usersDetails.id_ciudad = city.id_ciudad"><img
                         src="../../../assets/icons/check-solid.svg" width="30" height="24"></button>
 
                     <button type="button" class="btn" *ngIf="flagOptions == 'crear' " data-bs-toggle="modal"
@@ -291,20 +304,12 @@
                 </tr>
               </tbody>
             </table>
-            <mat-paginator [length]="cityList.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Select page" (page)="changePageUsers($event)">
-            </mat-paginator>
             <br>
+            <button type="button" class="btn btn-secondary" *ngIf="flagOptions == 'editar' " data-bs-toggle="modal"
+              data-bs-target="#editForm">Cancelar</button>
+            <button type="button" class="btn btn-secondary" *ngIf="flagOptions == 'crear' " data-bs-toggle="modal"
+              data-bs-target="#createCitiesForm">Cancelar</button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">
-            <span class="glyphicon glyphicon-remove"></span><span class="hidden-xs"> Cerrar</span>
-          </button>
-          <button type="button" id="GuardarNombre" name="GuardarNombre" class="btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#editForm">
-            <span class="fa fa-save"></span><span class="hidden-xs"> Guardar</span>
-          </button>
         </div>
       </form>
     </div>

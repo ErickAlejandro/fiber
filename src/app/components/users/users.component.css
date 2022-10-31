@@ -35,6 +35,10 @@ button#download {
     border: none;
 }
 
+.btn-secondary{
+    margin-left: 10px;
+}
+
 button#download span {
     position: relative;
     display: block;
