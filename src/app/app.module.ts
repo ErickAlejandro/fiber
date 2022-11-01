@@ -55,6 +55,8 @@ import { FilterProvincePipe } from './pipes/province/filter-province.pipe';
 import { FilterCountryPipe } from './pipes/country/filter-country.pipe';
 import { FilterRolPipe } from './pipes/rol/filter-rol.pipe';
 import { FilterCityPipe } from './pipes/city/filter-city.pipe';
+import { FilterVlansPipe } from './pipes/vlan/filter-vlans.pipe';
+import { FilterCashBoxOnePipe } from './pipes/cashBoxOne/filter-cash-box-one.pipe';
 
 
 @NgModule({
@@ -86,6 +88,8 @@ import { FilterCityPipe } from './pipes/city/filter-city.pipe';
     FilterCountryPipe,
     FilterRolPipe,
     FilterCityPipe,
+    FilterVlansPipe,
+    FilterCashBoxOnePipe,
   ],
   imports: [
     BrowserModule,

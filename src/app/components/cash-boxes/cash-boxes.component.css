@@ -42,6 +42,10 @@ button#download span {
     height: 100%;
 }
 
+button.btn{
+    margin-right: 10px;
+}
+
 button#download:before,
 button#download:after {
     position: absolute;

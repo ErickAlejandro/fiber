@@ -36,6 +36,10 @@ export class CashBoxesTwoComponent implements OnInit {
 
   cashBoxLevelOne!: CashBoxes[];
 
+  flagOptions!: string
+  selectCashBoxOne!: CashBoxes
+  filterPosCashBoxOne = ''
+
   pageSize = 5
   since:number = 0
   to:number = 5
@@ -51,6 +55,14 @@ export class CashBoxesTwoComponent implements OnInit {
     addEventListener('click', e =>{
       location.reload()
     })
+  }
+
+  preSave(cashBoxesTwo: CashBoxesTwo){
+    this.boxes = cashBoxesTwo
+  }
+
+  preSaveEdit(cashBoxesTwoD: CashBoxesTwo){
+    this.CashDetails = cashBoxesTwoD
   }
 
   public addCashBoxesTwo(cashBoxesTwo: CashBoxesTwo[]){

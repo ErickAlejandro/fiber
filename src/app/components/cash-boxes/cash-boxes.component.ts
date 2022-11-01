@@ -31,16 +31,29 @@ export class CashBoxesComponent implements OnInit {
   boxes:CashBoxes = new CashBoxes();
   cashBoxesList!: CashBoxes[];
   cashDetail = new CashBoxes();
+  filterPosVlan = ''
 
   vlansList!: Vlan[];
+  flagOptions!: string
+  selectVlan!: Vlan
 
   pageSize = 5
   since:number = 0
   to:number = 5
 
+  cashBox!: CashBoxes
+
   constructor(private DataService: DataService, private store: Store) { 
     console.log('Component Implement')
     this.cashDetail
+   }
+
+   preSave(cashBoxes: CashBoxes){
+    this.boxes = cashBoxes
+   }
+
+   preSaveEdit(cashBoxD: CashBoxes){
+    this.cashDetail = cashBoxD
    }
 
    changePage(e:PageEvent){
@@ -76,6 +89,7 @@ export class CashBoxesComponent implements OnInit {
   getDataVlan(){
     this.DataService.getDataVlans(this.urlValns).subscribe((data: Vlan[]) =>{
       this.vlansList = data
+      console.log(this.vlansList);
     })
   }
 

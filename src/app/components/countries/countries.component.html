@@ -72,8 +72,8 @@
                   <h4><b>Ciudad</b></h4>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" (click)="deleted(countryDetails.id_pais, countryDetails)">Eliminar</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-danger" (click)="deleted(countryDetails.id_pais, countryDetails)">Eliminar</button>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
                         <input type="text" id="disabledTextInput" class="form-control" [(ngModel)]="countryDetails.nombre_pais"  [ngModelOptions]="{standalone: true}">
                     </div>
                     <br>
-                    <button class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#alertEditionCountries">Editar</button>
+                    <button class="btn btn-warning"  data-bs-toggle="modal" data-bs-target="#alertEditionCountries">Editar</button>
                 </form>
             </div>
         </div>
