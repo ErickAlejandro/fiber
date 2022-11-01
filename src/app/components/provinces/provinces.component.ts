@@ -31,8 +31,11 @@ export class ProvincesComponent implements OnInit {
 
   provincesList!: Pronvinces[]
   provinceDetail = new Pronvinces()
+  flagOptions!: string
+  selectCountry!: Pais
 
   paisList!: Pais[]
+  countryList!: Pais[]
   province: Pronvinces = new Pronvinces()
 
   pageSize = 5
@@ -43,6 +46,14 @@ export class ProvincesComponent implements OnInit {
     addEventListener('click', e =>{
       location.reload()
     })
+  }
+
+  preSave(provinces: Pronvinces){
+    this.province = provinces
+  }
+
+  preSaveEdit(provinceD: Pronvinces){
+    this.provinceDetail = provinceD
   }
 
   changePage(e:PageEvent){
@@ -112,6 +123,11 @@ export class ProvincesComponent implements OnInit {
       showConfirmButton: false,
       timer: 1000,
       timerProgressBar: true
+    })
+
+    this.DataService.getDataPais(this.urlGetPais).subscribe((data: Pais[]) =>{
+      this.paisList = data
+      console.log(this.paisList);
     })
 
     this.getCapturePais()
