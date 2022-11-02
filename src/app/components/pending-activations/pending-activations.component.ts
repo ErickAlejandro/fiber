@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';  
 import { Store } from '@ngxs/store';
 import { ADdServices } from 'src/app/store/services/services.actions';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-pending-activations',
@@ -13,6 +14,8 @@ import { ADdServices } from 'src/app/store/services/services.actions';
   styleUrls: ['./pending-activations.component.css']
 })
 export class PendingActivationsComponent implements OnInit {
+  constructor(private DataService: DataService, private store:Store, private route:Router) { }
+
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
   passwordCrypt = 'fYb3r_H0m3_@BE<3'
   city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
@@ -32,10 +35,10 @@ export class PendingActivationsComponent implements OnInit {
   pageSize = 5
   since: number = 0
   to: number = 5
+  
 
   comandoCopy: string = ''
 
-  constructor(private DataService: DataService, private store:Store) { }
 
 
   copyComands(comando: string){
@@ -105,17 +108,24 @@ export class PendingActivationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    this.DataService.getDataClients(this.urlGetData).subscribe((data: Services[]) => {
+      this.serviceList = data
+      this.addServices(data)
+      if(this.serviceList == null){
+        this.route.navigate(['/tabla-vacia'])
+      }else{
+        console.log('la tabla si tiene datos');
+      }
+
+    })
+
     Swal.fire({
       icon: 'info',
       title: 'Cargando Datos',
       showConfirmButton: false,
       timer: 1000,
       timerProgressBar: true
-    })
-
-    this.DataService.getDataClients(this.urlGetData).subscribe((data: Services[]) => {
-      this.serviceList = data
-      this.addServices(data)
     })
   }
 }

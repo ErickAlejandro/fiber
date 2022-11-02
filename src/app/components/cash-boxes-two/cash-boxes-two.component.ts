@@ -7,6 +7,7 @@ import { DataService } from 'src/app/services/data.service';
 import { AddCashBoxTwo } from 'src/app/store/cash-box-two/cash-box-two.actions';
 import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cash-boxes-two',
@@ -15,7 +16,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class CashBoxesTwoComponent implements OnInit {
 
-  constructor(private DataServices: DataService, private store:Store) { }
+  constructor(private DataServices: DataService, private store:Store, private router:Router) { }
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
   passwordCrypt = 'fYb3r_H0m3_@BE<3'
@@ -137,6 +138,12 @@ export class CashBoxesTwoComponent implements OnInit {
       this.DataServices.getDataCashBoxesTwo(this.urlGetData).subscribe((data: CashBoxesTwo[]) =>{
         this.cashBoxesTwoList = data
         this.addCashBoxesTwo(data)
+
+        if(this.cashBoxesTwoList == null){
+          this.router.navigate(['/tabla-vacia'])
+        }else{
+          console.log('la tabla si tiene datos');
+        }
       })
   }
 

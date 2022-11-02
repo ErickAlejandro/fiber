@@ -59,6 +59,7 @@ import { FilterVlansPipe } from './pipes/vlan/filter-vlans.pipe';
 import { FilterCashBoxOnePipe } from './pipes/cashBoxOne/filter-cash-box-one.pipe';
 import { FilterClientsPipe } from './pipes/clients/filter-clients.pipe';
 import { CashBoxTwoPipe } from './pipes/cashboxTwo/cash-box-two.pipe';
+import { TablesEmptyComponent } from './components/tables-empty/tables-empty.component';
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import { CashBoxTwoPipe } from './pipes/cashboxTwo/cash-box-two.pipe';
     FilterCashBoxOnePipe,
     FilterClientsPipe,
     CashBoxTwoPipe,
+    TablesEmptyComponent,
   ],
   imports: [
     BrowserModule,

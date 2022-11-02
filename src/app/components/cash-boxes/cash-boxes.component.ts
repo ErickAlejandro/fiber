@@ -7,6 +7,7 @@ import { DataService } from 'src/app/services/data.service';
 import { AddCashBoxOne } from 'src/app/store/cash-box-one/cash-box-one.actions';
 import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';  
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cash-boxes',
@@ -43,7 +44,7 @@ export class CashBoxesComponent implements OnInit {
 
   cashBox!: CashBoxes
 
-  constructor(private DataService: DataService, private store: Store) { 
+  constructor(private DataService: DataService, private store: Store, private router:Router) { 
     console.log('Component Implement')
     this.cashDetail
    }
@@ -89,14 +90,12 @@ export class CashBoxesComponent implements OnInit {
   getDataVlan(){
     this.DataService.getDataVlans(this.urlValns).subscribe((data: Vlan[]) =>{
       this.vlansList = data
-      console.log(this.vlansList);
     })
   }
 
   getCashBoxByName(cashName:string){
     this.store.select(state => state.cashBoxOne.cashBoxOne).subscribe((data: CashBoxes[]) =>{
       this.cashDetail = data.filter((cashBoxOne) => cashBoxOne.nombre_cajanivel1 == cashName)[0]
-      console.log(this.cashDetail)
     })
   }
 
@@ -144,6 +143,12 @@ export class CashBoxesComponent implements OnInit {
     .subscribe((data: CashBoxes[]) => {
       this.cashBoxesList = data
       this.addCashBox(data)
+
+      if(this.cashBoxesList == null){
+        this.router.navigate(['/tabla-vacia'])
+      }else{
+        console.log('la tabla si tiene datos');
+      }
     })
   }
 }

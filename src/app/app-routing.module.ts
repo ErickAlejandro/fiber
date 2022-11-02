@@ -19,6 +19,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HistorialComponent } from './components/historial/historial.component';
 
 import { SaveCitiesComponent } from './components/actions/saves/save-cities/save-cities.component';
+import { TablesEmptyComponent } from './components/tables-empty/tables-empty.component';
 
 
 const routes: Routes = [
@@ -42,7 +43,8 @@ const routes: Routes = [
   // LOGIN
   { path: 'login', component: LoginComponent},
   { path: 'registro', component: RegisterComponent },
-
+  
+  { path: 'tabla-vacia', component: TablesEmptyComponent },
   
   // RUTAS DE ACCTIONES CREAR Y EDITAR
   { path: 'ciudades/guardar', component: SaveCitiesComponent},

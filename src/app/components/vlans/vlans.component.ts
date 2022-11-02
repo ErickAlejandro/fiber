@@ -6,6 +6,7 @@ import { DataService } from 'src/app/services/data.service';
 import { AddVlans } from 'src/app/store/vlan/vlan.actions';
 import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';  
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vlans',
@@ -32,7 +33,7 @@ export class VlansComponent implements OnInit {
   since:number = 0
   to:number = 5
 
-  constructor(private DataService:DataService, private store: Store) { }
+  constructor(private DataService:DataService, private store: Store, private router:Router) { }
 
   public addVlans(vlans: Vlan[]){
     this.store.dispatch(new AddVlans(vlans))
@@ -106,6 +107,12 @@ export class VlansComponent implements OnInit {
     .subscribe((data: Vlan[]) => {
       this.VlansList = data
       this.addVlans(data)
+
+      if(this.VlansList == null){
+        this.router.navigate(['/tabla-vacia'])
+      }else{
+        console.log('la tabla si tiene datos');
+      }
     })
   }
 

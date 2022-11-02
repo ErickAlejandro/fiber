@@ -6,6 +6,7 @@ import { DataService } from 'src/app/services/data.service';
 import { AddModelOnt } from 'src/app/store/ont-model/ontModel.actions';
 import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';  
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ont-models',
@@ -14,7 +15,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class OntModelsComponent implements OnInit {
 
-  constructor(private DataServcies: DataService, private store: Store) { }
+  constructor(private DataServcies: DataService, private store: Store, private router:Router) { }
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
   passwordCrypt = 'fYb3r_H0m3_@BE<3'
@@ -112,6 +113,12 @@ export class OntModelsComponent implements OnInit {
       this.DataServcies.getDataModelOnt(this.urlGetData, this.city).subscribe((data: OntModels[]) => {
         this.ontModelList = data
         this.addModelOnt(data)
+
+        if(this.ontModelList == null){
+          this.router.navigate(['/tabla-vacia'])
+        }else{
+          console.log('la tabla si tiene datos');
+        }
     })
     }
 

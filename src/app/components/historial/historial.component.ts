@@ -6,6 +6,7 @@ import { Store } from '@ngxs/store';
 import { AddHistorial } from 'src/app/store/historial/historial.actions';
 import { PageEvent } from '@angular/material/paginator';
 import * as CryptoJS from 'crypto-js'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-historial',
@@ -18,7 +19,7 @@ export class HistorialComponent implements OnInit {
   passwordCrypt = 'fYb3r_H0m3_@BE<3'
   city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8)
 
-  constructor(private DataService: DataService, private store: Store) { }
+  constructor(private DataService: DataService, private store: Store, private router:Router) { }
 
   filterPosHistorial = ''
   
@@ -58,6 +59,12 @@ export class HistorialComponent implements OnInit {
     this.DataService.getDataHistorial(this.urlGetData).subscribe((data: Historial[]) =>{
       this.historialList = data
       this.addHistorial(data)
+
+      if(this.historialList == null){
+        this.router.navigate(['/tabla-vacia'])
+      }else{
+        console.log('la tabla si tiene datos');
+      }
     })
 
   }

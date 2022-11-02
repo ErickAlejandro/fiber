@@ -11,6 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 import { ADdServices } from 'src/app/store/services/services.actions';
 import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';  
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-services',
@@ -62,7 +63,7 @@ export class ServicesComponent implements OnInit {
   since:number = 0
   to:number = 5
 
-  constructor(private DataService: DataService, private store: Store) { }
+  constructor(private DataService: DataService, private store: Store, private router:Router) { }
 
   addServices(services: Services[]){
     this.store.dispatch(new ADdServices(services))
@@ -179,6 +180,12 @@ ClipBoard(input: any){
       this.DataService.getDataService(this.urlGetData).subscribe((data: Services[]) =>{
         this.servicesList = data
         this.addServices(data)
+
+        if(this.servicesList == null){
+          this.router.navigate(['/tabla-vacia'])
+        }else{
+          console.log('la tabla si tiene datos');
+        }
       })
   }
 

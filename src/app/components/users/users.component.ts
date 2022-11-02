@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Route, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Cities } from 'src/app/Models/cities';
 import { Rol } from 'src/app/Models/rol';
@@ -15,7 +16,7 @@ import Swal from 'sweetalert2';
 })
 export class UsersComponent implements OnInit {
 
-  constructor(private DataService: DataService, private store:Store) { }
+  constructor(private DataService: DataService, private store:Store, private router: Router) { }
 
   urlGetDataUsers = '/usuario/filtrarUsuarioSuperAdmin.php?filtrar='
   urlFirstPart = '/usuario/filtrarUsuario.php?filtrar='
@@ -170,6 +171,11 @@ export class UsersComponent implements OnInit {
     this.DataService.getDataUsers(this.urlGetDataUsers).subscribe((data: Users[]) =>{
       this.usersList  = data
       this.addUsers(data)
+      if(this.usersList == null){
+        this.router.navigate(['/tabla-vacia'])
+      }else{
+        console.log('la tabla si tiene datos');
+      }
     })
 
 
@@ -180,6 +186,8 @@ export class UsersComponent implements OnInit {
     this.DataService.getDataRol(this.urlRol).subscribe((data: Rol[]) =>{
       this.rolList = data
     })
+
+    
   }
 
 }

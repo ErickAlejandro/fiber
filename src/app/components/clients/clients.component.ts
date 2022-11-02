@@ -6,6 +6,7 @@ import { DataService } from 'src/app/services/data.service';
 import { AddClients } from 'src/app/store/clients/clients.actions';
 import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';  
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-clients',
@@ -14,7 +15,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class ClientsComponent implements OnInit {
 
-  constructor(private DataServcies: DataService, private store: Store) { }
+  constructor(private DataServcies: DataService, private store: Store, private router:Router) { }
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
   passwordCrypt = 'fYb3r_H0m3_@BE<3'
@@ -112,6 +113,12 @@ export class ClientsComponent implements OnInit {
     this.DataServcies.getDataClients(this.urlGetClients).subscribe((data: Clients[]) => {
       this.clientsList = data
       this.addClients(data)
+
+      if(this.clientsList == null){
+        this.router.navigate(['/tabla-vacia'])
+      }else{
+        console.log('la tabla si tiene datos');
+      }
     })
   }
 

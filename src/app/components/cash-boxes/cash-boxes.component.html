@@ -159,7 +159,7 @@
                                     height="24"></button>
                             <input type="text" class="form-control" [(ngModel)]="cashDetail.nombre_vlan"
                                 value={{cashDetail.nombre_vlan}} placeholder=""
-                                aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                aria-label="Example text with button addon" aria-describedby="button-addon1" [ngModelOptions]="{standalone: true}">
                         </div>
                         <br>
                         <div class="form-group">

@@ -142,6 +142,11 @@ export class CitiesComponent implements OnInit {
       .subscribe((data: Cities[]) => {
         this.citiesList = data
         this.addCities(data)
+        if(this.citiesList == null){
+          this.router.navigate(['/tabla-vacia'])
+        }else{
+          console.log('la tabla si tiene datos');
+        }
       })
   }
 }

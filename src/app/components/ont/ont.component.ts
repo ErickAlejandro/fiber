@@ -7,6 +7,7 @@ import { DataService } from 'src/app/services/data.service';
 import { AddOnt } from 'src/app/store/ont/ont.actions';
 import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';  
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ont',
@@ -38,7 +39,7 @@ export class OntComponent implements OnInit {
   since:number = 0
   to:number = 5
 
-  constructor(private DataService: DataService, private store: Store) { }
+  constructor(private DataService: DataService, private store: Store, private router:Router) { }
 
   public addOnts(onts: Ont[]){
     this.store.dispatch(new AddOnt(onts))
@@ -61,7 +62,6 @@ export class OntComponent implements OnInit {
 if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
       this.DataService.getDataModelOnt(this.urlModelOnt, this.city).subscribe((data: OntModels[]) =>{
         this.modelOntList = data
-        console.log(this.modelOntList);
       })
     }
   }
@@ -69,7 +69,6 @@ if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
   getOntByName(ontName: string){
     this.store.select(state => state.onts.onts).subscribe((data: Ont[]) =>{
       this.ontDetails = data.filter((ont) => ont.serie_ont == ontName)[0]
-      console.log(this.ontDetails)
     })
   }
 
@@ -115,6 +114,11 @@ if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
       this.ontList = data
       this.addOnts(data)
       
+      if(this.ontList == null){
+        this.router.navigate(['/tabla-vacia'])
+      }else{
+        console.log('la tabla si tiene datos');
+      }
     })
   }
 
