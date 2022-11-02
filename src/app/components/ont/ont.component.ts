@@ -26,7 +26,7 @@ export class OntComponent implements OnInit {
   urlEditOnt = '/Ont/editarOnt.php'
   urlDeleted = '/Ont/eliminarOnt.php?id='
 
-  urlModelOnt = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad='+this.city
+  urlModelOnt = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad='
 
   ont: Ont = new Ont()
   ontList!: Ont[]
@@ -58,9 +58,10 @@ export class OntComponent implements OnInit {
   }
 
   getCaptureOntModel(){
-if(this.userLogin.nombre_modelosont == 'ADMINISTRADOR'){
+if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
       this.DataService.getDataModelOnt(this.urlModelOnt, this.city).subscribe((data: OntModels[]) =>{
         this.modelOntList = data
+        console.log(this.modelOntList);
       })
     }
   }

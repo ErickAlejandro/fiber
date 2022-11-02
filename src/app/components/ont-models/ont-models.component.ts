@@ -22,7 +22,7 @@ export class OntModelsComponent implements OnInit {
 
   urlGetData = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad='
   urlFirst = 'ModeloOnt/filtrarModeloOnt.php?filtrar='
-  urlSecond = '&id_ciudad='
+  urlSecond = '&id_ciudad='+this.city
   urlEdit = '/ModeloOnt/editarModeloOnt.php'
   urlCreate = '/ModeloOnt/crearModeloOnt.php'
   urlDeleted = '/ModeloOnt/eliminarModeloOnt.php?id='
