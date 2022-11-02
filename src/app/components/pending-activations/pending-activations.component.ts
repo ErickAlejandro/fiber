@@ -4,6 +4,8 @@ import { Services } from 'src/app/Models/services';
 import { DataService } from 'src/app/services/data.service';
 import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';  
+import { Store } from '@ngxs/store';
+import { ADdServices } from 'src/app/store/services/services.actions';
 
 @Component({
   selector: 'app-pending-activations',
@@ -19,6 +21,11 @@ export class PendingActivationsComponent implements OnInit {
   urlFirstPart = '/Servicio/filtrarServicioPendienteAdmin.php?filtrar='
   urlSeconPart = '&id_ciudad='+this.city
 
+  urlDeletedFirst = 'Servicio/eliminarServicio.php?id='
+  urlDeletedSecont = '&id_ciudad='+this.city
+
+  urlEdit = '/Servicio/editarServicio.php'
+
   serviceList!: Services[]
   serviceDetails = new Services()
 
@@ -28,7 +35,7 @@ export class PendingActivationsComponent implements OnInit {
 
   comandoCopy: string = ''
 
-  constructor(private DataService: DataService) { }
+  constructor(private DataService: DataService, private store:Store) { }
 
 
   copyComands(comando: string){
@@ -44,6 +51,51 @@ export class PendingActivationsComponent implements OnInit {
     this.comandoCopy = comando.replace(/@/gi, '\n')
   }
 
+  addServices(services: Services[]){
+    this.store.dispatch(new ADdServices(services))
+  }
+
+  refresh(){
+    addEventListener('click', e =>{
+      location.reload()
+    })
+  }
+
+  editSatate(service: Services){
+    this.DataService.editService(this.urlEdit, service).subscribe(data=>{
+      Swal.fire({
+        icon: 'success',
+        title: 'Felicidades',
+        text: 'Editaste la información!',
+      })
+      console.log(data);
+      this.refresh()
+    })
+  }
+
+  changeState(){
+    this.serviceDetails.estado_cliente = 'activo'
+    this.editSatate(this.serviceDetails)
+  }
+
+  deleteService(id:any){
+    this.DataService.deleteService(this.urlDeletedFirst, id, this.urlDeletedSecont).subscribe(res =>{
+      Swal.fire({
+        icon: 'success',
+        title: 'Felicidades',
+        text: 'El dato fue eliminado con Exito!',
+      })
+      console.log(res);
+      this.refresh()
+    })
+  }
+
+  getActivationsByService(id:any){
+    this.store.select(state => state.services.services).subscribe((data: Services[]) =>{
+      this.serviceDetails = data.filter((service) => service.id == id)[0]
+      console.log(this.serviceDetails)
+    })
+  }
   
   changePage(e: PageEvent) {
     console.log(e)
@@ -63,7 +115,7 @@ export class PendingActivationsComponent implements OnInit {
 
     this.DataService.getDataClients(this.urlGetData).subscribe((data: Services[]) => {
       this.serviceList = data
-      
+      this.addServices(data)
     })
   }
 }

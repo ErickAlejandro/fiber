@@ -26,10 +26,20 @@ export class ServicesComponent implements OnInit {
   urlGetData = '/Servicio/filtrarServicio.php?filtrar=&id_ciudad='+this.city
   urlFirstPart = '/Servicio/buscarServicio.php?filtrar='
   urlSeconPart = '&id_ciudad='+this.city
-  urlDeleted = '/Servicio/eliminarServicio.php?id&id_ciudad&id_cliente='
+
+  urlDeletedFirst = 'Servicio/eliminarServicio.php?id='
+  urlDeletedSecont = '&id_ciudad='+this.city
+
   urlCreateService = '/Servicio/crearServicio.php'
   urlFirst = '/Ont/filtrarOnt.php?filtrar='
   urlSecont = '&id_ciudad='+this.city
+
+
+  flagOptions!: string
+  filterPosClients = ''
+  filterPosCashBox2 = ''
+  selectClient!: Clients
+  clientDetails = new Clients()
 
   urlDataClient = '/Clientes/filtrarClientes.php?filtrar=&id_ciudad='+this.city
   urlDataCashBox = '/cajanivel2/filtrarCajaNivel2.php?filtrar=&id_ciudad='+this.city
@@ -42,6 +52,7 @@ export class ServicesComponent implements OnInit {
   service: Services = new Services()
 
   clienteList!: Clients[]
+
   cajaList!: CashBoxesTwo[]
   ontList!: Ont[]
   ontDetails = new Ont()
@@ -77,6 +88,14 @@ ClipBoard(input: any){
     input.setSelectRange(0,0)
   }
 
+  preSave(services: Services){
+    this.service = services
+  }
+
+  preSaveEdit(servicesD: Services){
+    this.serviceDetails = servicesD
+  }
+
   save( service: Services){
     this.DataService.createService(this.urlCreateService, service).subscribe(data =>{
       Swal.fire({
@@ -84,8 +103,6 @@ ClipBoard(input: any){
         title: 'Felicidades',
         text: 'Agregaste un nuevo Servicio y  una nueva ONT!'
       })
-      console.log(service)
-      console.log(data)
       this.refresh()
     })
   }
@@ -118,7 +135,7 @@ ClipBoard(input: any){
   }
 
   deleted(id:any){
-    this.DataService.deletedCity(this.urlDeleted, id).subscribe(res =>{
+    this.DataService.deleteService(this.urlDeletedFirst, id, this.urlDeletedSecont).subscribe(res =>{
       Swal.fire({
         icon: 'success',
         title: 'Felicidades',

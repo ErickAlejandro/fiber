@@ -30,6 +30,8 @@
             <td>{{activations.direccionip_cliente}}</td>
             <td>{{activations.fecha_instalacion_cliente}}</td>
             <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="../../../assets/icons/eye-solid.svg" width="30" height="24" (click)="serviceDetails = activations"></button>
+              <button type="button" class="btn" *ngIf="activations.opcion_cliente == 'crear' || activations.opcion_cliente == 'editar'" (click)="getActivationsByService(activations.id)" data-bs-toggle="modal" data-bs-target="#alertChangeState"><img src="../../../assets/icons/check-solid.svg" alt="Crear" width="30" height="24"></button>
+              <button type="button" class="btn" *ngIf="activations.opcion_cliente == 'eliminar'" (click)="getActivationsByService(activations.id)" data-bs-toggle="modal" data-bs-target="#alertDeletUser"><img src="../../../assets/icons/trash-solid.svg" alt="" width="30" height="24"></button>
               <button type="button" class="btn" (mouseup)="copyComands(activations.comando_copiar_cliente)" [cdkCopyToClipboard]="comandoCopy" ><img src="../../../assets/icons/copy-regular.svg" width="30" height="24"></button>
             </td>
           </tr>
@@ -92,9 +94,60 @@
             <tr>
               <td><b>Fecha: </b> {{serviceDetails.fecha_instalacion_cliente}}</td>
             </tr>
+            <tr>
+              <td><b>Estado: </b> {{serviceDetails.estado_cliente}}</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Modal de alerta para Eliminación-->
+<div class="modal fade" id="alertDeletUser" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static"
+  aria-labelledby="alertDeletUser" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Confirmación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <h3>Esta acción, borrará todos los datos relacionados con el Cliente: <b>{{serviceDetails.nombre_clientepersona}}</b>.</h3>
+          <h4>Por favor verifique que ha modificado la dependencia de este dato en:</h4>
+          <h4><b>Servicios</b></h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="deleteService(serviceDetails.id)">Eliminar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL DE ACTIVACION DE ESTADO -->
+<div class="modal fade" id="alertChangeState" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static"
+  aria-labelledby="alertChangeState" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title col-11 text-center" id="exampleModalLabel">Activación</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card">
+          <h3>Seguro que quieres realizar esta acción, cambiará el estado de: <b>{{serviceDetails.nombre_clientepersona}}</b>.</h3>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" (click)="changeState()">Cambiar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

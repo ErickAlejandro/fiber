@@ -49,6 +49,11 @@ export class DataService {
     return this.http.delete(this.urlPrimary + aditionalUrl+city)
    }
 
+   deleteService(urlPartOne: string, id: string, urlPartTwo: string){
+    console.log(this.urlPrimary + urlPartOne + id + urlPartTwo);
+    return this.http.delete(this.urlPrimary + urlPartOne + id + urlPartTwo)
+   }
+
    //CASH BOXESLVL1
 
    getDataCash(aditionalUrl:string): any{
@@ -104,6 +109,7 @@ export class DataService {
 
   // CLIENTES CLIENTES
   getDataClients(aditionalUrl:string): any{
+    console.log(this.urlPrimary + aditionalUrl);
     return this.http.get<Clients[]>(this.urlPrimary + aditionalUrl)
   }
 
@@ -167,6 +173,11 @@ export class DataService {
     return this.http.post<Services>(this.urlPrimary + aditionalUrl, service)
   }
   
+  // ACTIVACIONES PENDIENTES
+  editService(aditionalUrl: string, service:Services){
+    return this.http.put<Services>(this.urlPrimary + aditionalUrl, service)
+  }
+
 
   // MODELOS ONT
   getDataModelOnt(aditionalUrl: string, city: string){

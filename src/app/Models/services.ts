@@ -35,6 +35,10 @@ export class Services{
     comando_copiar_cliente: string
     date2: string
     estado_cliente: string
+    metododepago_cliente: string
+    adomicilio_cliente: string
+    idcobrador_cliente_usuario: number
+    precio_cliente: string
 
     constructor(){
         this.id = 0
@@ -73,5 +77,9 @@ export class Services{
         this.comando_copiar_cliente = ''
         this.date2 = ''
         this.estado_cliente = ''
+        this.metododepago_cliente = ''
+        this.adomicilio_cliente = ''
+        this.idcobrador_cliente_usuario = 0
+        this.precio_cliente = ''
     }
 }
