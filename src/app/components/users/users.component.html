@@ -140,7 +140,7 @@
                   width="30" height="24"></button>
               <input type="text" class="form-control" [(ngModel)]="usersDetails.nombre_ciudad"
                 value={{usersDetails.nombre_ciudad}} placeholder="" aria-label="Example text with button addon"
-                aria-describedby="button-addon1">
+                aria-describedby="button-addon1" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
           <br>
@@ -167,8 +167,9 @@
           <h3>Estas seguro que quieres editar la información de <b>{{usersDetails.nombre_usuario}}</b>.</h3>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-warning" (click)="editUsers(usersDetails)">Editar</button>
+          <button type="button" class="btn btn-secondary" *ngIf="flagOptions == 'editar' " data-bs-toggle="modal"
+              data-bs-target="#editForm">Cancelar</button>
         </div>
       </div>
     </div>

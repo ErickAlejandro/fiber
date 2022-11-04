@@ -26,6 +26,7 @@ export class UsersComponent implements OnInit {
   urlCreateUser = '/usuario/crearUsuario.php'
 
   userPreSave!: Users
+  respuesta:any = {respuesta: 'ok'}
 
   urlCities = '/ciudad/filtrarCiudad.php?filtrar='
   urlRol = '/Rol/filtrarRol.php'
@@ -74,15 +75,23 @@ export class UsersComponent implements OnInit {
     
     users.estado = 'activo'
 
-    this.DataService.createUsers(this.urlCreateUser, users).subscribe(data =>{
+    if(users.nombre == '' || users.usuario == '' || users.contrasena == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste una nueva Ciudad!',
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-       this.refresh()
-    })
-    console.log(users);
+    }else{
+      this.DataService.createUsers(this.urlCreateUser, users).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Agregaste una nueva Ciudad!',
+        })
+         this.refresh()
+         console.log(data);
+      })
+    }
   }
 
   preSave(users: Users){
@@ -123,14 +132,23 @@ export class UsersComponent implements OnInit {
     users.cambiar_contra_usuario = 'si'
     
     users.estado = 'activo'
-    this.DataService.getEditUsers(this.urlEditUsers, users).subscribe(data =>{
+
+    if(users.nombre == '' || users.usuario == '' || users.contrasena == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la información exitosamente!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Compruebe los datos ingrersados!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataService.getEditUsers(this.urlEditUsers, users).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Editaste la información exitosamente!'
+        })
+        this.refresh()
+      })
+    }
   }
 
   getCaptureCity(){

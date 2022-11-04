@@ -5,7 +5,7 @@ import { Clients } from 'src/app/Models/clients';
 import { DataService } from 'src/app/services/data.service';
 import { AddClients } from 'src/app/store/clients/clients.actions';
 import Swal from 'sweetalert2';
-import * as CryptoJS from 'crypto-js';  
+import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,15 +15,15 @@ import { Router } from '@angular/router';
 })
 export class ClientsComponent implements OnInit {
 
-  constructor(private DataServcies: DataService, private store: Store, private router:Router) { }
+  constructor(private DataServcies: DataService, private store: Store, private router: Router) { }
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
   passwordCrypt = 'fYb3r_H0m3_@BE<3'
   city = CryptoJS.AES.decrypt(this.userLogin.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
 
-  urlGetClients = '/Clientes/filtrarClientes.php?filtrar=&id_ciudad='+this.city
+  urlGetClients = '/Clientes/filtrarClientes.php?filtrar=&id_ciudad=' + this.city
   urlFirstPart = '/Clientes/filtrarClientes.php?filtrar='
-  urlSecondPart = '&id_ciudad='+this.city
+  urlSecondPart = '&id_ciudad=' + this.city
   urlDeletedData = '/Clientes/eliminarClientes.php?id='
   urlCreateClients = '/Clientes/crearClientes.php'
   urlEditClients = '/Clientes/editarClientes.php'
@@ -33,61 +33,79 @@ export class ClientsComponent implements OnInit {
   clientDetail = new Clients()
 
   pageSize = 5
-  since:number = 0
-  to:number = 5
+  since: number = 0
+  to: number = 5
 
-  public addClients(clients: Clients[]){
+  public addClients(clients: Clients[]) {
     this.store.dispatch(new AddClients(clients))
   }
 
   getClientByName(clientName: any) {
-    this.store.select(state => state.clients.clients).subscribe((data: Clients[]) =>{
+    this.store.select(state => state.clients.clients).subscribe((data: Clients[]) => {
       this.clientDetail = data.filter((client) => client.cedula_clientepersona == clientName)[0]
       console.log(this.clientDetail)
     })
   }
 
-  getClientEdit(client: any){
+  getClientEdit(client: any) {
     this.DataServcies.getClientsByName(client, this.urlFirstPart, this.urlSecondPart).subscribe((data: Clients[]) => {
       return this.clientDetail = data[0]
     })
   }
 
-  changePage(e:PageEvent){
+  changePage(e: PageEvent) {
     console.log(e)
     this.since = e.pageIndex * e.pageSize;
     this.to = this.since + e.pageSize;
-    
+
   }
-  
-  refresh(){
-    addEventListener('click', e =>{
+
+  refresh() {
+    addEventListener('click', e => {
       location.reload()
     })
   }
 
-  save(clients:Clients){
+  save(clients: Clients) {
     clients.estado_clientepersona = 'activo'
     clients.id_ciudad = Number(this.city)
-    this.DataServcies.getCreateClients(this.urlCreateClients, clients).subscribe(data =>{
+
+    if (clients.cedula_clientepersona == 0 || clients.nombre_clientepersona == '' || clients.apellido_clientepersona == '' || clients.correo_clientepersona == '' || clients.telefono1_clientepersona == '') {
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste un nuevo Cliente!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataServcies.getCreateClients(this.urlCreateClients, clients).subscribe(data => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Agregaste un nuevo Cliente!'
+        })
+        this.refresh()
+      })
+    }
   }
 
-  edit(client:Clients){
-    this.DataServcies.editClients(client, this.urlEditClients).subscribe(data =>{
+  edit(client: Clients) {
+    
+    if(client.cedula_clientepersona == 0 || client.nombre_clientepersona == '' || client.apellido_clientepersona == '' || client.correo_clientepersona == '' || client.telefono1_clientepersona == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la información exitosamente!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataServcies.editClients(client, this.urlEditClients).subscribe(data => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Editaste la información exitosamente!'
+        })
+        this.refresh()
+      })
+    }
   }
 
   deleted(id: any) {
@@ -114,9 +132,9 @@ export class ClientsComponent implements OnInit {
       this.clientsList = data
       this.addClients(data)
 
-      if(this.clientsList == null){
+      if (this.clientsList == null) {
         this.router.navigate(['/tabla-vacia'])
-      }else{
+      } else {
         console.log('la tabla si tiene datos');
       }
     })

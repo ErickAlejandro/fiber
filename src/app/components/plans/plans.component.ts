@@ -77,25 +77,43 @@ export class PlansComponent implements OnInit {
   save(plans: Planes){
     plans.estado_planes = 'activo'
     plans.id_ciudad = Number(this.city)
-    this.DataService.createPlans(this.urlCreatePlans, plans).subscribe(data =>{
+
+    if(plans.nombre_planes == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste un nuevo Plan'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataService.createPlans(this.urlCreatePlans, plans).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Agregaste un nuevo Plan'
+        })
+        this.refresh()
+      })
+    }
   }
 
   edit(plans: Planes){
-    this.DataService.editPlans(plans, this.urlEditPlans).subscribe(data =>{
+
+    if(plans.nombre_planes == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la iformación exitosamente!'
+        icon: 'error',
+        title: 'Error de edición',
+        text: 'Algun dato se encuentra vacio o es el mismo que el anteior!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataService.editPlans(plans, this.urlEditPlans).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Editaste la iformación exitosamente!'
+        })
+        this.refresh()
+      })
+    }
   }
 
   deleted(id: any){

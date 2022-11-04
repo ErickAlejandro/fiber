@@ -1,4 +1,3 @@
-
 <div class="container">
     <table class="table table-striped table-responsive">
         <thead class="table-dark">
@@ -34,7 +33,7 @@
     </div>
 </div>
 
-<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true">
+<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
@@ -48,6 +47,7 @@
                   </div>
                   <br>
                   <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionPlan">Editar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               </form>
           </div>
       </div>
@@ -55,7 +55,7 @@
 </div>
 
 <!-- MOSTRAR DETALLES DE LA TABLA -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -79,13 +79,14 @@
             </tr>
           </tbody>
         </table>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Modal de alerta para Eliminación-->
-<div class="modal fade" id="alertDeletPlans" tabindex="-1" aria-labelledby="alertDeleted" aria-hidden="true">
+<div class="modal fade" id="alertDeletPlans" tabindex="-1" aria-labelledby="alertDeleted" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
@@ -99,8 +100,8 @@
                 <h4><b>Servicios</b></h4>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-danger" (click)="deleted(plansDetail.id_planes)">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               </div>
           </div>
       </div>
@@ -108,7 +109,7 @@
 </div>
 
   <!-- Modal de alertta para Edicion-->
-  <div class="modal fade" id="alertEditionPlan" tabindex="-2" aria-labelledby="alertEditionModel" aria-hidden="true">
+  <div class="modal fade" id="alertEditionPlan" tabindex="-2" aria-labelledby="alertEditionModel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -120,8 +121,9 @@
                   <h3>Estas seguro que quieres editar la información del Plan de <b>{{plansDetail.nombre_planes}} MEGAS</b>.</h3>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                   <button type="button" class="btn btn-warning" (click)="edit(plansDetail)">Editar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+              data-bs-target="#editForm">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -129,7 +131,7 @@
   </div>
 
 <!-- FORMULARIOS DE CREACION DE DATOS -->
-<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
+<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
   <div class="modal-dialog">
       <div class="modal-content">
           <div class="modal-header">
@@ -144,6 +146,7 @@
                   </div>
                   <br>
                   <button (click)="save(plans)" class="btn btn-primary">Agregar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               </form>
           </div>
       </div>
