@@ -70,14 +70,23 @@ export class VlansComponent implements OnInit {
     this.vlan.estado_vlan = 'activo'
     this.vlan.buckle2 = 'null'
     this.vlan.ip_rangodireccionesip = 'null'
-    this.DataService.createVlans(this.urlCreate, vlans).subscribe(data =>{
+
+    if(vlans.nombre_vlan == '' || vlans.numerovlan_vlan == 0 || vlans.numeroolt_vlan == 0 || vlans.tarjetaolt_vlan == 0 || vlans.puertoolt_vlan == 0 || vlans.ipinicio_vlan == 0 || vlans.ipfin_vlan == 0 || vlans.mascara_vlan == 0 || vlans.gateway_vlan == 0){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste una nueva Ciudad!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataService.createVlans(this.urlCreate, vlans).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Agregaste una nueva Ciudad!'
+        })
+        this.refresh()
+      })
+    }  
   }
 
 

@@ -12,6 +12,9 @@ table tbody tr:hover {
     transition: 0.6s;
     background: -webkit-linear-gradient(left, rgba(0, 245, 62, 0.267), rgba(0, 141, 235, 0.719));
 }
+.btn-secondary{
+    margin-left: 10px;
+}
 
 table tbody td:hover {
     -webkit-box-shadow: 0 6px 6px -6px;

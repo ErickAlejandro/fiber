@@ -79,14 +79,23 @@ if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
   }
 
   editOnl(ont: Ont){
-    this.DataService.editOnt(this.urlEditOnt, ont).subscribe(data =>{
+
+    if(ont.serie_ont == '' || ont.nombre_modelosont == '' || ont.responsable_ont == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la información exitosamente!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataService.editOnt(this.urlEditOnt, ont).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Editaste la información exitosamente!'
+        })
+        this.refresh()
+      })
+    }
   }
 
   deleted(id:any){

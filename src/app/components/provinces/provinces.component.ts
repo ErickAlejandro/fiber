@@ -70,26 +70,43 @@ export class ProvincesComponent implements OnInit {
   }
 
   editProvince(provinces:Pronvinces){
-    this.DataService.getEditProvinces(this.urlEditProvince, provinces).subscribe(data =>{
+
+    if(provinces.nombre_pais == '' || provinces.nombre_provincia == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la información exitosamente!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataService.getEditProvinces(this.urlEditProvince, provinces).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Editaste la información exitosamente!'
+        })
+        this.refresh()
+      })
+    }
   }
 
   save(province: Pronvinces){
     province.estado_provincia = 'activo'
-    this.DataService.createProvince(this.urlCreateProvince, province).subscribe(data =>{
+    if(province.nombre_pais == '' || province.nombre_provincia == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste una nueva Ciudad!',
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataService.createProvince(this.urlCreateProvince, province).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Agregaste una nueva Ciudad!',
+        })
+        this.refresh()
+      })
+    }
   }
 
   getProvinceByName(provinceName: string){
@@ -127,7 +144,6 @@ export class ProvincesComponent implements OnInit {
 
     this.DataService.getDataPais(this.urlGetPais).subscribe((data: Pais[]) =>{
       this.paisList = data
-      console.log(this.paisList);
     })
 
     this.getCapturePais()

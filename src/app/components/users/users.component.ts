@@ -86,7 +86,7 @@ export class UsersComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: 'Felicidades',
-          text: 'Agregaste una nueva Ciudad!',
+          text: 'Agregaste un nuevo Usuario!',
         })
          this.refresh()
          console.log(data);

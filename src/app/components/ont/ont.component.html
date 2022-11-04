@@ -61,6 +61,7 @@
             </tr>
           </tbody>
         </table>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>
@@ -79,8 +80,8 @@
           <h3>Estas seguro que quieres editar la información de <b>{{ontDetails.serie_ont}}</b>.</h3>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-warning" (click)="editOnl(ontDetails)">Editar</button>
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editForm">Cancelar</button>
         </div>
       </div>
     </div>
@@ -111,6 +112,7 @@
             </select>
           </div>
           <br>
+          <label class="form-label">Responsable: </label>
           <select class="form-select" aria-label="Default select example" [(ngModel)]="ontDetails.responsable_ont"
             [ngModelOptions]="{standalone: true}">
             <option value="EMPRESA">EMPRESA</option>
@@ -118,6 +120,7 @@
           </select>
           <br>
           <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionOnt">Editar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </form>
       </div>
     </div>

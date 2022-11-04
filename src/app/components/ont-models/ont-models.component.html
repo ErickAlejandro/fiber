@@ -62,6 +62,7 @@
               </tr>
             </tbody>
           </table>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </div>
     </div>
@@ -82,8 +83,8 @@
                 <h4><b>Ont</b></h4>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-danger" (click)="deleted(ontModelsDetails.id_modelosont)">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               </div>
           </div>
       </div>
@@ -103,8 +104,8 @@
                 <h3>Estas seguro que quieres editar la información de <b>{{ontModelsDetails.nombre_modelosont}}</b>.</h3>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-warning" (click)="edit(ontModelsDetails)">Editar</button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editForm">Cancelar</button>
               </div>
           </div>
       </div>
@@ -136,6 +137,7 @@
                     </div>
                 <br>
                     <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionModel">Editar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </form>
             </div>
         </div>
@@ -167,6 +169,7 @@
               </div>
               <br>
                     <button (click)="save(ontModels)" class="btn btn-primary">Agregar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </form>
             </div>
         </div>

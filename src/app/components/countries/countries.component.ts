@@ -63,16 +63,24 @@ export class CountriesComponent implements OnInit {
     pais.nombre = pais.nombre_pais
     pais.estado = pais.estado_pais
     
-    this.DataService.createCountries(this.urlCreateCountries, pais).subscribe(data=>{
+    if(pais.nombre_pais == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste una nueva Ciudad!',
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      console.log(this.country)
-      console.log(data)
-      this.refresh()
-    })
+    }else{
+      this.DataService.createCountries(this.urlCreateCountries, pais).subscribe(data=>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Agregaste una nueva Ciudad!',
+        })
+        console.log(this.country)
+        console.log(data)
+        this.refresh()
+      })
+    }
   }
 
   edit(pais: Pais){
@@ -82,16 +90,24 @@ export class CountriesComponent implements OnInit {
     pais.nombre = pais.nombre_pais
     pais.estado = pais.estado_pais
 
-    this.DataService.editCountries(this.urlEditCountry, pais).subscribe(data =>{
+    if(pais.nombre_pais == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la iformación exitosamente!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      console.log(pais)
-      console.log(data)
-      this.refresh()
-    })
+    }else{
+      this.DataService.editCountries(this.urlEditCountry, pais).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Editaste la iformación exitosamente!'
+        })
+        console.log(pais)
+        console.log(data)
+        this.refresh()
+      })
+    }
   }
   
   deleted(id: any, pais:Pais){

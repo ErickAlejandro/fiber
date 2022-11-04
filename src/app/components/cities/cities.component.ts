@@ -67,14 +67,23 @@ export class CitiesComponent implements OnInit {
 
   save(city: Cities) {
     city.estado_ciudad = 'activo'
-    this.DataService.createCity(city, this.urlCreateCity).subscribe(data => {
+
+    if(city.nombre_provincia == '' || city.nombre_ciudad == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste una nueva Ciudad!',
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataService.createCity(city, this.urlCreateCity).subscribe(data => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Agregaste una nueva Ciudad!',
+        })
+        this.refresh()
+      })
+    }
   }
 
   preSave(cities: Cities){
@@ -101,14 +110,23 @@ export class CitiesComponent implements OnInit {
 
   edit(city: Cities) {
     this.cityDetail.estado_ciudad = 'activo'
-    this.DataService.modifiedCity(city, this.urlEditCity).subscribe(data => {
+
+    if(city.nombre_ciudad == '' || city.nombre_provincia == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la información!',
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataService.modifiedCity(city, this.urlEditCity).subscribe(data => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Editaste la información!',
+        })
+        this.refresh()
+      })
+    }
   }
 
   deleted(id: any) {

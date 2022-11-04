@@ -69,25 +69,43 @@ export class OntModelsComponent implements OnInit {
   save(ontModel: OntModels){
     this.ontModels.estado_modelosont = 'activo'
     this.ontModels.id_ciudad = Number(this.city)
-    this.DataServcies.createOntModel(this.urlCreate, ontModel).subscribe(data => {
+
+    if(ontModel.nombre_modelosont == '' || ontModel.tipo_modelosont == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste un nuevo Modelo ONT!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataServcies.createOntModel(this.urlCreate, ontModel).subscribe(data => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Agregaste un nuevo Modelo ONT!'
+        })
+        this.refresh()
+      })
+    }
   }
 
   edit(ontModel: OntModels){
-    this.DataServcies.editOntModel(this.urlEdit, ontModel).subscribe(data =>{
+
+    if(ontModel.nombre_modelosont == '' || ontModel.tipo_modelosont == ''){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la información exitosamente!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataServcies.editOntModel(this.urlEdit, ontModel).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Editaste la información exitosamente!'
+        })
+        this.refresh()
+      })
+    }
   }
 
   deleted(id: any){

@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -97,6 +97,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
@@ -104,7 +105,7 @@
 
 
 <!-- Modal de alerta para Eliminación-->
-<div class="modal fade" id="alertDeletVlans" tabindex="-1" aria-labelledby="alertDeleted" aria-hidden="true">
+<div class="modal fade" id="alertDeletVlans" tabindex="-1" aria-labelledby="alertDeleted" aria-hidden="true" bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -118,8 +119,8 @@
                   <h4><b>Caja Nivel-1</b></h4>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" (click)="deleted(VlanDetails.id_vlan)">Eliminar</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-danger" (click)="deleted(VlanDetails.id_vlan)">Eliminar</button>
                 </div>
             </div>
         </div>
@@ -211,7 +212,7 @@
   </div> -->
 
 <!-- MODAL PARA CREACION DE UNA NUEVA VLAN -->
-<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
+<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true" bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -268,6 +269,7 @@
                     </div>
                     <br>
                     <button (click)="save(vlan)" class="btn btn-primary">Agregar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </form>
             </div>
         </div>

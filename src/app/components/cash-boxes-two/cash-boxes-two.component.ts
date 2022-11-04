@@ -73,14 +73,23 @@ export class CashBoxesTwoComponent implements OnInit {
   save(cashBox: CashBoxesTwo){
     this.boxes.estado_cajanivel2 = 'activo'
     this.boxes.id_ciudad = Number(this.city)
-    this.DataServices.createCashBoxTwo(this.urlCreateData, cashBox).subscribe(data =>{
+    
+    if(cashBox.nombre_cajanivel2 == '' || cashBox.nombre_cajanivel1 == '' || cashBox.abreviatura_cajanivel2 == '' || cashBox.direccion_cajanivel2 == '' || cashBox.referencia == '' || cashBox.cantidadhilos_cajanivel2 == 0){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste una nueva Ciudad!',
+        icon: 'error',
+        title: 'Error',
+        text: 'Compruebe los datos ingrersados!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataServices.createCashBoxTwo(this.urlCreateData, cashBox).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Agregaste una nueva Caja de Nivel-2!',
+        })
+        this.refresh()
+      })
+    }
   }
 
   getDataCashBoxOne(){

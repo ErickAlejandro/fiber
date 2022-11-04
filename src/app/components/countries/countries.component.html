@@ -31,7 +31,7 @@
     </div>
 </div>
 <!-- DETALLES DEL PAIS -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -52,13 +52,14 @@
                         </tr>
                     </tbody>
                 </table>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Modal de alerta para Eliminación-->
-<div class="modal fade" id="alertDeletModel" tabindex="-1" aria-labelledby="alertDeleted" aria-hidden="true">
+<div class="modal fade" id="alertDeletModel" tabindex="-1" aria-labelledby="alertDeleted" aria-hidden="true" keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -81,7 +82,7 @@
   </div>
 
 <!-- Modal de alertta para Edicion-->
-<div class="modal fade" id="alertEditionCountries" tabindex="-2" aria-labelledby="alertEditionCountries" aria-hidden="true">
+<div class="modal fade" id="alertEditionCountries" tabindex="-2" aria-labelledby="alertEditionCountries" aria-hidden="true" keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -93,8 +94,9 @@
                   <h3>Estas seguro que quieres editar la información de <b>{{countryDetails.nombre_pais}}</b>.</h3>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-warning" (click)="edit(countryDetails)" >Editar</button>
+                    <button type="button" class="btn btn-warning" (click)="edit(countryDetails)" >Editar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                  data-bs-target="#editForm">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -102,7 +104,7 @@
   </div>
 
 <!-- FORMULARIO CREAR -->
-<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true">
+<div class="modal fade" id="createCitiesForm" tabindex="-1" aria-labelledby="createCitiesForm" aria-hidden="true" keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -117,6 +119,7 @@
                     </div>
                     <br>
                     <button class="btn btn-primary"  (click)="save(country)">Agregar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </form>
             </div>
         </div>
@@ -125,7 +128,7 @@
 
 
 <!-- EDITAR FORMULARIO -->
-<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true">
+<div class="modal" id="editForm" aria-labelledby="editForm" tabindex="-1" aria-hidden="true" keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -139,6 +142,7 @@
                     </div>
                     <br>
                     <button class="btn btn-warning"  data-bs-toggle="modal" data-bs-target="#alertEditionCountries">Editar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </form>
             </div>
         </div>

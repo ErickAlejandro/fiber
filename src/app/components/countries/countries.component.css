@@ -20,7 +20,9 @@ table tbody td:hover {
         #494949 -4px 4px, #a5a5a5 -5px 5px, #8a8a8a -6px 6px;
     transition: 0.5s;
 }
-
+.btn-secondary{
+    margin-left: 10px;
+}
 nav {
     padding: 15px;
 }

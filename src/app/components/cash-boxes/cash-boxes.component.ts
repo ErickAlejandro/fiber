@@ -70,15 +70,32 @@ export class CashBoxesComponent implements OnInit {
    save(cashBoxes:CashBoxes){
     this.boxes.estado_cajanivel1 = 'activo'
     this.boxes.id_ciudad = Number(this.city)
-    this.DataService.createCashBox(this.urlCreateBoxes, cashBoxes).subscribe(data=>{
+
+    if(cashBoxes.nombre_cajanivel1 == '' || cashBoxes.nombre_vlan == '' || cashBoxes.direccion_cajanivel1 == '' || cashBoxes.referencia_cajanivel1 == '' || cashBoxes.cantidadhilos_cajanivel1 == 0){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste una nueva Ciudad!',
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      console.log(this.boxes)
-      this.refresh()
-    })
+    }else{
+      this.DataService.createCashBox(this.urlCreateBoxes, cashBoxes).subscribe(data=>{
+        if(JSON.stringify(data) == '{"respuesta":"La caja ya existe o vlan ocupada"}'){
+          Swal.fire({
+            icon: 'error',
+            title: 'La caja ya existe o vlan ocupada',
+            text: 'Cambiar nombre de caja o Vlan!',
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Agregaste una nueva Caja de nivel-1!',
+          })
+          console.log(JSON.stringify(data))
+          this.refresh()
+        }
+      }) 
+    }
    }
 
    refresh(){
@@ -106,14 +123,23 @@ export class CashBoxesComponent implements OnInit {
   }
 
   editCashBox(cashBox: CashBoxes){
-    this.DataService.editCashBoxLvlOne(this.urlEditCashBoxes, cashBox).subscribe(data =>{
+
+    if(cashBox.nombre_cajanivel1 == '' || cashBox.nombre_vlan == '' || cashBox.direccion_cajanivel1 == '' || cashBox.referencia_cajanivel1 == '' || cashBox.cantidadhilos_cajanivel1 == 0){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la información exitosamente!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataService.editCashBoxLvlOne(this.urlEditCashBoxes, cashBox).subscribe(data =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Editaste la información exitosamente!'
+        })
+        this.refresh()
+      })
+    }
   }
 
   deletedCashBoxes(id:any){
