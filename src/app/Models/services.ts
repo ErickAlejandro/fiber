@@ -37,7 +37,7 @@ export class Services{
     estado_cliente: string
     metododepago_cliente: string
     adomicilio_cliente: string
-    idcobrador_cliente_usuario: number
+    idcobrador_cliente_usuario: any
     precio_cliente: string
 
     constructor(){
@@ -79,7 +79,7 @@ export class Services{
         this.estado_cliente = ''
         this.metododepago_cliente = ''
         this.adomicilio_cliente = ''
-        this.idcobrador_cliente_usuario = 0
+        this.idcobrador_cliente_usuario = ''
         this.precio_cliente = ''
     }
 }
