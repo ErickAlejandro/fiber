@@ -102,7 +102,7 @@ export class PlansComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Error de edición',
-        text: 'Algun dato se encuentra vacio o es el mismo que el anteior!',
+        text: 'Algun dato se encuentra vacio o es el mismo que el anterior!',
       })
     }else{
       this.DataService.editPlans(plans, this.urlEditPlans).subscribe(data =>{

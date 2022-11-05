@@ -112,14 +112,23 @@ export class CashBoxesTwoComponent implements OnInit {
   }
 
   edit(cashBoxTwo: CashBoxesTwo){
-    this.DataServices.editCashBoxLvlTwo(this.urlEdit, cashBoxTwo).subscribe(data => {
+
+    if(cashBoxTwo.nombre_cajanivel2 == '' || cashBoxTwo.nombre_cajanivel1 == '' || cashBoxTwo.abreviatura_cajanivel2 == '' || cashBoxTwo.direccion_cajanivel2 == '' || cashBoxTwo.referencia == '' || cashBoxTwo.cantidadhilos_cajanivel2 == 0){
       Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la información exitosamente!'
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra incorrecto o es igual al anterior!',
       })
-      this.refresh()
-    })
+    }else{
+      this.DataServices.editCashBoxLvlTwo(this.urlEdit, cashBoxTwo).subscribe(data => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Felicidades',
+          text: 'Editaste la información exitosamente!'
+        })
+        this.refresh()
+      })
+    }
   }
 
   delet(id: any){

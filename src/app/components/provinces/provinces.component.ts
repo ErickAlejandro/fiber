@@ -75,7 +75,7 @@ export class ProvincesComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Algun dato se encuentra vacio o no es correcto!',
+        text: 'Algun dato se encuentra vacio o es igual al anterior!',
       })
     }else{
       this.DataService.getEditProvinces(this.urlEditProvince, provinces).subscribe(data =>{

@@ -94,7 +94,7 @@ export class ClientsComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Algun dato se encuentra vacio o no es correcto!',
+        text: 'Algun dato se encuentra vacio o es igual al anterior!',
       })
     }else{
       this.DataServcies.editClients(client, this.urlEditClients).subscribe(data => {

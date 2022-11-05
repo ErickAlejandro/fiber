@@ -84,7 +84,7 @@ if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Algun dato se encuentra vacio o no es correcto!',
+        text: 'Algun dato se encuentra vacio o es igual al anterior!',
       })
     }else{
       this.DataService.editOnt(this.urlEditOnt, ont).subscribe(data =>{

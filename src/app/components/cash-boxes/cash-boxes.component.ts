@@ -128,7 +128,7 @@ export class CashBoxesComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Algun dato se encuentra vacio o no es correcto!',
+        text: 'Algun dato no es correcto o es igual al Anterior!',
       })
     }else{
       this.DataService.editCashBoxLvlOne(this.urlEditCashBoxes, cashBox).subscribe(data =>{

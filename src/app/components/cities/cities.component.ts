@@ -115,7 +115,7 @@ export class CitiesComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Algun dato se encuentra vacio o no es correcto!',
+        text: 'Algun dato se encuentra vacio o no es igual al anterior!',
       })
     }else{
       this.DataService.modifiedCity(city, this.urlEditCity).subscribe(data => {
