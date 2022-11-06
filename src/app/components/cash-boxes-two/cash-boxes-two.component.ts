@@ -148,7 +148,6 @@ export class CashBoxesTwoComponent implements OnInit {
       icon: 'info',
       title: 'Cargando Datos',
       showConfirmButton: false,
-      timer: 1000,
       timerProgressBar: true
       })
 
@@ -156,9 +155,15 @@ export class CashBoxesTwoComponent implements OnInit {
       this.DataServices.getDataCashBoxesTwo(this.urlGetData).subscribe((data: CashBoxesTwo[]) =>{
         this.cashBoxesTwoList = data
         this.addCashBoxesTwo(data)
+        Swal.close()
 
         if(this.cashBoxesTwoList == null){
-          this.router.navigate(['/tabla-vacia'])
+          Swal.fire({
+            icon: 'info',
+            title: 'La tabla esta vacia',
+            timer: 2000,
+            showConfirmButton: false,
+          })
         }else{
           console.log('la tabla si tiene datos');
         }

@@ -52,16 +52,20 @@ export class HistorialComponent implements OnInit {
       icon: 'info',
       title: 'Cargando Datos',
       showConfirmButton: false,
-      timer: 1100,
       timerProgressBar: true
     })
 
     this.DataService.getDataHistorial(this.urlGetData).subscribe((data: Historial[]) =>{
       this.historialList = data
       this.addHistorial(data)
-
+      Swal.close()
       if(this.historialList == null){
-        this.router.navigate(['/tabla-vacia'])
+        Swal.fire({
+          icon: 'info',
+          title: 'La tabla esta vacia',
+          timer: 2000,
+          showConfirmButton: false,
+        })
       }else{
         console.log('la tabla si tiene datos');
       }

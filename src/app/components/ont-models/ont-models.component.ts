@@ -124,16 +124,20 @@ export class OntModelsComponent implements OnInit {
       icon: 'info',
       title: 'Cargando Datos',
       showConfirmButton: false,
-      timer: 1000,
       timerProgressBar: true
     })
     if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
       this.DataServcies.getDataModelOnt(this.urlGetData, this.city).subscribe((data: OntModels[]) => {
         this.ontModelList = data
         this.addModelOnt(data)
-
+        Swal.close()
         if(this.ontModelList == null){
-          this.router.navigate(['/tabla-vacia'])
+          Swal.fire({
+            icon: 'info',
+            title: 'La tabla esta vacia',
+            timer: 2000,
+            showConfirmButton: false,
+          })
         }else{
           console.log('la tabla si tiene datos');
         }

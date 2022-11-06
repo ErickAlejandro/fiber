@@ -38,6 +38,8 @@ export class UsersComponent implements OnInit {
   cityDetail = new Cities();
   selectCity!: Cities
 
+  dataJson:any
+
   rolDetail = new Rol()
   usersList!: Users[]
   usersDetails = new Users()
@@ -180,7 +182,6 @@ export class UsersComponent implements OnInit {
       icon: 'info',
       title: 'Cargando Datos',
       showConfirmButton: false,
-      timer: 1000,
       timerProgressBar: true
     })
 
@@ -189,8 +190,15 @@ export class UsersComponent implements OnInit {
     this.DataService.getDataUsers(this.urlGetDataUsers).subscribe((data: Users[]) =>{
       this.usersList  = data
       this.addUsers(data)
+      Swal.close()
+      
       if(this.usersList == null){
-        this.router.navigate(['/tabla-vacia'])
+        Swal.fire({
+          icon: 'info',
+          title: 'La tabla esta vacia',
+          timer: 2000,
+          showConfirmButton: false,
+        })
       }else{
         console.log('la tabla si tiene datos');
       }

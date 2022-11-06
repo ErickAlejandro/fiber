@@ -159,7 +159,6 @@ export class CashBoxesComponent implements OnInit {
       icon: 'info',
       title: 'Cargando Datos',
       showConfirmButton: false,
-      timer: 1000,
       timerProgressBar: true
       })
 
@@ -169,9 +168,14 @@ export class CashBoxesComponent implements OnInit {
     .subscribe((data: CashBoxes[]) => {
       this.cashBoxesList = data
       this.addCashBox(data)
-
+      Swal.close()
       if(this.cashBoxesList == null){
-        this.router.navigate(['/tabla-vacia'])
+        Swal.fire({
+          icon: 'info',
+          title: 'La tabla esta vacia',
+          timer: 2000,
+          showConfirmButton: false,
+        })
       }else{
         console.log('la tabla si tiene datos');
       }

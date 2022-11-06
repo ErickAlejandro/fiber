@@ -28,6 +28,7 @@ export class PendingActivationsComponent implements OnInit {
   urlDeletedSecont = '&id_ciudad='+this.city
 
   urlEdit = '/Servicio/editarServicio.php'
+  dataJson:any
 
   serviceList!: Services[]
   serviceDetails = new Services()
@@ -65,14 +66,34 @@ export class PendingActivationsComponent implements OnInit {
   }
 
   editSatate(service: Services){
+
+    Swal.fire({
+      icon: 'info',
+      title: 'Cargando',
+      showConfirmButton: false,
+      timerProgressBar: true
+    })
+    
     this.DataService.editService(this.urlEdit, service).subscribe(data=>{
-      Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Editaste la información!',
-      })
-      console.log(data);
-      this.refresh()
+      Swal.close()
+      this.dataJson = JSON.parse(JSON.stringify(data))
+
+      if(this.dataJson['respuesta'] != 'ok'){
+        Swal.fire({
+          icon: 'error',
+          title: 'Algo salio mal!',
+          text: this.dataJson['respuesta'],
+        })
+      }else{
+        Swal.fire({
+          icon: 'success',
+          timer: 2000,
+          title: 'Felicidades',
+          showConfirmButton: false,
+          text: 'Servicio Activado!',
+        })
+        location.reload()
+      }
     })
   }
 
@@ -88,7 +109,6 @@ export class PendingActivationsComponent implements OnInit {
         title: 'Felicidades',
         text: 'El dato fue eliminado con Exito!',
       })
-      console.log(res);
       this.refresh()
     })
   }
@@ -108,24 +128,31 @@ export class PendingActivationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    Swal.fire({
+      icon: 'info',
+      title: 'Cargando Datos',
+      showConfirmButton: false,
+      timerProgressBar: true
+    })
     
     this.DataService.getDataClients(this.urlGetData).subscribe((data: Services[]) => {
       this.serviceList = data
       this.addServices(data)
+      this.dataJson = JSON.parse(JSON.stringify(data))
+      Swal.close()
+      
       if(this.serviceList == null){
-        this.route.navigate(['/tabla-vacia'])
+        Swal.fire({
+          icon: 'info',
+          title: 'La tabla esta vacia',
+          timer: 2000,
+          showConfirmButton: false,
+        })
       }else{
         console.log('la tabla si tiene datos');
       }
 
     })
 
-    Swal.fire({
-      icon: 'info',
-      title: 'Cargando Datos',
-      showConfirmButton: false,
-      timer: 1000,
-      timerProgressBar: true
-    })
   }
 }

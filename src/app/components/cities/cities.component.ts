@@ -38,6 +38,7 @@ export class CitiesComponent implements OnInit {
   since: number = 0
   to: number = 5
 
+
   constructor(private DataService: DataService, private store: Store, private router: Router) {
 
   }
@@ -146,10 +147,9 @@ export class CitiesComponent implements OnInit {
       icon: 'info',
       title: 'Cargando Datos',
       showConfirmButton: false,
-      timer: 1100,
       timerProgressBar: true
     })
-
+    
     this.getCaptureProvince()
 
     this.DataService.getDataProvinces(this.urlGetDataProvincia).subscribe((data: Pronvinces[]) =>{
@@ -159,7 +159,10 @@ export class CitiesComponent implements OnInit {
     this.DataService.getData(this.urlCities)
       .subscribe((data: Cities[]) => {
         this.citiesList = data
+        console.log(data)
         this.addCities(data)
+        Swal.close()
+        
         if(this.citiesList == null){
           this.router.navigate(['/tabla-vacia'])
         }else{

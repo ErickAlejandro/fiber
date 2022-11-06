@@ -97,8 +97,8 @@ nav a:hover{
 
 div#userInfo{
     font-family: Sora;
-    padding: 10px;
     padding-top: 18px;
+    padding-bottom: 18px;
     background-color: #424242;
     color: whitesmoke;
 }

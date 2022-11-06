@@ -51,7 +51,6 @@ export class PlansComponent implements OnInit {
       icon: 'info',
       title: 'Cargando Datos',
       showConfirmButton: false,
-      timer: 1000,
       timerProgressBar: true
       })
   
@@ -59,9 +58,14 @@ export class PlansComponent implements OnInit {
       .subscribe((data: Planes[]) => {
         this.plansList = data
         this.addPlans(data)
-
+        Swal.close()
         if(this.plansList == null){
-          this.router.navigate(['/tabla-vacia'])
+          Swal.fire({
+            icon: 'info',
+            title: 'La tabla esta vacia',
+            timer: 2000,
+            showConfirmButton: false,
+          })
         }else{
           console.log('la tabla si tiene datos');
         }

@@ -63,6 +63,7 @@ export class ServicesComponent implements OnInit {
   since:number = 0
   to:number = 5
 
+  dataJson:any
   constructor(private DataService: DataService, private store: Store, private router:Router) { }
 
   addServices(services: Services[]){
@@ -98,13 +99,35 @@ ClipBoard(input: any){
   }
 
   save( service: Services){
+    
+    Swal.fire({
+      icon: 'info',
+      title: 'Cargando',
+      showConfirmButton: false,
+      timerProgressBar: true
+    })
+
+
     this.DataService.createService(this.urlCreateService, service).subscribe(data =>{
-      Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'Agregaste un nuevo Servicio y  una nueva ONT!'
-      })
-      this.refresh()
+      Swal.close()
+      this.dataJson = JSON.parse(JSON.stringify(data))
+
+      if(this.dataJson['respuesta'] != 'ok'){
+        Swal.fire({
+          icon: 'error',
+          title: 'Algo salio mal!',
+          text: this.dataJson['respuesta'],
+        })
+      }else{
+        Swal.fire({
+          icon: 'success',
+          timer:2000,
+          title: 'Felicidades',
+          text: 'Agregaste un nuevo Servicio y  una nueva ONT!',
+          showConfirmButton: false,
+        })
+        location.reload()
+      }
     })
   }
 
@@ -170,19 +193,25 @@ ClipBoard(input: any){
       icon: 'info',
       title: 'Cargando Datos',
       showConfirmButton: false,
-      timer: 1000,
       timerProgressBar: true
       })
       this.getCaptureClient()
       this.getCaptureCashBoxTwo()
       this.getCaptureModelOnt()
       this.getCapturePlan()
+
       this.DataService.getDataService(this.urlGetData).subscribe((data: Services[]) =>{
         this.servicesList = data
         this.addServices(data)
-
+        Swal.close()
+        
         if(this.servicesList == null){
-          this.router.navigate(['/tabla-vacia'])
+          Swal.fire({
+            icon: 'info',
+            title: 'La tabla esta vacia',
+            timer: 2000,
+            showConfirmButton: false,
+          })
         }else{
           console.log('la tabla si tiene datos');
         }
