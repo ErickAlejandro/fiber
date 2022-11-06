@@ -20,7 +20,7 @@
             <td>{{client.telefono1_clientepersona}}</td>
             <td>{{client.telefono2_clientepersona}}</td>
             <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="../../../assets/icons/eye-solid.svg" width="30" height="24" (click)="getClientByName(client.cedula_clientepersona)"></button>
-            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getClientEdit(client.cedula_clientepersona)"></button>
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getClientEdit(client.cedula_clientepersona); getClientByName(client.cedula_clientepersona)"></button>
 
             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeleted" ><img src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24" (click)="getClientByName(client.cedula_clientepersona)"></button>
           </td>

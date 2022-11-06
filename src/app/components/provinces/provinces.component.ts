@@ -13,10 +13,11 @@ import Swal from 'sweetalert2';
   styleUrls: ['./provinces.component.css']
 })
 export class ProvincesComponent implements OnInit {
+  dataJson: any;
 
   constructor(private DataService: DataService, private store: Store) { }
 
-  public addProvinces (provinces: Pronvinces[]){
+  public addProvinces(provinces: Pronvinces[]) {
     this.store.dispatch(new AddProvinces(provinces))
   }
 
@@ -39,97 +40,141 @@ export class ProvincesComponent implements OnInit {
   province: Pronvinces = new Pronvinces()
 
   pageSize = 5
-  since:number = 0
-  to:number = 5
+  since: number = 0
+  to: number = 5
 
-  refresh(){
-    addEventListener('click', e =>{
+  refresh() {
+    addEventListener('click', e => {
       location.reload()
     })
   }
 
-  preSave(provinces: Pronvinces){
+  preSave(provinces: Pronvinces) {
     this.province = provinces
   }
 
-  preSaveEdit(provinceD: Pronvinces){
+  preSaveEdit(provinceD: Pronvinces) {
     this.provinceDetail = provinceD
   }
 
-  changePage(e:PageEvent){
+  changePage(e: PageEvent) {
     console.log(e)
     this.since = e.pageIndex * e.pageSize;
     this.to = this.since + e.pageSize;
-    
+
   }
 
-  getCapturePais(){
-    this.DataService.getDataPais(this.urlGetPais).subscribe((data: Pais[]) =>{
+  getCapturePais() {
+    this.DataService.getDataPais(this.urlGetPais).subscribe((data: Pais[]) => {
       this.paisList = data
     })
   }
 
-  editProvince(provinces:Pronvinces){
-
-    if(provinces.nombre_pais == '' || provinces.nombre_provincia == ''){
+  editProvince(provinces: Pronvinces) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Editar información',
+      showConfirmButton: false,
+    })
+    if (provinces.nombre_pais == '' || provinces.nombre_provincia == '') {
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Algun dato se encuentra vacio o es igual al anterior!',
       })
-    }else{
-      this.DataService.getEditProvinces(this.urlEditProvince, provinces).subscribe(data =>{
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Editaste la información exitosamente!'
-        })
-        this.refresh()
+    } else {
+      this.DataService.getEditProvinces(this.urlEditProvince, provinces).subscribe(data => {
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Editaste la información exitosamente!'
+          })
+          location.reload()
+        }
       })
     }
   }
 
-  save(province: Pronvinces){
+  save(province: Pronvinces) {
     province.estado_provincia = 'activo'
-    if(province.nombre_pais == '' || province.nombre_provincia == ''){
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando creación',
+      showConfirmButton: false,
+    })
+
+    if (province.nombre_pais == '' || province.nombre_provincia == '') {
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-    }else{
-      this.DataService.createProvince(this.urlCreateProvince, province).subscribe(data =>{
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Agregaste una nueva Ciudad!',
-        })
-        this.refresh()
+    } else {
+      this.DataService.createProvince(this.urlCreateProvince, province).subscribe(data => {
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Agregaste una nueva Ciudad!',
+          })
+          location.reload()
+        }
       })
     }
   }
 
-  getProvinceByName(provinceName: string){
-    this.store.select(state => state.provinces.provinces).subscribe((data: Pronvinces[]) =>{
+  getProvinceByName(provinceName: string) {
+    this.store.select(state => state.provinces.provinces).subscribe((data: Pronvinces[]) => {
       this.provinceDetail = data.filter((province) => province.nombre_provincia == provinceName)[0]
       console.log(this.provinceDetail)
     })
   }
 
-  getProvinceByEdit(province: string){
-    this.DataService.getProvinceByName(this.urlGetData, province).subscribe((data: Pronvinces[]) =>{
+  getProvinceByEdit(province: string) {
+    this.DataService.getProvinceByName(this.urlGetData, province).subscribe((data: Pronvinces[]) => {
       this.provinceDetail = data[0]
     })
   }
 
-  deleted(id:any){
-    this.DataService.deletedCity(this.urlDeletedProvincia, id).subscribe(res =>{
+  deleted(id: any) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Eliminando dato...',
+      showConfirmButton: false,
+    })
+
+    this.DataService.deletedCity(this.urlDeletedProvincia, id).subscribe(res => {
+      Swal.close()
       Swal.fire({
         icon: 'success',
         title: 'Felicidades',
         text: 'El dato fue eliminado con Exito!',
+        showConfirmButton: false,
       })
-      this.refresh()
+      location.reload()
     })
   }
 
@@ -138,19 +183,30 @@ export class ProvincesComponent implements OnInit {
       icon: 'info',
       title: 'Cargando Datos',
       showConfirmButton: false,
-      timer: 1000,
       timerProgressBar: true
     })
 
-    this.DataService.getDataPais(this.urlGetPais).subscribe((data: Pais[]) =>{
+    this.DataService.getDataPais(this.urlGetPais).subscribe((data: Pais[]) => {
       this.paisList = data
     })
 
     this.getCapturePais()
 
-    this.DataService.getDataProvinces(this.urlGetData).subscribe((data: Pronvinces[]) =>{
+    this.DataService.getDataProvinces(this.urlGetData).subscribe((data: Pronvinces[]) => {
       this.provincesList = data
       this.addProvinces(data)
+      Swal.close()
+
+      if (this.provincesList == null) {
+        Swal.fire({
+          icon: 'info',
+          title: 'La tabla esta vacia',
+          timer: 2000,
+          showConfirmButton: false,
+        })
+      } else {
+        console.log('La tabla si tiene datos');
+      }
     })
   }
 }

@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./clients.component.css']
 })
 export class ClientsComponent implements OnInit {
+  dataJson: any;
 
   constructor(private DataServcies: DataService, private store: Store, private router: Router) { }
 
@@ -70,52 +71,97 @@ export class ClientsComponent implements OnInit {
     clients.estado_clientepersona = 'activo'
     clients.id_ciudad = Number(this.city)
 
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando creación',
+      showConfirmButton: false,
+      timerProgressBar: true
+    })
+
     if (clients.cedula_clientepersona == 0 || clients.nombre_clientepersona == '' || clients.apellido_clientepersona == '' || clients.correo_clientepersona == '' || clients.telefono1_clientepersona == '') {
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-    }else{
+    } else {
       this.DataServcies.getCreateClients(this.urlCreateClients, clients).subscribe(data => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Agregaste un nuevo Cliente!'
-        })
-        this.refresh()
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Agregaste un nuevo Cliente!'
+          })
+          this.refresh()
+        }
       })
     }
   }
 
   edit(client: Clients) {
-    
-    if(client.cedula_clientepersona == 0 || client.nombre_clientepersona == '' || client.apellido_clientepersona == '' || client.correo_clientepersona == '' || client.telefono1_clientepersona == ''){
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Editar información',
+      showConfirmButton: false,
+    })
+
+    if (client.nombre_clientepersona == '' || client.apellido_clientepersona == '' || client.correo_clientepersona == '' || client.telefono1_clientepersona == '') {
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Algun dato se encuentra vacio o es igual al anterior!',
       })
-    }else{
+    } else {
       this.DataServcies.editClients(client, this.urlEditClients).subscribe(data => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Editaste la información exitosamente!'
-        })
-        this.refresh()
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+        console.log(this.dataJson);
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.close()
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Editaste la información exitosamente!'
+          })
+          location.reload()
+        }
       })
     }
   }
 
   deleted(id: any) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Eliminando dato...',
+      showConfirmButton: false,
+    })
     this.DataServcies.deletedCity(this.urlDeletedData, id).subscribe(resp => {
+      Swal.close()
       Swal.fire({
         icon: 'success',
         title: 'Felicitaciones',
         text: 'El dato fue eliminado con Exito!'
       })
-      this.refresh()
+      location.reload()
     })
   }
 

@@ -77,7 +77,14 @@ export class UsersComponent implements OnInit {
     
     users.estado = 'activo'
 
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando creación',
+      showConfirmButton: false,
+    })
+
     if(users.nombre == '' || users.usuario == '' || users.contrasena == ''){
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -85,13 +92,22 @@ export class UsersComponent implements OnInit {
       })
     }else{
       this.DataService.createUsers(this.urlCreateUser, users).subscribe(data =>{
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Agregaste un nuevo Usuario!',
-        })
-         this.refresh()
-         console.log(data);
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Agregaste un nuevo Usuario!',
+          })
+           location.reload()
+        }
       })
     }
   }
@@ -124,7 +140,6 @@ export class UsersComponent implements OnInit {
   }
 
   editUsers(users: Users){
-    
     users.nombre = users.nombre_usuario
     users.usuario = users.usuario_usuario
     users.contrasena = users.contrasena_usuario
@@ -135,7 +150,15 @@ export class UsersComponent implements OnInit {
     
     users.estado = 'activo'
 
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Editar información',
+      showConfirmButton: false,
+    })
+
     if(users.nombre == '' || users.usuario == '' || users.contrasena == ''){
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -143,12 +166,23 @@ export class UsersComponent implements OnInit {
       })
     }else{
       this.DataService.getEditUsers(this.urlEditUsers, users).subscribe(data =>{
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Editaste la información exitosamente!'
-        })
-        this.refresh()
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Editaste la información exitosamente!'
+          })
+          this.refresh()
+        }
       })
     }
   }
@@ -160,13 +194,20 @@ export class UsersComponent implements OnInit {
   }
 
   deleted(id: any){
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Eliminando dato...',
+      showConfirmButton: false,
+    })
     this.DataService.deletedCity(this.urlDeletUser, id).subscribe(res =>{
+      Swal.close()
       Swal.fire({
         icon: 'success',
         title: 'Felicidades',
         text: 'El dato fue eliminado con Exito!',
       })
-      this.refresh()
+      location.reload()
     })
   }
 

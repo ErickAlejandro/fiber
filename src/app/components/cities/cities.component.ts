@@ -37,6 +37,7 @@ export class CitiesComponent implements OnInit {
   pageSize = 5
   since: number = 0
   to: number = 5
+  dataJson: any;
 
 
   constructor(private DataService: DataService, private store: Store, private router: Router) {
@@ -68,30 +69,46 @@ export class CitiesComponent implements OnInit {
 
   save(city: Cities) {
     city.estado_ciudad = 'activo'
-
-    if(city.nombre_provincia == '' || city.nombre_ciudad == ''){
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando creación',
+      showConfirmButton: false,
+    })
+    if (city.nombre_provincia == '' || city.nombre_ciudad == '') {
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Algun dato se encuentra vacio o no es correcto!',
       })
-    }else{
+    } else {
       this.DataService.createCity(city, this.urlCreateCity).subscribe(data => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Agregaste una nueva Ciudad!',
-        })
-        this.refresh()
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Agregaste una nueva Ciudad!',
+          })
+          location.reload()
+        }
       })
     }
   }
 
-  preSave(cities: Cities){
+  preSave(cities: Cities) {
     this.city = cities
   }
 
-  preSaveEdit(citiesD: Cities){
+  preSaveEdit(citiesD: Cities) {
     this.cityDetail = citiesD
   }
 
@@ -111,33 +128,58 @@ export class CitiesComponent implements OnInit {
 
   edit(city: Cities) {
     this.cityDetail.estado_ciudad = 'activo'
-
-    if(city.nombre_ciudad == '' || city.nombre_provincia == ''){
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Editar información',
+      showConfirmButton: false,
+    })
+    if (city.nombre_ciudad == '' || city.nombre_provincia == '') {
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Algun dato se encuentra vacio o no es igual al anterior!',
       })
-    }else{
+    } else {
       this.DataService.modifiedCity(city, this.urlEditCity).subscribe(data => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Editaste la información!',
-        })
-        this.refresh()
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Editaste la información!',
+          })
+          location.reload()
+        }
       })
     }
   }
 
   deleted(id: any) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Eliminando dato...',
+      showConfirmButton: false,
+    })
     this.DataService.deletedCity(this.urlDeletedCity, id).subscribe(res => {
+      Swal.close()
       Swal.fire({
         icon: 'success',
         title: 'Felicidades',
         text: 'El dato fue eliminado con Exito!',
+        showConfirmButton: false,
       })
-      this.refresh()
+      location.reload()
     })
   }
 
@@ -149,23 +191,27 @@ export class CitiesComponent implements OnInit {
       showConfirmButton: false,
       timerProgressBar: true
     })
-    
+
     this.getCaptureProvince()
 
-    this.DataService.getDataProvinces(this.urlGetDataProvincia).subscribe((data: Pronvinces[]) =>{
+    this.DataService.getDataProvinces(this.urlGetDataProvincia).subscribe((data: Pronvinces[]) => {
       this.provincesList = data
     })
 
     this.DataService.getData(this.urlCities)
       .subscribe((data: Cities[]) => {
         this.citiesList = data
-        console.log(data)
         this.addCities(data)
         Swal.close()
-        
-        if(this.citiesList == null){
-          this.router.navigate(['/tabla-vacia'])
-        }else{
+
+        if (this.citiesList == null) {
+          Swal.fire({
+            icon: 'info',
+            title: 'La tabla esta vacia',
+            timer: 2000,
+            showConfirmButton: false,
+          })
+        } else {
           console.log('la tabla si tiene datos');
         }
       })

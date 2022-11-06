@@ -99,13 +99,13 @@ if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
   }
 
   deleted(id:any){
+    Swal.fire({
+      icon: 'success',
+      title: 'Felicidades',
+      text: 'El dato fue eliminado con Exito!'
+    })
     this.DataService.deletedCity(this.urlDeleted, id).subscribe(resp =>{
-      Swal.fire({
-        icon: 'success',
-        title: 'Felicidades',
-        text: 'El dato fue eliminado con Exito!'
-      })
-      this.refresh()
+      location.reload()
     })
   }
 
@@ -121,7 +121,6 @@ if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
     this.DataService.getDataOnt(this.urlGetData).subscribe((data: Ont[]) =>{
       this.ontList = data
       this.addOnts(data)
-      console.log(data);
       Swal.close()
       if(this.ontList == null){
         Swal.fire({

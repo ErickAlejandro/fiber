@@ -5,7 +5,7 @@ import { OntModels } from 'src/app/Models/ontModels';
 import { DataService } from 'src/app/services/data.service';
 import { AddModelOnt } from 'src/app/store/ont-model/ontModel.actions';
 import Swal from 'sweetalert2';
-import * as CryptoJS from 'crypto-js';  
+import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,8 +14,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./ont-models.component.css']
 })
 export class OntModelsComponent implements OnInit {
+  dataJson: any;
 
-  constructor(private DataServcies: DataService, private store: Store, private router:Router) { }
+  constructor(private DataServcies: DataService, private store: Store, private router: Router) { }
 
   userLogin = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
   passwordCrypt = 'fYb3r_H0m3_@BE<3'
@@ -23,7 +24,7 @@ export class OntModelsComponent implements OnInit {
 
   urlGetData = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad='
   urlFirst = 'ModeloOnt/filtrarModeloOnt.php?filtrar='
-  urlSecond = '&id_ciudad='+this.city
+  urlSecond = '&id_ciudad=' + this.city
   urlEdit = '/ModeloOnt/editarModeloOnt.php'
   urlCreate = '/ModeloOnt/crearModeloOnt.php'
   urlDeleted = '/ModeloOnt/eliminarModeloOnt.php?id='
@@ -33,89 +34,139 @@ export class OntModelsComponent implements OnInit {
   ontModelsDetails = new OntModels()
 
   pageSize = 5
-  since:number = 0
-  to:number = 5
+  since: number = 0
+  to: number = 5
 
-  addModelOnt(ontModels: OntModels[]){
+  addModelOnt(ontModels: OntModels[]) {
     this.store.dispatch(new AddModelOnt(ontModels))
   }
 
-  changePage(e:PageEvent){
+  changePage(e: PageEvent) {
     console.log(e)
     this.since = e.pageIndex * e.pageSize;
     this.to = this.since + e.pageSize;
-    
+
   }
 
-  getOntModelByname(ontModelName: string){
-    this.store.select(state => state.ontModels.ontModels).subscribe((data: OntModels[]) =>{
+  getOntModelByname(ontModelName: string) {
+    this.store.select(state => state.ontModels.ontModels).subscribe((data: OntModels[]) => {
       this.ontModelsDetails = data.filter((ontModel) => ontModel.nombre_modelosont == ontModelName)[0]
       console.log(this.ontModelsDetails)
     })
   }
 
-  getOntModelNameByEdit(ontModel: string){
-    this.DataServcies.getOntModelByName(this.urlFirst, this.urlSecond, ontModel).subscribe((data:OntModels[]) => {
+  getOntModelNameByEdit(ontModel: string) {
+    this.DataServcies.getOntModelByName(this.urlFirst, this.urlSecond, ontModel).subscribe((data: OntModels[]) => {
       return this.ontModelsDetails = data[0]
     })
   }
 
-  refresh(){
-    addEventListener('click', e =>{
+  refresh() {
+    addEventListener('click', e => {
       location.reload()
     })
   }
 
-  save(ontModel: OntModels){
+  save(ontModel: OntModels) {
     this.ontModels.estado_modelosont = 'activo'
     this.ontModels.id_ciudad = Number(this.city)
 
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando creación',
+      showConfirmButton: false,
+    })
+
     if(ontModel.nombre_modelosont == '' || ontModel.tipo_modelosont == ''){
+      Swal.close()
       Swal.fire({
         icon: 'error',
-        title: 'Error',
-        text: 'Algun dato se encuentra vacio o es igual al anterior!',
+        title: 'Algo salio mal!',
+        text: 'Algun campo se encuentra vacio',
       })
     }else{
       this.DataServcies.createOntModel(this.urlCreate, ontModel).subscribe(data => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Agregaste un nuevo Modelo ONT!'
-        })
-        this.refresh()
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+  
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            timer: 2000,
+            title: 'Felicidades',
+            showConfirmButton: false,
+            text: 'Se ha creado un nuevo Model ONT!',
+          })
+          location.reload()
+        }
       })
+
     }
+
   }
 
-  edit(ontModel: OntModels){
+  edit(ontModel: OntModels) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Editar información',
+      showConfirmButton: false,
+    })
 
-    if(ontModel.nombre_modelosont == '' || ontModel.tipo_modelosont == ''){
+    if (ontModel.nombre_modelosont == '' || ontModel.tipo_modelosont == '') {
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Algun dato se encuentra vacio o no es correcto!',
+        showConfirmButton: false,
       })
-    }else{
-      this.DataServcies.editOntModel(this.urlEdit, ontModel).subscribe(data =>{
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Editaste la información exitosamente!'
-        })
-        this.refresh()
+    } else {
+      this.DataServcies.editOntModel(this.urlEdit, ontModel).subscribe(data => {
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Editaste la información exitosamente!',
+            showConfirmButton: false,
+          })
+          location.reload()
+        }
       })
     }
   }
 
-  deleted(id: any){
+  deleted(id: any) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Eliminando dato...',
+      showConfirmButton: false,
+    })
     this.DataServcies.deletedCity(this.urlDeleted, id).subscribe(resp => {
+      Swal.close()
       Swal.fire({
         icon: 'success',
         title: 'Felicidades',
-        text: 'El dato fue eliminado con Exito!'
+        text: 'El dato fue eliminado con Exito!',
+        showConfirmButton: false,
       })
-      this.refresh()
+      location.reload()
     })
   }
 
@@ -126,22 +177,22 @@ export class OntModelsComponent implements OnInit {
       showConfirmButton: false,
       timerProgressBar: true
     })
-    if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
+    if (this.userLogin.nombrerol_rol == 'ADMINISTRADOR') {
       this.DataServcies.getDataModelOnt(this.urlGetData, this.city).subscribe((data: OntModels[]) => {
         this.ontModelList = data
         this.addModelOnt(data)
         Swal.close()
-        if(this.ontModelList == null){
+        if (this.ontModelList == null) {
           Swal.fire({
             icon: 'info',
             title: 'La tabla esta vacia',
             timer: 2000,
             showConfirmButton: false,
           })
-        }else{
+        } else {
           console.log('la tabla si tiene datos');
         }
-    })
+      })
     }
 
   }

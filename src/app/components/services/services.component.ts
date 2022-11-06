@@ -111,7 +111,6 @@ ClipBoard(input: any){
     this.DataService.createService(this.urlCreateService, service).subscribe(data =>{
       Swal.close()
       this.dataJson = JSON.parse(JSON.stringify(data))
-
       if(this.dataJson['respuesta'] != 'ok'){
         Swal.fire({
           icon: 'error',
@@ -159,13 +158,21 @@ ClipBoard(input: any){
   }
 
   deleted(id:any){
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Eliminando dato...',
+      showConfirmButton: false,
+    })
+
     this.DataService.deleteService(this.urlDeletedFirst, id, this.urlDeletedSecont).subscribe(res =>{
+      Swal.close()
       Swal.fire({
         icon: 'success',
         title: 'Felicidades',
         text: 'El dato fue eliminado con Exito!',
       })
-      this.refresh()
+      location.reload()
     })
   }
 

@@ -11,7 +11,7 @@
                 <td>{{pais.nombre_pais}}</td>
                 <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
                             src="../../../assets/icons/eye-solid.svg" width="30" height="24" (click)="getCountryByName(pais.nombre_pais)"></button>
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getPaisEdit(pais.nombre_pais)"></button>
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24" (click)="getPaisEdit(pais.nombre_pais); getCountryByName(pais.nombre_pais)"></button>
                             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletModel" (click)="getCountryByName(pais.nombre_pais)"><img src="../../../assets/icons/trash-solid.svg" alt="Eliminar" width="30" height="24"></button>
                         </td>
             </tr>
