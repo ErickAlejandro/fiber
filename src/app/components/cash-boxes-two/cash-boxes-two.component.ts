@@ -77,7 +77,8 @@ export class CashBoxesTwoComponent implements OnInit {
 
     Swal.fire({
       icon: 'info',
-      title: 'Ejecuando creación',
+      title: 'Ejecuando',
+      text: 'Creando una nueva caja de Nivel-2...',
       showConfirmButton: false,
     })
 
@@ -103,6 +104,7 @@ export class CashBoxesTwoComponent implements OnInit {
             icon: 'success',
             title: 'Felicidades',
             text: 'Agregaste una nueva Caja de Nivel-2!',
+            showConfirmButton: false,
           })
           this.refresh()
         }
@@ -132,7 +134,8 @@ export class CashBoxesTwoComponent implements OnInit {
   edit(cashBoxTwo: CashBoxesTwo) {
     Swal.fire({
       icon: 'info',
-      title: 'Ejecuando edición',
+      title: 'Ejecuando',
+      text: 'Editando informacion...',
       showConfirmButton: false,
     })
     if (cashBoxTwo.nombre_cajanivel2 == '' || cashBoxTwo.nombre_cajanivel1 == '' || cashBoxTwo.abreviatura_cajanivel2 == '' || cashBoxTwo.direccion_cajanivel2 == '' || cashBoxTwo.referencia == '' || cashBoxTwo.cantidadhilos_cajanivel2 == 0) {
@@ -157,7 +160,8 @@ export class CashBoxesTwoComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Felicidades',
-            text: 'Editaste la información exitosamente!'
+            text: 'Editaste la información exitosamente!',
+            showConfirmButton: false,
           })
           location.reload()
         }
@@ -168,7 +172,8 @@ export class CashBoxesTwoComponent implements OnInit {
   delet(id: any) {
     Swal.fire({
       icon: 'info',
-      title: 'Ejecuando eliminación',
+      title: 'Ejecuando',
+      text: 'Eliminado informacion...',
       showConfirmButton: false,
       timerProgressBar: true
     })
@@ -177,7 +182,8 @@ export class CashBoxesTwoComponent implements OnInit {
       Swal.fire({
         icon: 'success',
         title: 'Felicidades',
-        text: 'El dato fue eliminado con Exito!'
+        text: 'El dato fue eliminado con Exito!',
+        showConfirmButton: false,
       })
       location.reload()
     })

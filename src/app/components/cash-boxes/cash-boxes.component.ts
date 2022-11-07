@@ -73,7 +73,8 @@ export class CashBoxesComponent implements OnInit {
     this.boxes.id_ciudad = Number(this.city)
     Swal.fire({
       icon: 'info',
-      title: 'Ejecuando creación',
+      title: 'Ejecuando',
+      text: 'Creando una nueva caja de nivel-1',
       showConfirmButton: false,
       timerProgressBar: true
     })
@@ -135,7 +136,8 @@ export class CashBoxesComponent implements OnInit {
   editCashBox(cashBox: CashBoxes) {
     Swal.fire({
       icon: 'info',
-      title: 'Ejecutando Edición',
+      title: 'Ejecutando',
+      text: 'Editando informacion...',
       showConfirmButton: false,
       timerProgressBar: true
     })
@@ -173,9 +175,9 @@ export class CashBoxesComponent implements OnInit {
 
   deletedCashBoxes(id: any) {
     Swal.fire({
-      icon: 'success',
-      title: 'Felicidades',
-      text: 'El dato fue eliminado con Exito!',
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Eliminando informacion...',
       showConfirmButton: false,
     })
     this.DataService.deletedCity(this.urlDeletedBox, id).subscribe(res => {

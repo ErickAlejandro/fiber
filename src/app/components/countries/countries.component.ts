@@ -66,7 +66,8 @@ export class CountriesComponent implements OnInit {
 
     Swal.fire({
       icon: 'info',
-      title: 'Ejecutando creación',
+      title: 'Ejecutando',
+      text: 'Creando un nuevo pais...',
       showConfirmButton: false,
     })
 
@@ -92,7 +93,8 @@ export class CountriesComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Felicidades',
-            text: 'Agregaste una nueva Ciudad!',
+            showConfirmButton: false,
+            text: 'Agregaste un nuevo Pais!',
           })
           location.reload()
         }
@@ -110,7 +112,7 @@ export class CountriesComponent implements OnInit {
     Swal.fire({
       icon: 'info',
       title: 'Ejecutando',
-      text: 'Editar información',
+      text: 'Editando información...',
       showConfirmButton: false,
     })
 
@@ -136,7 +138,8 @@ export class CountriesComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Felicidades',
-            text: 'Editaste la iformación exitosamente!'
+            showConfirmButton: false,
+            text: 'Editaste la información exitosamente!'
           })
           location.reload()
         }

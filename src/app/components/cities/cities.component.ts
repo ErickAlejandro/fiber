@@ -71,7 +71,8 @@ export class CitiesComponent implements OnInit {
     city.estado_ciudad = 'activo'
     Swal.fire({
       icon: 'info',
-      title: 'Ejecutando creación',
+      title: 'Ejecutando',
+      text: 'Creando una nueva ciudad...',
       showConfirmButton: false,
     })
     if (city.nombre_provincia == '' || city.nombre_ciudad == '') {
@@ -97,6 +98,7 @@ export class CitiesComponent implements OnInit {
             icon: 'success',
             title: 'Felicidades',
             text: 'Agregaste una nueva Ciudad!',
+            showConfirmButton: false,
           })
           location.reload()
         }
@@ -131,7 +133,7 @@ export class CitiesComponent implements OnInit {
     Swal.fire({
       icon: 'info',
       title: 'Ejecutando',
-      text: 'Editar información',
+      text: 'Editando información...',
       showConfirmButton: false,
     })
     if (city.nombre_ciudad == '' || city.nombre_provincia == '') {
@@ -157,6 +159,7 @@ export class CitiesComponent implements OnInit {
             icon: 'success',
             title: 'Felicidades',
             text: 'Editaste la información!',
+            showConfirmButton: false,
           })
           location.reload()
         }

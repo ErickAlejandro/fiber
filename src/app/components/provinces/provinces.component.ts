@@ -74,7 +74,7 @@ export class ProvincesComponent implements OnInit {
     Swal.fire({
       icon: 'info',
       title: 'Ejecutando',
-      text: 'Editar información',
+      text: 'Editando información...',
       showConfirmButton: false,
     })
     if (provinces.nombre_pais == '' || provinces.nombre_provincia == '') {
@@ -111,7 +111,7 @@ export class ProvincesComponent implements OnInit {
     province.estado_provincia = 'activo'
     Swal.fire({
       icon: 'info',
-      title: 'Ejecutando creación',
+      title: 'Ejecutando creación...',
       showConfirmButton: false,
     })
 

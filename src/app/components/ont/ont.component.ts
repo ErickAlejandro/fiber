@@ -80,7 +80,15 @@ if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
 
   editOnl(ont: Ont){
 
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Editando información...',
+      showConfirmButton: false,
+    })
+
     if(ont.serie_ont == '' || ont.nombre_modelosont == '' || ont.responsable_ont == ''){
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -88,6 +96,7 @@ if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
       })
     }else{
       this.DataService.editOnt(this.urlEditOnt, ont).subscribe(data =>{
+        Swal.close()
         Swal.fire({
           icon: 'success',
           title: 'Felicidades',
@@ -100,11 +109,18 @@ if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
 
   deleted(id:any){
     Swal.fire({
-      icon: 'success',
-      title: 'Felicidades',
-      text: 'El dato fue eliminado con Exito!'
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Eliminando informacion...',
+      showConfirmButton: false,
     })
     this.DataService.deletedCity(this.urlDeleted, id).subscribe(resp =>{
+      Swal.close()
+      Swal.fire({
+        icon: 'success',
+        title: 'Felicidades',
+        text: 'La información fue eliminada con Exito!'
+      })
       location.reload()
     })
   }

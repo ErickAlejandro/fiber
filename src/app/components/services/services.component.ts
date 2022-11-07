@@ -102,9 +102,9 @@ ClipBoard(input: any){
     
     Swal.fire({
       icon: 'info',
-      title: 'Cargando',
+      title: 'Ejecutando',
+      text: 'Creando un nuevo servicio...',
       showConfirmButton: false,
-      timerProgressBar: true
     })
 
 

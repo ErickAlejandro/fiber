@@ -73,7 +73,8 @@ export class ClientsComponent implements OnInit {
 
     Swal.fire({
       icon: 'info',
-      title: 'Ejecutando creación',
+      title: 'Ejecutando',
+      text: 'Creando un nuevo Cliente',
       showConfirmButton: false,
       timerProgressBar: true
     })
@@ -100,7 +101,8 @@ export class ClientsComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Felicidades',
-            text: 'Agregaste un nuevo Cliente!'
+            text: 'Agregaste un nuevo Cliente!',
+            showConfirmButton: false,
           })
           this.refresh()
         }

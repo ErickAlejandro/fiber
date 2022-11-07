@@ -83,20 +83,41 @@ export class PlansComponent implements OnInit {
     plans.estado_planes = 'activo'
     plans.id_ciudad = Number(this.city)
 
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Creando nuevo Plan...',
+      showConfirmButton: false,
+    })
+
     if (plans.nombre_planes == '') {
+      Swal.close()
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Algun dato se encuentra vacio!',
+        showConfirmButton: false,
       })
     } else {
       this.DataService.createPlans(this.urlCreatePlans, plans).subscribe(data => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Felicidades',
-          text: 'Agregaste un nuevo Plan'
-        })
-        this.refresh()
+        Swal.close()
+        this.dataJson = JSON.parse(JSON.stringify(data))
+
+        if(this.dataJson['respuesta'] != 'ok'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        }else{
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Agregaste un nuevo Plan',
+            showConfirmButton: false,
+          })
+          location.reload()
+        }
       })
     }
   }
@@ -151,7 +172,8 @@ export class PlansComponent implements OnInit {
       Swal.fire({
         icon: 'success',
         title: 'Felicidades',
-        text: 'La información fue eliminada con Exito!'
+        text: 'La información fue eliminada con Exito!',
+        showConfirmButton: false,
       })
       location.reload()
     })

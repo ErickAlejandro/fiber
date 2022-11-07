@@ -73,7 +73,8 @@ export class OntModelsComponent implements OnInit {
 
     Swal.fire({
       icon: 'info',
-      title: 'Ejecutando creación',
+      title: 'Ejecutando',
+      text: 'Creando un nuevo modelo ONT...' ,
       showConfirmButton: false,
     })
 
@@ -115,7 +116,7 @@ export class OntModelsComponent implements OnInit {
     Swal.fire({
       icon: 'info',
       title: 'Ejecutando',
-      text: 'Editar información',
+      text: 'Editando información...',
       showConfirmButton: false,
     })
 

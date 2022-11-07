@@ -75,7 +75,7 @@ export class VlansComponent implements OnInit {
     Swal.fire({
       icon: 'info',
       title: 'Ejecutando',
-      text: 'Editar información',
+      text: 'Guardando información...',
       showConfirmButton: false,
       timerProgressBar: true
     })
@@ -115,7 +115,7 @@ export class VlansComponent implements OnInit {
     Swal.fire({
       icon: 'info',
       title: 'Ejecutando',
-      text: 'Eliminado dato!',
+      text: 'Eliminado dato...',
       showConfirmButton: false,
       timerProgressBar: true
     })

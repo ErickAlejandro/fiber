@@ -79,7 +79,8 @@ export class UsersComponent implements OnInit {
 
     Swal.fire({
       icon: 'info',
-      title: 'Ejecutando creación',
+      title: 'Ejecutando',
+      text: 'Creando un nuevo usuario...',
       showConfirmButton: false,
     })
 
@@ -153,7 +154,7 @@ export class UsersComponent implements OnInit {
     Swal.fire({
       icon: 'info',
       title: 'Ejecutando',
-      text: 'Editar información',
+      text: 'Editando información...',
       showConfirmButton: false,
     })
 
