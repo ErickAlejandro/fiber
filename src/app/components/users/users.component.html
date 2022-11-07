@@ -247,7 +247,7 @@
             </option>
           </select>
           <br>
-          <div class="form-group">
+          <div class="form-group" *ngIf="id_cities == null">
             <label class="form-label">Selecciona la Ciudad: </label>
             <div class="input-group mb-3">
               <button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="preSave(user)"

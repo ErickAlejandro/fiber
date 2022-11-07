@@ -8,6 +8,7 @@ import { Users } from 'src/app/Models/users';
 import { DataService } from 'src/app/services/data.service';
 import { AddUsers } from 'src/app/store/users/users.actions';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-users',
@@ -27,6 +28,9 @@ export class UsersComponent implements OnInit {
 
   userPreSave!: Users
   respuesta:any = {respuesta: 'ok'}
+  id_cities = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
+  passwordCrypt = 'fYb3r_H0m3_@BE<3'
+  city: any
 
   urlCities = '/ciudad/filtrarCiudad.php?filtrar='
   urlRol = '/Rol/filtrarRol.php'
@@ -83,33 +87,67 @@ export class UsersComponent implements OnInit {
       text: 'Creando un nuevo usuario...',
       showConfirmButton: false,
     })
+    this.city = CryptoJS.AES.decrypt(this.id_cities.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
 
-    if(users.nombre == '' || users.usuario == '' || users.contrasena == ''){
-      Swal.close()
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Algun dato se encuentra vacio o es igual al anterior!',
-      })
-    }else{
-      this.DataService.createUsers(this.urlCreateUser, users).subscribe(data =>{
+    if(this.city != null){
+      users.id_ciudad = Number(this.city)
+      console.log(this.city);
+      if(users.nombre == '' || users.usuario == '' || users.contrasena == ''){
         Swal.close()
-        this.dataJson = JSON.parse(JSON.stringify(data))
-        if(this.dataJson['respuesta'] != 'ok'){
-          Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal!',
-            text: this.dataJson['respuesta'],
-          })
-        }else{
-          Swal.fire({
-            icon: 'success',
-            title: 'Felicidades',
-            text: 'Agregaste un nuevo Usuario!',
-          })
-           location.reload()
-        }
-      })
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Algun dato se encuentra vacio o es igual al anterior!',
+        })
+      }else{
+        this.DataService.createUsers(this.urlCreateUser, users).subscribe(data => {
+          Swal.close()
+          this.dataJson = JSON.parse(JSON.stringify(data))
+          if(this.dataJson['respuesta'] != 'ok'){
+            Swal.fire({
+              icon: 'error',
+              title: 'Algo salio mal!',
+              text: this.dataJson['respuesta'],
+            })
+          }else{
+            Swal.fire({
+              icon: 'success',
+              title: 'Felicidades',
+              text: 'Agregaste un nuevo Usuario!',
+            })
+             location.reload()
+          }
+        })
+      }
+    }else{
+      if(users.nombre == '' || users.usuario == '' || users.contrasena == ''){
+        Swal.close()
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Algun dato se encuentra vacio o es igual al anterior!',
+        })
+      }else{
+        this.DataService.createUsers(this.urlCreateUser, users).subscribe(data =>{
+          Swal.close()
+          this.dataJson = JSON.parse(JSON.stringify(data))
+          if(this.dataJson['respuesta'] != 'ok'){
+            Swal.fire({
+              icon: 'error',
+              title: 'Algo salio mal!',
+              text: this.dataJson['respuesta'],
+            })
+          }else{
+            Swal.fire({
+              icon: 'success',
+              title: 'Felicidades',
+              text: 'Agregaste un nuevo Usuario!',
+              showConfirmButton: false,
+            })
+             location.reload()
+          }
+        })
+      }
     }
   }
 
@@ -180,7 +218,8 @@ export class UsersComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Felicidades',
-            text: 'Editaste la información exitosamente!'
+            text: 'Editaste la información exitosamente!',
+            showConfirmButton: false,
           })
           this.refresh()
         }
@@ -226,7 +265,7 @@ export class UsersComponent implements OnInit {
       showConfirmButton: false,
       timerProgressBar: true
     })
-
+    
     this.getCaptureCity()
 
     this.DataService.getDataUsers(this.urlGetDataUsers).subscribe((data: Users[]) =>{
