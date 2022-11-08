@@ -22,16 +22,16 @@ export class Users{
         this.nombre_usuario = ''
         this.usuario_usuario = ''
         this.contrasena_usuario = ''
-        this.id_rol = 0
+        this.id_rol = null
         this.nombrerol_rol = ''
-        this.id_ciudad = 0
+        this.id_ciudad = null
         this.nombre_ciudad = ''
         this.estado_usuario = ''
         this.cambiar_contra_usuario = ''
 
         this.id = 0
         this.estado = ''
-        this.rol = 0
+        this.rol = null
         this.contrasena = ''
         this.usuario = ''
         this.nombre = ''

@@ -17,7 +17,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class UsersComponent implements OnInit {
 
-  constructor(private DataService: DataService, private store:Store, private router: Router) { }
+  constructor(private DataService: DataService, private store: Store, private router: Router) { }
 
   urlGetDataUsers = '/usuario/filtrarUsuarioSuperAdmin.php?filtrar='
   urlFirstPart = '/usuario/filtrarUsuario.php?filtrar='
@@ -27,7 +27,8 @@ export class UsersComponent implements OnInit {
   urlCreateUser = '/usuario/crearUsuario.php'
 
   userPreSave!: Users
-  respuesta:any = {respuesta: 'ok'}
+  respuesta: any = { respuesta: 'ok' }
+
   id_cities = JSON.parse(localStorage.getItem('usuarioLogueado') || '[{}]')[0]
   passwordCrypt = 'fYb3r_H0m3_@BE<3'
   city: any
@@ -42,35 +43,41 @@ export class UsersComponent implements OnInit {
   cityDetail = new Cities();
   selectCity!: Cities
 
-  dataJson:any
+  dataJson: any
 
   rolDetail = new Rol()
   usersList!: Users[]
   usersDetails = new Users()
   user: Users = new Users()
-  rolList!: Rol[]
+  rolList: Rol[] = []
 
   rol: Rol = new Rol()
 
   cityList!: Cities[]
 
   pageSize = 5
-  since:number = 0
-  to:number = 5
+  since: number = 0
+  to: number = 5
 
   hide = true;
 
-  addUsers(users: Users[]){
+  addUsers(users: Users[]) {
     this.store.dispatch(new AddUsers(users))
   }
 
-  changePageUsers(e:PageEvent){
+  changePageUsers(e: PageEvent) {
     console.log(e)
     this.since = e.pageIndex * e.pageSize;
     this.to = this.since + e.pageSize;
   }
 
-  save(users: Users){
+  botonCrearEditar() {
+    if (this.id_cities.id_ciudad != null) {
+      this.city = CryptoJS.AES.decrypt(this.id_cities.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
+    }
+  }
+
+  save(users: Users) {
     users.nombre = users.nombre_usuario
     users.usuario = users.usuario_usuario
     users.contrasena = users.contrasena_usuario
@@ -78,7 +85,7 @@ export class UsersComponent implements OnInit {
     users.estado = users.estado
     users.id = users.id_usuario
     users.cambiar_contra_usuario = 'si'
-    
+
     users.estado = 'activo'
 
     Swal.fire({
@@ -87,98 +94,68 @@ export class UsersComponent implements OnInit {
       text: 'Creando un nuevo usuario...',
       showConfirmButton: false,
     })
-    this.city = CryptoJS.AES.decrypt(this.id_cities.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
-
-    if(this.city != null){
+    if (this.id_cities.nombrerol_rol != 'SUPER ADMINISTRADOR') {
       users.id_ciudad = Number(this.city)
-      console.log(this.city);
-      if(users.nombre == '' || users.usuario == '' || users.contrasena == ''){
+    }
+    if (users.nombre == '' || users.usuario == '' || users.contrasena == '' || users.id_rol == null || users.id_ciudad == null) {
+      Swal.close()
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Algun dato se encuentra vacio!',
+      })
+    } else {
+      this.DataService.createUsers(this.urlCreateUser, users).subscribe(data => {
         Swal.close()
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Algun dato se encuentra vacio o es igual al anterior!',
-        })
-      }else{
-        this.DataService.createUsers(this.urlCreateUser, users).subscribe(data => {
-          Swal.close()
-          this.dataJson = JSON.parse(JSON.stringify(data))
-          if(this.dataJson['respuesta'] != 'ok'){
-            Swal.fire({
-              icon: 'error',
-              title: 'Algo salio mal!',
-              text: this.dataJson['respuesta'],
-            })
-          }else{
-            Swal.fire({
-              icon: 'success',
-              title: 'Felicidades',
-              text: 'Agregaste un nuevo Usuario!',
-            })
-             location.reload()
-          }
-        })
-      }
-    }else{
-      if(users.nombre == '' || users.usuario == '' || users.contrasena == ''){
-        Swal.close()
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Algun dato se encuentra vacio o es igual al anterior!',
-        })
-      }else{
-        this.DataService.createUsers(this.urlCreateUser, users).subscribe(data =>{
-          Swal.close()
-          this.dataJson = JSON.parse(JSON.stringify(data))
-          if(this.dataJson['respuesta'] != 'ok'){
-            Swal.fire({
-              icon: 'error',
-              title: 'Algo salio mal!',
-              text: this.dataJson['respuesta'],
-            })
-          }else{
-            Swal.fire({
-              icon: 'success',
-              title: 'Felicidades',
-              text: 'Agregaste un nuevo Usuario!',
-              showConfirmButton: false,
-            })
-             location.reload()
-          }
-        })
-      }
+        this.dataJson = JSON.parse(JSON.stringify(data))
+        if (this.dataJson['respuesta'] != 'ok') {
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: this.dataJson['respuesta'],
+          })
+        } else {
+          Swal.fire({
+            icon: 'success',
+            title: 'Felicidades',
+            text: 'Agregaste un nuevo Usuario!',
+            timer: 2000,
+            showConfirmButton: false,
+          })
+          location.reload()
+        }
+      })
     }
   }
 
-  preSave(users: Users){
+  preSave(users: Users) {
     this.user = users
   }
 
-  preSaveEdit(usersD: Users){
+  preSaveEdit(usersD: Users) {
     this.usersDetails = usersD
   }
 
 
-  getUserByName(userName:string){
+  getUserByName(userName: string) {
     this.store.select(state => state.users.users).subscribe((data: Users[]) => {
       this.usersDetails = data.filter((user) => user.nombre_usuario == userName)[0]
     })
   }
 
-  getUserEdit(user: string){
-    this.DataService.getUserByName(this.urlFirstPart, this.urlSecondPart, user).subscribe((data:Users[]) => {
+  getUserEdit(user: string) {
+    this.DataService.getUserByName(this.urlFirstPart, this.urlSecondPart, user).subscribe((data: Users[]) => {
       return this.usersDetails = data[0]
     })
   }
 
-  refresh(){
-    addEventListener('click', e =>{
+  refresh() {
+    addEventListener('click', e => {
       location.reload()
     })
   }
 
-  editUsers(users: Users){
+  editUsers(users: Users) {
     users.nombre = users.nombre_usuario
     users.usuario = users.usuario_usuario
     users.contrasena = users.contrasena_usuario
@@ -186,7 +163,7 @@ export class UsersComponent implements OnInit {
     users.estado = users.estado
     users.id = users.id_usuario
     users.cambiar_contra_usuario = 'si'
-    
+
     users.estado = 'activo'
 
     Swal.fire({
@@ -195,52 +172,59 @@ export class UsersComponent implements OnInit {
       text: 'Editando información...',
       showConfirmButton: false,
     })
+    if (this.id_cities.nombrerol_rol != 'SUPER ADMINISTRADOR') {
+      users.id_ciudad = Number(this.city)
+    }
+    console.log(users.id_ciudad);
 
-    if(users.nombre == '' || users.usuario == '' || users.contrasena == ''){
-      Swal.close()
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Compruebe los datos ingrersados!',
-      })
-    }else{
-      this.DataService.getEditUsers(this.urlEditUsers, users).subscribe(data =>{
+    if (users.nombre == '' || users.usuario == '' || users.contrasena == '' || users.id_rol == null) {
+      if (users.nombrerol_rol != 'SUPER ADMINISTRADOR' && users.id_ciudad == null) {
+        Swal.close()
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Compruebe los datos ingrersados!',
+        })
+      }
+    } else {
+      this.DataService.getEditUsers(this.urlEditUsers, users).subscribe(data => {
         Swal.close()
         this.dataJson = JSON.parse(JSON.stringify(data))
 
-        if(this.dataJson['respuesta'] != 'ok'){
+        if (this.dataJson['respuesta'] != 'ok') {
           Swal.fire({
             icon: 'error',
             title: 'Algo salio mal!',
             text: this.dataJson['respuesta'],
           })
-        }else{
+        } else {
           Swal.fire({
             icon: 'success',
             title: 'Felicidades',
             text: 'Editaste la información exitosamente!',
+            timer: 2000,
             showConfirmButton: false,
           })
-          this.refresh()
+          location.reload()
         }
       })
     }
   }
 
-  getCaptureCity(){
-    this.DataService.getData(this.urlCities).subscribe((data: Cities[]) =>{
+  getCaptureCity() {
+    this.DataService.getData(this.urlCities).subscribe((data: Cities[]) => {
       this.cityList = data
     })
   }
 
-  deleted(id: any){
+  deleted(id: any) {
     Swal.fire({
       icon: 'info',
       title: 'Ejecutando',
       text: 'Eliminando dato...',
       showConfirmButton: false,
     })
-    this.DataService.deletedCity(this.urlDeletUser, id).subscribe(res =>{
+    this.DataService.deletedCity(this.urlDeletUser, id).subscribe(res => {
       Swal.close()
       Swal.fire({
         icon: 'success',
@@ -265,36 +249,42 @@ export class UsersComponent implements OnInit {
       showConfirmButton: false,
       timerProgressBar: true
     })
-    
+
     this.getCaptureCity()
 
-    this.DataService.getDataUsers(this.urlGetDataUsers).subscribe((data: Users[]) =>{
-      this.usersList  = data
+    this.DataService.getDataUsers(this.urlGetDataUsers).subscribe((data: Users[]) => {
+      this.usersList = data
       this.addUsers(data)
       Swal.close()
-      
-      if(this.usersList == null){
+
+      if (this.usersList == null) {
         Swal.fire({
           icon: 'info',
           title: 'La tabla esta vacia',
           timer: 2000,
           showConfirmButton: false,
         })
-      }else{
+      } else {
         console.log('la tabla si tiene datos');
       }
     })
 
 
-    this.DataService.getData(this.urlCities).subscribe((data: Cities[]) =>{
+    this.DataService.getData(this.urlCities).subscribe((data: Cities[]) => {
       this.cityList = data
     })
 
-    this.DataService.getDataRol(this.urlRol).subscribe((data: Rol[]) =>{
-      this.rolList = data
+    this.DataService.getDataRol(this.urlRol).subscribe((data: Rol[]) => {
+      let array: Rol[] = []
+      data.forEach(function (element) {
+        if (element.nombre_rol != 'SUPER ADMINISTRADOR') {
+          array.push(element)
+        }
+      });
+      this.rolList = array
     })
 
-    
+
   }
 
 }

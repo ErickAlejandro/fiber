@@ -18,7 +18,7 @@
               (click)="getUserByName(user.nombre_usuario)"></button>
           <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img
               src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24"
-              (click)="getUserEdit(user.nombre_usuario); getUserByName(user.nombre_usuario);flagOptions='editar'"></button>
+              (click)="getUserEdit(user.nombre_usuario); getUserByName(user.nombre_usuario);flagOptions='editar'; botonCrearEditar()"></button>
           <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#alertDeletUser"
             (click)="getUserByName(user.nombre_usuario)"><img src="../../../assets/icons/trash-solid.svg" alt="Eliminar"
               width="30" height="24"></button>
@@ -36,7 +36,7 @@
   <div class="card">
     <button type="button-submit" class="btn" data-bs-toggle="modal" data-bs-target="#createCitiesForm"><img
         src="../../../assets/icons/plus-solid.svg" alt="Agregar" width="30" height="24"
-        (click)="flagOptions='crear'"></button>
+        (click)="flagOptions='crear'; botonCrearEditar()"></button>
   </div>
 </div>
 
@@ -53,9 +53,6 @@
         <table class="table">
           <tbody>
             <tr>
-              <td><b>ID Usuario:</b> {{usersDetails.id_usuario}}</td>
-            </tr>
-            <tr>
               <td><b>Nombre:</b> {{usersDetails.nombre_usuario}}</td>
             </tr>
             <tr>
@@ -65,13 +62,7 @@
               <td><b>Constraseña: </b>{{usersDetails.contrasena_usuario}}</td>
             </tr>
             <tr>
-              <td><b>ID Rol:</b> {{usersDetails.id_rol}}</td>
-            </tr>
-            <tr>
               <td><b>Nombre del Rol:</b> {{usersDetails.nombrerol_rol}}</td>
-            </tr>
-            <tr>
-              <td><b>Id Ciudad:</b> {{usersDetails.id_ciudad}}</td>
             </tr>
             <tr>
               <td><b>Ciudad:</b> {{usersDetails.nombre_ciudad}}</td>
@@ -115,8 +106,8 @@
               value={{usersDetails.contrasena_usuario}} [ngModelOptions]="{standalone: true}">
           </div>
           <br>
-          <label class="form-label">Rol: </label>
-          <div class="row">
+          <label class="form-label" *ngIf="usersDetails.nombrerol_rol != 'SUPER ADMINISTRADOR'">Rol: </label>
+          <div class="row" *ngIf="usersDetails.nombrerol_rol != 'SUPER ADMINISTRADOR'">
             <div class="col">
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="Busca..." [(ngModel)]='filterPosRol'
@@ -124,14 +115,14 @@
               </div>
             </div>
           </div>
-          <br>
-          <select class="form-select" size="3" aria-label="size 3 select example" aria-label="Default select example"
+          <br *ngIf="usersDetails.nombrerol_rol != 'SUPER ADMINISTRADOR'">
+          <select class="form-select" *ngIf="usersDetails.nombrerol_rol != 'SUPER ADMINISTRADOR'" size="3" aria-label="size 3 select example" aria-label="Default select example"
             [(ngModel)]="usersDetails.id_rol" [ngModelOptions]="{standalone: true}">
-            <option *ngFor="let rol of rolList | filterRol:filterPosRol" value={{rol.id_rol}}>
+            <option *ngFor="let rol of rolList | filterRol:filterPosRol " value={{rol.id_rol}}>
               {{rol.nombre_rol}}</option>
           </select>
-          <div class="form-group">
-            <br>
+          <div class="form-group" *ngIf="id_cities.nombrerol_rol == 'SUPER ADMINISTRADOR' && usersDetails.nombrerol_rol != 'SUPER ADMINISTRADOR'">
+            <br *ngIf="usersDetails.nombrerol_rol != 'SUPER ADMINISTRADOR'">
             <label class="form-label">Ciudad: </label>
 
             <div class="input-group mb-3">
@@ -143,7 +134,7 @@
                 aria-describedby="button-addon1" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
-          <br>
+          <br *ngIf="usersDetails.nombrerol_rol != 'SUPER ADMINISTRADOR'">
           <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#alertEditionUsers">Editar</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </form>
@@ -247,7 +238,7 @@
             </option>
           </select>
           <br>
-          <div class="form-group" *ngIf="id_cities == null">
+          <div class="form-group" *ngIf="id_cities.nombrerol_rol == 'SUPER ADMINISTRADOR'">
             <label class="form-label">Selecciona la Ciudad: </label>
             <div class="input-group mb-3">
               <button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="preSave(user)"
