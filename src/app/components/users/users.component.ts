@@ -46,7 +46,7 @@ export class UsersComponent implements OnInit {
   dataJson: any
 
   rolDetail = new Rol()
-  usersList!: Users[]
+  usersList: Users[] = []
   usersDetails = new Users()
   user: Users = new Users()
   rolList: Rol[] = []
@@ -256,6 +256,13 @@ export class UsersComponent implements OnInit {
       this.usersList = data
       this.addUsers(data)
       Swal.close()
+      let arrayUser: Users[] = []
+      data.forEach(function (element) {
+        if(element.nombrerol_rol != 'SUPER ADMINISTRADOR'){
+          arrayUser.push(element)
+        }
+      })
+      this.usersList = arrayUser
 
       if (this.usersList == null) {
         Swal.fire({
