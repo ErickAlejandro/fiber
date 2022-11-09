@@ -30,10 +30,11 @@ export class HistorialComponent implements OnInit {
 
   urlGetData = '/Historial_Servicio/filtrarHistorialServicio.php?id_ciudad='+ this.city
   historialList!: Historial[]
+  historialListAux!: Historial[]
 
   pageSize = 5
   since:number = 0
-  to:number = 100
+  to:number = 5
 
   changePage(e:PageEvent){
     console.log(e)
@@ -44,6 +45,23 @@ export class HistorialComponent implements OnInit {
 
   addHistorial(historial: Historial[]){
     this.store.dispatch(new AddHistorial(historial))
+  }
+
+  textoBuscar = ''
+  onKey(event: any) { // without type info
+    let buscarHistorialList: Historial[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.historialListAux.forEach(element => {
+        if(element.usuario_cliente.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || (element.id_cliente + '').toLowerCase().indexOf(this.textoBuscar.toLowerCase()) == 0){
+          buscarHistorialList.push(element)
+        }
+      });
+      this.historialList = null
+      this.historialList = buscarHistorialList
+    }else{
+      this.historialList = this.historialListAux
+    }
   }
 
   ngOnInit(): void {
@@ -57,6 +75,7 @@ export class HistorialComponent implements OnInit {
 
     this.DataService.getDataHistorial(this.urlGetData).subscribe((data: Historial[]) =>{
       this.historialList = data
+      this.historialListAux = data
       this.addHistorial(data)
       Swal.close()
       if(this.historialList == null){

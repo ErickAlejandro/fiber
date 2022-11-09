@@ -3,13 +3,14 @@
     <div class="row">
         <div class="col">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Busca..." [(ngModel)]='filterPosHistorial' name='filterPosHistorial'>
+                <input type="text" class="form-control" placeholder="Buscar..." (keyup)="onKey($event)" [(ngModel)]="textoBuscar">
             </div>
         </div>
     </div>
     <table class="table table-responsive table-striped">
         <thead class="table-dark">
             <tr>
+                <th scope="col">Serviport</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Plan</th>
                 <th scope="col">Dirección del Cliente</th>
@@ -19,7 +20,8 @@
             </tr>
         </thead>
         <tbody class="table-group-divider">
-            <tr *ngFor="let history of historialList | slice:since:to | filterHistorial:filterPosHistorial">
+            <tr *ngFor="let history of historialList | slice:since:to ">
+                <td>{{history.id_cliente}}</td>
                 <td>{{history.usuario_cliente}}</td>
                 <td>{{history.nombre_planes}} MEGAS</td>
                 <td>{{history.direccion_cliente}}</td>
@@ -30,7 +32,7 @@
         </tbody>
     </table>
     <mat-paginator [length]="historialList.length"
-              [pageSize]="historialList.length"
+              [pageSize]="pageSize"
               [pageSizeOptions]="[5, 10, 25, historialList.length]"
               aria-label="Select page"
               (page)="changePage($event)">
