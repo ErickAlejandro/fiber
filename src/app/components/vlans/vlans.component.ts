@@ -29,6 +29,9 @@ export class VlansComponent implements OnInit {
   VlansList!: Vlan[];
   VlanDetails = new Vlan()
 
+  textoBuscar = ''
+  vlansListAux!: Vlan[]
+
   pageSize = 5
   since: number = 0
   to: number = 5
@@ -51,6 +54,22 @@ export class VlansComponent implements OnInit {
     addEventListener('click', e => {
       location.reload()
     })
+  }
+
+  onKey(event: any) { // without type info
+    let buscarVlansList: Vlan[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.vlansListAux.forEach(element => {
+    if(element.nombre_vlan.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || (element.numeroolt_vlan + '').toLowerCase().indexOf(this.textoBuscar.toLowerCase()) == 0 || (element.tarjetaolt_vlan + '').toLowerCase().indexOf(this.textoBuscar.toLowerCase()) == 0){
+          buscarVlansList.push(element)
+        }
+      });
+      this.VlansList = null
+      this.VlansList = buscarVlansList
+    }else{
+      this.VlansList = this.vlansListAux
+    }
   }
 
   getVlanByName(vlanName: string) {
@@ -144,6 +163,7 @@ export class VlansComponent implements OnInit {
     this.DataService.getData(this.urlData)
       .subscribe((data: Vlan[]) => {
         this.VlansList = data
+        this.vlansListAux = data
         this.addVlans(data)
         Swal.close()
         if (this.VlansList == null) {

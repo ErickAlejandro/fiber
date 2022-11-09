@@ -1,4 +1,11 @@
 <div class="container">
+  <div class="row">
+    <div class="col">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Buscar..." (keyup)="onKey($event)" [(ngModel)]="textoBuscar">
+        </div>
+    </div>
+</div>
   <table class="table table-striped table-responsive">
     <thead class="table-dark">
       <tr>
@@ -18,12 +25,12 @@
               (click)="getOntByName(ont.serie_ont)"></button>
           <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editForm"><img
               src="../../../assets/icons/pen-to-square-solid.svg" alt="Editar" width="30" height="24"
-              (click)="getOntByEdit(ont.serie_ont)"></button>
+              (click)="getOntByEdit(ont.serie_ont); flagOptions='editar'; getOntByName(ont.serie_ont)"></button>
         </td>
       </tr>
     </tbody>
   </table>
-  <mat-paginator [length]="ontList.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
+  <mat-paginator [length]="ontList.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, ontList.length]"
     aria-label="Select page" (page)="changePage($event)">
   </mat-paginator>
   <br>
@@ -105,11 +112,15 @@
           <br>
           <div class="form-group">
             <label class="form-label">Modelo Ont: </label>
-            <select class="form-select" aria-label="Default select example" [(ngModel)]="ontDetails.id_modelo"
-              [ngModelOptions]="{standalone: true}">
-              <option *ngFor="let model of modelOntList" value={{model.id_modelosont}}>{{model.nombre_modelosont}}
-              </option>
-            </select>
+            <div class="input-group mb-3">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon1"
+                            (click)="preSaveEdit(ontDetails)" data-bs-toggle="modal" data-bs-target="#ModalAgregarNombre"><img
+                                src="../../../assets/icons/magnifying-glass-solid.svg" alt="" width="30"
+                                height="24"></button>
+                                <input type="text" class="form-control" [(ngModel)]="ontDetails.nombre_modelosont"
+                                value={{ontDetails.nombre_modelosont}} placeholder=""
+                                aria-label="Example text with button addon" aria-describedby="button-addon1" [ngModelOptions]="{standalone: true}">
+            </div>
           </div>
           <br>
           <label class="form-label">Responsable: </label>
@@ -124,5 +135,58 @@
         </form>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- MODAL TEST -->
+<div id="ModalAgregarNombre" class="modal fade" role="dialog" data-bs-keyboard="false" data-bs-backdrop="static">
+  <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-tittle">Seleccionar el Modelo ONT</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form class="form-horizontal" role="form" id="form-agregar">
+              <div class="modal-body">
+                  <div class="container">
+                      <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <input type="text" class="form-control" placeholder="Buscar..." (keyup)="onKeyModel($event)" [(ngModel)]="textoBuscarModelo" [ngModelOptions]="{standalone: true}">
+                          </div>
+                          </div>
+                      </div>
+                      <br>
+                      <table class="table table-striped table-responsive">
+                          <thead class="table-dark">
+                              <tr>
+                                  <th scope="col">Nombre del Modelo Ont</th>
+                                  <th scope="col">Tipo</th>
+                                  <th scope="col">Acciones</th>
+                              </tr>
+                          </thead>
+                          <tbody class="table-group-divider">
+                              <tr *ngFor="let model of modelOntList">
+                                  <td>{{model.nombre_modelosont}}</td>
+                                  <td>{{model.tipo_modelosont}}</td>
+                                  <td><button type="button" class="btn" *ngIf="flagOptions == 'editar' "
+                                          data-bs-toggle="modal" data-bs-target="#editForm" flagOption=""
+                                          (click)="selectModel = model; ontDetails.nombre_modelosont = model.nombre_modelosont; ontDetails.id_modelo = model.id_modelosont"><img
+                                              src="../../../assets/icons/check-solid.svg" width="30"
+                                              height="24"></button>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                      <mat-paginator [length]="modelOntList.length" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, modelOntListAux.length]"
+        aria-label="Select page" (page)="changePage($event)">
+    </mat-paginator>
+                      <br>
+                      <button type="button" class="btn btn-secondary" *ngIf="flagOptions == 'editar' "
+                          data-bs-toggle="modal" data-bs-target="#editForm">Cancelar</button>
+                  </div>
+              </div>
+          </form>
+      </div>
   </div>
 </div>

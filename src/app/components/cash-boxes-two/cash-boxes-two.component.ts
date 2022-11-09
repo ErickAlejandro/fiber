@@ -46,6 +46,25 @@ export class CashBoxesTwoComponent implements OnInit {
   since: number = 0
   to: number = 5
 
+  textoBuscar = ''
+  cashBoxesTwoListAux!: CashBoxesTwo[]
+
+  onKey(event: any) { // without type info
+    let buscarCashBoxesTwo: CashBoxesTwo[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.cashBoxesTwoListAux.forEach(element => {
+    if(element.nombre_cajanivel2.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || element.direccion_cajanivel2.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || element.abreviatura_cajanivel2.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarCashBoxesTwo.push(element)
+        }
+      });
+      this.cashBoxesTwoList = null
+      this.cashBoxesTwoList = buscarCashBoxesTwo
+    }else{
+      this.cashBoxesTwoList = this.cashBoxesTwoListAux
+    }
+  }
+
   changePage(e: PageEvent) {
     console.log(e)
     this.since = e.pageIndex * e.pageSize;
@@ -201,6 +220,7 @@ export class CashBoxesTwoComponent implements OnInit {
     this.getDataCashBoxOne()
     this.DataServices.getDataCashBoxesTwo(this.urlGetData).subscribe((data: CashBoxesTwo[]) => {
       this.cashBoxesTwoList = data
+      this.cashBoxesTwoListAux = data
       this.addCashBoxesTwo(data)
       Swal.close()
 

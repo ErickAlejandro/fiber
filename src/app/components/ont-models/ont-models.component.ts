@@ -31,14 +31,33 @@ export class OntModelsComponent implements OnInit {
 
   ontModels: OntModels = new OntModels()
   ontModelList!: OntModels[]
+  ontModelListAux!: OntModels[]
   ontModelsDetails = new OntModels()
 
+  textoBuscar = ''
+  
   pageSize = 5
   since: number = 0
   to: number = 5
-
+  
   addModelOnt(ontModels: OntModels[]) {
     this.store.dispatch(new AddModelOnt(ontModels))
+  }
+
+  onKey(event: any){
+    let buscarModelList: OntModels[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.ontModelListAux.forEach(element => {
+    if(element.nombre_modelosont.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || element.tipo_modelosont.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarModelList.push(element)
+        }
+      });
+      this.ontModelList = null
+      this.ontModelList = buscarModelList
+    }else{
+      this.ontModelList = this.ontModelListAux
+    }
   }
 
   changePage(e: PageEvent) {
@@ -181,6 +200,7 @@ export class OntModelsComponent implements OnInit {
     if (this.userLogin.nombrerol_rol == 'ADMINISTRADOR') {
       this.DataServcies.getDataModelOnt(this.urlGetData, this.city).subscribe((data: OntModels[]) => {
         this.ontModelList = data
+        this.ontModelListAux = data
         this.addModelOnt(data)
         Swal.close()
         if (this.ontModelList == null) {

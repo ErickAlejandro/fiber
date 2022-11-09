@@ -30,6 +30,9 @@ export class PlansComponent implements OnInit {
   plansList!: Planes[]
   plansDetail = new Planes()
 
+  textoBuscar = ''
+  plansListAux!: Planes[]
+
   pageSize = 5
   since: number = 0
   to: number = 5
@@ -58,6 +61,7 @@ export class PlansComponent implements OnInit {
     this.DataService.getData(this.urlgetData)
       .subscribe((data: Planes[]) => {
         this.plansList = data
+        this.plansListAux = data
         this.addPlans(data)
         Swal.close()
         if (this.plansList == null) {
@@ -77,6 +81,22 @@ export class PlansComponent implements OnInit {
     addEventListener('click', e => {
       location.reload()
     })
+  }
+
+  onKey(event: any) { // without type info
+    let buscarPlansList: Planes[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.plansListAux.forEach(element => {
+    if(element.nombre_planes.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarPlansList.push(element)
+        }
+      });
+      this.plansList = null
+      this.plansList = buscarPlansList
+    }else{
+      this.plansList = this.plansListAux
+    }
   }
 
   save(plans: Planes) {

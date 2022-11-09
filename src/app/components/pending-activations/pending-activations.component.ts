@@ -39,6 +39,8 @@ export class PendingActivationsComponent implements OnInit {
   
 
   comandoCopy: string = ''
+  textoBuscar = ''
+  serviceListAux!: Services[]
 
 
 
@@ -97,6 +99,23 @@ export class PendingActivationsComponent implements OnInit {
     })
   }
 
+  onKey(event: any) { // without type info
+    let buscarServiceList: Services[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.serviceListAux.forEach(element => {
+    if(element.usuario_cliente.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || (element.id_cliente + '').toLowerCase().indexOf(this.textoBuscar.toLowerCase()) == 0 ||
+    element.opcion_cliente.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarServiceList.push(element)
+        }
+      });
+      this.serviceList = null
+      this.serviceList = buscarServiceList
+    }else{
+      this.serviceList = this.serviceListAux
+    }
+  }
+
   changeState(){
     this.serviceDetails.estado_cliente = 'activo'
     this.editSatate(this.serviceDetails)
@@ -137,6 +156,7 @@ export class PendingActivationsComponent implements OnInit {
     
     this.DataService.getDataClients(this.urlGetData).subscribe((data: Services[]) => {
       this.serviceList = data
+      this.serviceListAux = data
       this.addServices(data)
       this.dataJson = JSON.parse(JSON.stringify(data))
       Swal.close()

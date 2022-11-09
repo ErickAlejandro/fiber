@@ -59,6 +59,9 @@ export class ServicesComponent implements OnInit {
   ontDetails = new Ont()
   planList!: Planes[]
 
+  textoBuscar = ''
+  servicesListAux!: Services[]
+
   pageSize = 5
   since:number = 0
   to:number = 5
@@ -136,6 +139,23 @@ ClipBoard(input: any){
     })
   }
 
+  onKey(event: any) { // without type info
+    let buscarServiceList: Services[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.servicesListAux.forEach(element => {
+    if(element.nombre_usuario.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || (element.id_cliente + '').toLowerCase().indexOf(this.textoBuscar.toLowerCase()) == 0
+    || element.nombre_clientepersona.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarServiceList.push(element)
+        }
+      });
+      this.servicesList = null
+      this.servicesList = buscarServiceList
+    }else{
+      this.servicesList = this.servicesListAux
+    }
+  }
+
   getCaptureClient(){
     this.DataService.getDataClients(this.urlDataClient).subscribe((data: Clients[]) =>{
       this.clienteList = data
@@ -209,6 +229,7 @@ ClipBoard(input: any){
 
       this.DataService.getDataService(this.urlGetData).subscribe((data: Services[]) =>{
         this.servicesList = data
+        this.servicesListAux = data
         this.addServices(data)
         Swal.close()
         

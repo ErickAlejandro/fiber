@@ -28,12 +28,16 @@ export class OntComponent implements OnInit {
   urlDeleted = '/Ont/eliminarOnt.php?id='
 
   urlModelOnt = '/ModeloOnt/filtrarModeloOnt.php?filtrar=&id_ciudad='
+  flagOptions!: string
+  selectModel!: OntModels
 
   ont: Ont = new Ont()
   ontList!: Ont[]
+  ontListAux!: Ont[]
   ontDetails = new Ont()
 
   modelOntList!: OntModels[]
+  modelOntListAux!: OntModels[]
 
   pageSize = 5
   since:number = 0
@@ -43,6 +47,10 @@ export class OntComponent implements OnInit {
 
   public addOnts(onts: Ont[]){
     this.store.dispatch(new AddOnt(onts))
+  }
+
+  preSaveEdit(ontD: Ont){
+    this.ontDetails = ontD
   }
 
   changePage(e:PageEvent){
@@ -62,7 +70,42 @@ export class OntComponent implements OnInit {
 if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
       this.DataService.getDataModelOnt(this.urlModelOnt, this.city).subscribe((data: OntModels[]) =>{
         this.modelOntList = data
+        this.modelOntListAux = data
       })
+    }
+  }
+
+  textoBuscar = ''
+  onKey(event: any) { // without type info
+    let buscarOntList: Ont[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.ontListAux.forEach(element => {
+    if(element.serie_ont.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || element.nombre_modelosont.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || element.responsable_ont.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarOntList.push(element)
+        }
+      });
+      this.ontList = null
+      this.ontList = buscarOntList
+    }else{
+      this.ontList = this.ontListAux
+    }
+  }
+
+  textoBuscarModelo = ''
+  onKeyModel(event: any){
+    let buscarModelList: OntModels[] = []
+
+    if(this.textoBuscarModelo.length != 0){
+      this.modelOntListAux.forEach(element => {
+    if(element.nombre_modelosont.toLowerCase().indexOf(this.textoBuscarModelo.toLowerCase()) > -1 || element.tipo_modelosont.toLowerCase().indexOf(this.textoBuscarModelo.toLowerCase()) > -1 ){
+          buscarModelList.push(element)
+        }
+      });
+      this.modelOntList = null
+      this.modelOntList = buscarModelList
+    }else{
+      this.modelOntList = this.modelOntListAux
     }
   }
 
@@ -136,6 +179,7 @@ if(this.userLogin.nombrerol_rol == 'ADMINISTRADOR'){
 
     this.DataService.getDataOnt(this.urlGetData).subscribe((data: Ont[]) =>{
       this.ontList = data
+      this.ontListAux = data
       this.addOnts(data)
       Swal.close()
       if(this.ontList == null){

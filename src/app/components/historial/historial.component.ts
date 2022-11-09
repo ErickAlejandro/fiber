@@ -53,7 +53,7 @@ export class HistorialComponent implements OnInit {
 
     if(this.textoBuscar.length != 0){
       this.historialListAux.forEach(element => {
-        if(element.usuario_cliente.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || (element.id_cliente + '').toLowerCase().indexOf(this.textoBuscar.toLowerCase()) == 0){
+    if(element.usuario_cliente.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || (element.id_cliente + '').toLowerCase().indexOf(this.textoBuscar.toLowerCase()) == 0){
           buscarHistorialList.push(element)
         }
       });

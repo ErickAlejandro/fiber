@@ -33,12 +33,31 @@ export class ClientsComponent implements OnInit {
   clientsList!: Clients[]
   clientDetail = new Clients()
 
+  textoBuscar = ''
+  clientsListAux!: Clients[]
+
   pageSize = 5
   since: number = 0
   to: number = 5
 
   public addClients(clients: Clients[]) {
     this.store.dispatch(new AddClients(clients))
+  }
+
+  onKey(event: any) { // without type info
+    let buscarClientList: Clients[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.clientsListAux.forEach(element => {
+    if(element.nombre_clientepersona.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || (element.cedula_clientepersona + '').toLowerCase().indexOf(this.textoBuscar.toLowerCase()) == 0 || element.apellido_clientepersona.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarClientList.push(element)
+        }
+      });
+      this.clientsList = null
+      this.clientsList = buscarClientList
+    }else{
+      this.clientsList = this.clientsListAux
+    }
   }
 
   getClientByName(clientName: any) {
@@ -177,6 +196,7 @@ export class ClientsComponent implements OnInit {
 
     this.DataServcies.getDataClients(this.urlGetClients).subscribe((data: Clients[]) => {
       this.clientsList = data
+      this.clientsListAux = data
       this.addClients(data)
       Swal.close()
 

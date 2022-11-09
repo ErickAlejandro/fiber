@@ -31,6 +31,7 @@ export class CashBoxesComponent implements OnInit {
 
   boxes: CashBoxes = new CashBoxes();
   cashBoxesList!: CashBoxes[];
+  cashBoxesListAux!: CashBoxes[]
   cashDetail = new CashBoxes();
   filterPosVlan = ''
 
@@ -45,9 +46,27 @@ export class CashBoxesComponent implements OnInit {
   cashBox!: CashBoxes
   dataJson: any;
 
+  textoBuscar = ''
+
   constructor(private DataService: DataService, private store: Store, private router: Router) {
     console.log('Component Implement')
     this.cashDetail
+  }
+
+  onKey(event: any){
+    let buscarCashBoxList: CashBoxes[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.cashBoxesListAux.forEach(element => {
+    if(element.nombre_cajanivel1.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || element.direccion_cajanivel1.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || element.abreviatura_cajanivel1.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarCashBoxList.push(element)
+        }
+      });
+      this.cashBoxesList = null
+      this.cashBoxesList = buscarCashBoxList
+    }else{
+      this.cashBoxesList = this.cashBoxesListAux
+    }
   }
 
   preSave(cashBoxes: CashBoxes) {
@@ -206,6 +225,7 @@ export class CashBoxesComponent implements OnInit {
     this.DataService.getDataCash(this.urlCashBoxes)
       .subscribe((data: CashBoxes[]) => {
         this.cashBoxesList = data
+        this.cashBoxesListAux = data
         this.addCashBox(data)
         Swal.close()
         if (this.cashBoxesList == null) {

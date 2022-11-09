@@ -44,6 +44,8 @@ export class UsersComponent implements OnInit {
   selectCity!: Cities
 
   dataJson: any
+  textoBuscar = ''
+  usersListAux!: Users[]
 
   rolDetail = new Rol()
   usersList: Users[] = []
@@ -74,6 +76,23 @@ export class UsersComponent implements OnInit {
   botonCrearEditar() {
     if (this.id_cities.id_ciudad != null) {
       this.city = CryptoJS.AES.decrypt(this.id_cities.id_ciudad.trim(), this.passwordCrypt.trim()).toString(CryptoJS.enc.Utf8);
+    }
+  }
+
+  onKey(event: any) { // without type info
+    let buscarUsersList: Users[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.usersListAux.forEach(element => {
+    if(element.nombre_usuario.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || element.usuario_usuario.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 ||
+    element.nombrerol_rol.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarUsersList.push(element)
+        }
+      });
+      this.usersList = null
+      this.usersList = buscarUsersList
+    }else{
+      this.usersList = this.usersListAux
     }
   }
 
@@ -263,7 +282,7 @@ export class UsersComponent implements OnInit {
         }
       })
       this.usersList = arrayUser
-
+      this.usersListAux = arrayUser
       if (this.usersList == null) {
         Swal.fire({
           icon: 'info',
