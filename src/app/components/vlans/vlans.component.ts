@@ -122,25 +122,35 @@ export class VlansComponent implements OnInit {
           text: 'La alguna IP ingresada no es correcta',
         })
       }else{
-        this.DataService.createVlans(this.urlCreate, vlans).subscribe(data => {
-          Swal.close()
-          this.dataJson = JSON.parse(JSON.stringify(data))
-          if(this.dataJson['respuesta'] != 'ok'){
-            Swal.fire({
-              icon: 'error',
-              title: 'Algo salio mal!',
-              text: this.dataJson['respuesta'],
-            })
-          }else{
-            Swal.fire({
-              icon: 'success',
-              title: 'Felicidades',
-              text: 'Agregaste una nueva VLan!',
-              showConfirmButton: false,
-            })
-            location.reload()
-          }
-        })
+        let descompuestaInicial: string[] = vlans.ipinicio_vlan.toString().split('.')
+        let descompuestaFinal: string[] = vlans.ipfin_vlan.toString().split('.')
+        if(descompuestaInicial < descompuestaFinal){
+          Swal.fire({
+            icon: 'error',
+            title: 'Algo salio mal!',
+            text: 'El rango de la IP inicial no puede ser menor a la Final',
+          })
+        }else{
+          this.DataService.createVlans(this.urlCreate, vlans).subscribe(data => {
+            Swal.close()
+            this.dataJson = JSON.parse(JSON.stringify(data))
+            if(this.dataJson['respuesta'] != 'ok'){
+              Swal.fire({
+                icon: 'error',
+                title: 'Algo salio mal!',
+                text: this.dataJson['respuesta'],
+              })
+            }else{
+              Swal.fire({
+                icon: 'success',
+                title: 'Felicidades',
+                text: 'Agregaste una nueva VLan!',
+                showConfirmButton: false,
+              })
+              location.reload()
+            }
+          })
+        }
       }
     }
   }
