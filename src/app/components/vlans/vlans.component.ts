@@ -29,6 +29,8 @@ export class VlansComponent implements OnInit {
   VlansList!: Vlan[];
   VlanDetails = new Vlan()
 
+  resultadoIP: any
+
   textoBuscar = ''
   vlansListAux!: Vlan[]
 
@@ -47,7 +49,11 @@ export class VlansComponent implements OnInit {
     console.log(e)
     this.since = e.pageIndex * e.pageSize;
     this.to = this.since + e.pageSize;
+  }
 
+  validarIP(ip:string){
+    let reg = /\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/gi
+    return this.resultadoIP = reg.test(ip)
   }
 
   refresh() {
@@ -107,25 +113,35 @@ export class VlansComponent implements OnInit {
         text: 'Algun dato se encuentra vacio o es igual al anterior!',
       })
     } else {
-      this.DataService.createVlans(this.urlCreate, vlans).subscribe(data => {
+      if(this.validarIP(vlans.ipinicio_vlan.toString()) != true || this.validarIP(vlans.ipfin_vlan.toString()) != true || this.validarIP(vlans.gateway_vlan.toString()) != true){
         Swal.close()
-        this.dataJson = JSON.parse(JSON.stringify(data))
-        if(this.dataJson['respuesta'] != 'ok'){
-          Swal.fire({
-            icon: 'error',
-            title: 'Algo salio mal!',
-            text: this.dataJson['respuesta'],
-          })
-        }else{
-          Swal.fire({
-            icon: 'success',
-            title: 'Felicidades',
-            text: 'Agregaste una nueva VLan!',
-            showConfirmButton: false,
-          })
-          location.reload()
-        }
-      })
+        console.log(this.validarIP(vlans.ipinicio_vlan.toString()));
+        Swal.fire({
+          icon: 'error',
+          title: 'Algo salio mal!',
+          text: 'La alguna IP ingresada no es correcta',
+        })
+      }else{
+        this.DataService.createVlans(this.urlCreate, vlans).subscribe(data => {
+          Swal.close()
+          this.dataJson = JSON.parse(JSON.stringify(data))
+          if(this.dataJson['respuesta'] != 'ok'){
+            Swal.fire({
+              icon: 'error',
+              title: 'Algo salio mal!',
+              text: this.dataJson['respuesta'],
+            })
+          }else{
+            Swal.fire({
+              icon: 'success',
+              title: 'Felicidades',
+              text: 'Agregaste una nueva VLan!',
+              showConfirmButton: false,
+            })
+            location.reload()
+          }
+        })
+      }
     }
   }
 
