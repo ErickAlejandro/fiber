@@ -52,8 +52,17 @@ export class VlansComponent implements OnInit {
   }
 
   validarIP(ip:string){
-    let reg = /\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/gi
-    return this.resultadoIP = reg.test(ip)
+    let verdad = ip.split('.');
+    if(verdad.length != 4)
+      return false;
+    for(let i in verdad){
+      if(!/^\d+$/g.test(verdad[i])
+      ||+verdad[i]>255
+      ||+verdad[i]<0
+      ||/^[0][0-9]{1,2}/.test(verdad[i]))
+        return false;
+    }
+    return true
   }
 
   refresh() {
@@ -94,8 +103,9 @@ export class VlansComponent implements OnInit {
   save(vlans: Vlan) {
     this.vlan.id_ciudad = Number(this.city)
     this.vlan.estado_vlan = 'activo'
-    this.vlan.buckle2 = 'null'
-    this.vlan.ip_rangodireccionesip = 'null'
+    this.vlan.buckle2 = (Number(vlans.ipfin_vlan.toString().split('.')[3]) - Number(vlans.ipinicio_vlan.toString().split('.')[3]) + 1).toString()
+    this.vlan.ip_rangodireccionesip = vlans.ipinicio_vlan.toString().split('.')[3]
+    this.vlan.nombre_vlan = 'Vlan ' + this.vlan.numerovlan_vlan
 
     Swal.fire({
       icon: 'info',
@@ -105,7 +115,7 @@ export class VlansComponent implements OnInit {
       timerProgressBar: true
     })
 
-    if (vlans.nombre_vlan == '' || vlans.numerovlan_vlan == 0 || vlans.numeroolt_vlan == 0 || vlans.tarjetaolt_vlan == 0 || vlans.puertoolt_vlan == 0 || vlans.ipinicio_vlan == 0 || vlans.ipfin_vlan == 0 || vlans.mascara_vlan == 0 || vlans.gateway_vlan == 0) {
+    if (vlans.numerovlan_vlan == 0 || vlans.numeroolt_vlan == 0 || vlans.tarjetaolt_vlan == 0 || vlans.puertoolt_vlan == 0 || vlans.ipinicio_vlan == 0 || vlans.ipfin_vlan == 0 || vlans.mascara_vlan == 0 || vlans.gateway_vlan == 0) {
       Swal.close()
       Swal.fire({
         icon: 'error',
@@ -119,16 +129,16 @@ export class VlansComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Algo salio mal!',
-          text: 'La alguna IP ingresada no es correcta',
+          text: 'La IP ingresada no es correcta',
         })
       }else{
         let descompuestaInicial: string[] = vlans.ipinicio_vlan.toString().split('.')
         let descompuestaFinal: string[] = vlans.ipfin_vlan.toString().split('.')
-        if(descompuestaInicial < descompuestaFinal){
+        if(descompuestaInicial[3] >= descompuestaFinal[3]){
           Swal.fire({
             icon: 'error',
             title: 'Algo salio mal!',
-            text: 'El rango de la IP inicial no puede ser menor a la Final',
+            text: 'El rango de la IP inicial no puede ser mayor o igual a la IP Final',
           })
         }else{
           this.DataService.createVlans(this.urlCreate, vlans).subscribe(data => {

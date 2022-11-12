@@ -8,6 +8,7 @@ button#download {
     width: 160px;
     height: 40px;
     line-height: 42px;
+    margin-top: 15px;
     padding: 0;
     border: none;
 }
@@ -95,10 +96,13 @@ nav a:hover{
     border-radius: 3px;
 }
 
+a#logOut{
+    margin-top: 15px;
+}
+
 div#userInfo{
     font-family: Sora;
-    padding-top: 18px;
-    padding-bottom: 18px;
-    background-color: #424242;
-    color: whitesmoke;
+    text-align: center;
+    margin-top: 12px;
+    margin-left: 15px;
 }

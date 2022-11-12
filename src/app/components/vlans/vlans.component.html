@@ -226,15 +226,15 @@
             <div class="modal-body">
                 <form action="">
                     <div class="form-group">
-                        <label for="disabledTextInput" class="form-label">Nombre Vlan:</label>
-                        <input type="text" class="form-control" [(ngModel)]="vlan.nombre_vlan"
-                        [ngModelOptions]="{standalone: true}">
-                    </div>
-                    <br>
-                    <div class="form-group">
                         <label for="disabledTextInput" class="form-label"># Vlan:</label>
                         <input type="text" [(ngModel)]="vlan.numerovlan_vlan"
                             class="form-control" placeholder="11"  [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="disabledTextInput" class="form-label">Nombre Vlan:</label>
+                        <input type="text" class="form-control" [(ngModel)]="vlan.nombre_vlan" value="Vlan {{vlan.numerovlan_vlan}}"
+                        [ngModelOptions]="{standalone: true}" disabled>
                     </div>
                     <br>
                     <div class="form-group">
