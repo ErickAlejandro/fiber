@@ -125,7 +125,7 @@ export class CashBoxesTwoComponent implements OnInit {
             text: 'Agregaste una nueva Caja de Nivel-2!',
             showConfirmButton: false,
           })
-          this.refresh()
+          location.reload()
         }
       })
     }
