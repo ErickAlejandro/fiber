@@ -30,6 +30,7 @@ export class DataService {
 
     // CIUDADES
    getData(aditionalUrl: string): any{
+    // console.log(this.urlPrimary + aditionalUrl);
     return this.http.get<Cities[]>(this.urlPrimary + aditionalUrl)
    }
 

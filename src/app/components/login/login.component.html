@@ -12,7 +12,8 @@
     <!-- Login Form -->
     <form>
       <input type="text" id="login" class="fadeIn second" name="login" placeholder="Usuario" [(ngModel)]="user">
-      <input type="password" class="fadeIn" id="password" name="login" placeholder="Contraseña" [(ngModel)]="password">
+      <input type="password" class="fadeIn" id="password" name="login" placeholder="Contraseña" [(ngModel)]="password" [type]="hide ? 'password': 'text' ">
+      <button class="btn icon-eye" (click)="hide = !hide"><img src="../../../assets/icons/eye-slash-solid.svg" alt="Ocultar" width="25" height="19"></button>
       <input type="submit" class="fadeIn fourth" value="Log In" (click)="login(user, password)" >
     </form>
 

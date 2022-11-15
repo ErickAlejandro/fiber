@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
   urlDataUserForLogin = '/usuario/filtrarUsuarioSuperAdmin.php?filtrar='
   loginDetails = new Login()
 
+  hide = true
+
   user!: string
   password!: string
   rollSuperAdmin: string = 'SUPER ADMINISTRADOR'
