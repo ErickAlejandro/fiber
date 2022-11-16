@@ -94,7 +94,10 @@ export class LoginComponent implements OnInit {
   }
 
   loginLocalStor(user2:Users){
-    if (user2.nombrerol_rol == this.rolAdmin || user2.nombrerol_rol == this.rollSuperAdmin) {
+    if (user2.nombrerol_rol == this.rolAdmin) {
+      this.router.navigate(['activaciones-pendientes'])
+    }
+    if(user2.nombrerol_rol == this.rollSuperAdmin){
       this.router.navigate(['usuarios'])
     }
   }

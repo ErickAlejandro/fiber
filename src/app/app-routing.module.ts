@@ -25,7 +25,7 @@ import { TablesEmptyComponent } from './components/tables-empty/tables-empty.com
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   // LISTADO GENERAL
-  { path: 'actividades-pendientes', component: PendingActivationsComponent },
+  { path: 'activaciones-pendientes', component: PendingActivationsComponent },
   { path: 'clientes', component: ClientsComponent },
   { path: 'servicios', component: ServicesComponent },
   { path: 'planes', component: PlansComponent },
