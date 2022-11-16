@@ -47,10 +47,16 @@ export class LoginComponent implements OnInit {
   }
 
   login(userName: string, password: string) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Ejecutando',
+      text: 'Cargando...',
+      showConfirmButton: false,
+    })
 
     this.DataService.getDataLogin(this.urlDataUserForLogin, userName).subscribe((data: Login[]) => {
       this.loginData = data.filter((user) => user.usuario_usuario == userName)
-
+      Swal.close()
 
       if (this.loginData[0].contrasena_usuario == password) {
         if (this.loginData[0].nombrerol_rol == this.rolAdmin || this.loginData[0].nombrerol_rol == this.rollSuperAdmin) {

@@ -23,7 +23,7 @@ import { Rol } from '../Models/rol';
 export class DataService {
   [x: string]: any;
 
-  urlPrimary = 'https://app.masfiberhome.com/api/v2prueba/';
+  urlPrimary = 'https://app.masfiberhome.com/api/v2/';
 
   constructor(private http: HttpClient) {
    }
