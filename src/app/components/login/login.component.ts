@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
     Swal.fire({
       icon: 'info',
       title: 'Ejecutando',
-      text: 'Cargando...',
+      text: 'Ingresando usuario...',
       showConfirmButton: false,
     })
 

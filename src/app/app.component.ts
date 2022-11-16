@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import Swal from 'sweetalert2';
 import { Cities } from './Models/cities';
 import { Login } from './Models/login';
 import { Users } from './Models/users';
@@ -28,6 +29,13 @@ export class AppComponent{
 
   }
 
+  excelButton(){
+    Swal.fire({
+      position: 'top-end',
+      icon: 'info',
+      title: 'Esta función estará disponible muy pronto.',
+    })
+  }
 
   logOut(){
     this.locaStorage = localStorage.clear()
