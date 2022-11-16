@@ -21,6 +21,8 @@ export class CitiesComponent implements OnInit {
   urlDeletedCity = 'ciudad/eliminarCiudad.php?id='
   urlEditCity = 'ciudad/editarCiudad.php'
 
+  textoBuscar = ''
+
   urlGetDataProvincia = '/provincia/filtrarProvincia.php?filtrar='
   selectProvince!: Pronvinces
 
@@ -42,6 +44,22 @@ export class CitiesComponent implements OnInit {
 
   constructor(private DataService: DataService, private store: Store, private router: Router) {
 
+  }
+  citiesListAux!: Cities[]
+  onKey(event: any){
+    let buscarCitiesList: Cities[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.citiesListAux.forEach(element => {
+    if(element.nombre_ciudad.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || element.nombre_provincia.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarCitiesList.push(element)
+        }
+      });
+      this.citiesList = null
+      this.citiesList = buscarCitiesList
+    }else{
+      this.citiesList = this.citiesListAux
+    }
   }
 
   public addCities(cities: Cities[]) {
@@ -204,6 +222,7 @@ export class CitiesComponent implements OnInit {
     this.DataService.getData(this.urlCities)
       .subscribe((data: Cities[]) => {
         this.citiesList = data
+        this.citiesListAux = data
         this.addCities(data)
         Swal.close()
 

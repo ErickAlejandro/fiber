@@ -29,6 +29,7 @@ export class ProvincesComponent implements OnInit {
   urlDeletedProvincia = '/provincia/eliminarProvincia.php?id='
 
   urlGetPais = '/pais/filtrarPais.php?filtrar='
+  textoBuscar = ''
 
   provincesList!: Pronvinces[]
   provinceDetail = new Pronvinces()
@@ -47,6 +48,24 @@ export class ProvincesComponent implements OnInit {
     addEventListener('click', e => {
       location.reload()
     })
+  }
+
+  provinceListAux!: Pronvinces[]
+
+  onKey(event: any){
+    let buscarProvinceList: Pronvinces[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.provinceListAux.forEach(element => {
+    if(element.nombre_provincia.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 || element.nombre_pais.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1){
+          buscarProvinceList.push(element)
+        }
+      });
+      this.provincesList = null
+      this.provincesList = buscarProvinceList
+    }else{
+      this.provincesList = this.provinceListAux
+    }
   }
 
   preSave(provinces: Pronvinces) {
@@ -194,6 +213,7 @@ export class ProvincesComponent implements OnInit {
 
     this.DataService.getDataProvinces(this.urlGetData).subscribe((data: Pronvinces[]) => {
       this.provincesList = data
+      this.provinceListAux = data
       this.addProvinces(data)
       Swal.close()
 

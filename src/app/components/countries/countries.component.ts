@@ -20,6 +20,8 @@ export class CountriesComponent implements OnInit {
   urlEditCountry = '/pais/editarPais.php'
   urlDeleted = '/pais/eliminarPais.php?id='
 
+  textoBuscar = ''
+
   country: Pais = new Pais()
   countriesList!: Pais[]
   countryDetails = new Pais()
@@ -37,6 +39,22 @@ export class CountriesComponent implements OnInit {
       this.countryDetails = data.filter((country) => country.nombre_pais == countryName)[0]
       console.log(this.countryDetails)
     })
+  }
+  paisListAux!: Pais[]
+  onKey(event: any){
+    let buscarPaisList: Pais[] = []
+
+    if(this.textoBuscar.length != 0){
+      this.paisListAux.forEach(element => {
+    if(element.nombre_pais.toLowerCase().indexOf(this.textoBuscar.toLowerCase()) > -1 ){
+          buscarPaisList.push(element)
+        }
+      });
+      this.countriesList = null
+      this.countriesList = buscarPaisList
+    }else{
+      this.countriesList = this.paisListAux
+    }
   }
 
   changePage(e: PageEvent) {
@@ -177,6 +195,7 @@ export class CountriesComponent implements OnInit {
 
     this.DataService.getDataPais(this.urlDataCountries).subscribe((data: Pais[]) => {
       this.countriesList = data
+      this.paisListAux = data
       this.addCountries(data)
       Swal.close()
       if (this.countriesList == null) {
