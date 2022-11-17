@@ -15,8 +15,8 @@ export class Clients{
         this.nombre_clientepersona = ''
         this.apellido_clientepersona = ''
         this.correo_clientepersona = ''
-        this. telefono1_clientepersona = ''
-        this. telefono2_clientepersona = ''
+        this. telefono1_clientepersona = '0000000000'
+        this. telefono2_clientepersona = '0000000000'
         this.id_ciudad = 0
         this.estado_clientepersona = ''
     }
