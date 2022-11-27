@@ -135,7 +135,6 @@ export class PendingActivationsComponent implements OnInit {
   getActivationsByService(id:any){
     this.store.select(state => state.services.services).subscribe((data: Services[]) =>{
       this.serviceDetails = data.filter((service) => service.id == id)[0]
-      console.log(this.serviceDetails)
     })
   }
   

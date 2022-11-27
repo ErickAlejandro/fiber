@@ -39,13 +39,15 @@ export class Services{
     adomicilio_cliente: string
     idcobrador_cliente_usuario: any
     precio_cliente: string
+    id_cliente_cajaNivel3: number
+    nombre_cajaNivel3: string
 
     constructor(){
         this.id = 0
         this.id_cliente = ''
         this.id_clientepersona = 0
         this.nombre_clientepersona = ''
-        this.id_cajanivel2 = 0
+        this.id_cajanivel2 = null
         this.nombre_cajanivel2 = ''
         this.id_ont = 0
         this.serie_ont = ''
@@ -79,7 +81,9 @@ export class Services{
         this.estado_cliente = ''
         this.metododepago_cliente = ''
         this.adomicilio_cliente = ''
-        this.idcobrador_cliente_usuario = ''
+        this.idcobrador_cliente_usuario = null
         this.precio_cliente = ''
+        this.id_cliente_cajaNivel3 = null
+        this.nombre_cajaNivel3 = ''
     }
 }

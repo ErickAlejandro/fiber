@@ -12,6 +12,7 @@ import { ADdServices } from 'src/app/store/services/services.actions';
 import Swal from 'sweetalert2';
 import * as CryptoJS from 'crypto-js';  
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-services',
@@ -28,7 +29,7 @@ export class ServicesComponent implements OnInit {
   urlFirstPart = '/Servicio/buscarServicio.php?filtrar='
   urlSeconPart = '&id_ciudad='+this.city
 
-  urlDeletedFirst = 'Servicio/eliminarServicio.php?id='
+  urlEditService = '/Servicio/editarServicio.php'
   urlDeletedSecont = '&id_ciudad='+this.city
 
   urlCreateService = '/Servicio/crearServicio.php'
@@ -176,16 +177,25 @@ ClipBoard(input: any){
       this.planList = data
     })
   }
+  
 
-  deleted(id:any){
+  changeState(service:any){
     Swal.fire({
       icon: 'info',
       title: 'Ejecutando',
       text: 'Eliminando dato...',
       showConfirmButton: false,
     })
+    service.estado_cliente = "pendiente"
+    service.opcion_cliente = "eliminar"
 
-    this.DataService.deleteService(this.urlDeletedFirst, id, this.urlDeletedSecont).subscribe(res =>{
+    let hoy:any = Date.now()
+    hoy = moment(hoy).format("yyyy-MM-DD HH:mm:ss");
+    service.date2 = hoy
+    console.log(service.date2);
+    service.comando_copiar_cliente = service.eliminarservicio_cliente + '@' + service.interfazponcard_cliente + '@' + service.eliminaront_cliente
+    
+    this.DataService.editService(this.urlEditService, service).subscribe(res =>{
       Swal.close()
       Swal.fire({
         icon: 'success',
@@ -205,7 +215,6 @@ ClipBoard(input: any){
   getServiceByName(serviceName: string){
     this.store.select(state => state.services.services).subscribe((data: Services[]) =>{
       this.serviceDetails = data.filter((service) => service.id_cliente == serviceName)[0]
-      console.log(this.serviceDetails)
     })
   }
 
